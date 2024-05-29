@@ -4,10 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <size android:width="100dp"
         android:height="50dp"/>
-    <gradient android:startColor="#4CAF50"
-        android:endColor="#FFEB3B"
+    <gradient android:startColor="#E6DBF1"
+        android:endColor="#BFA4DC"
         android:angle="90"/>
-    <corners android:radius="20dp"/>
-    <stroke android:color="#673AB7"
-        android:width="1dp"/>
 </shape>
