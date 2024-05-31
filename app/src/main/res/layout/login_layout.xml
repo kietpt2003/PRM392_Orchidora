@@ -30,29 +30,41 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp" />
 
-    <EditText
-        android:id="@+id/editTextTextEmailAddress"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="320sp"
-        android:layout_height="60sp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40sp"
-        android:ems="10"
         android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/auth_input"
-        android:padding="10sp" />
+        app:hintTextColor="@color/white">
 
-    <EditText
-        android:id="@+id/editTextTextPassword"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTextEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/auth_input"
+            android:padding="10sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="320sp"
-        android:layout_height="60sp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30sp"
-        android:ems="10"
         android:hint="Password"
-        android:inputType="textPassword"
-        android:background="@drawable/auth_input"
-        android:padding="10sp" />
+        app:endIconMode="password_toggle"
+        app:hintTextColor="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:inputType="textPassword"
+            android:padding="10sp"
+            android:background="@drawable/auth_input"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/dontHaveAcc"

@@ -23,7 +23,7 @@
             android:exported="false" />
         <activity
             android:name=".Screens.Auth.LoginScreen"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".Screens.Auth.SignUpScreen"
             android:exported="false" />
