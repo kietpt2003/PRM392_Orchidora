@@ -66,27 +66,28 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/dontHaveAcc"
-        android:layout_width="320sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="right"
-        android:paddingLeft="10sp"
-        android:paddingTop="5sp"
-        android:paddingRight="10sp"
-        android:paddingBottom="5sp"
-        android:text="Don’t have account? Sign Up"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp" />
-
     <Button
         android:id="@+id/signInBtn"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="15sp"
+        android:layout_marginTop="20sp"
         android:background="@drawable/auth_button"
         android:text="Sign In"
         app:backgroundTint="@null" />
+
+    <TextView
+        android:id="@+id/dontHaveAcc"
+        android:layout_width="320sp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="10sp"
+        android:paddingTop="5sp"
+        android:paddingRight="10sp"
+        android:paddingBottom="10sp"
+        android:layout_marginTop="30sp"
+        android:text="Don’t have account? Sign Up"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
 </LinearLayout>

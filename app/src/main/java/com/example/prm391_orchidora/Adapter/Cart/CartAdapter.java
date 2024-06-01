@@ -1,10 +1,9 @@
-package com.example.prm391_orchidora.Screens.Cart;
+package com.example.prm391_orchidora.Adapter.Cart;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -101,7 +100,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         }
     }
 
-    interface OnQuantityChangedListener {
+    public interface OnQuantityChangedListener {
         void onQuantityChanged();
     }
 }

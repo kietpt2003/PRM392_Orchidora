@@ -18,6 +18,7 @@
         <activity
             android:name=".Screens.Cart.CartScreen"
             android:exported="false">
+
         </activity>
         <activity
             android:name=".Screens.Profile.ProfileScreen"
@@ -37,6 +38,7 @@
         <activity
             android:name=".Screens.Home.HomeScreen"
             android:exported="true">
+
         </activity>
     </application>
 

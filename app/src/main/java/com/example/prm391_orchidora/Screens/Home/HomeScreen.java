@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-
+import com.example.prm391_orchidora.Adapter.Orchid.OrchidAdapter;
 import com.example.prm391_orchidora.Models.Orchid;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Cart.CartScreen;
