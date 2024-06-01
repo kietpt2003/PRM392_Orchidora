@@ -1,5 +1,6 @@
 package com.example.prm391_orchidora.Screens.Home;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,6 +19,7 @@ import com.bumptech.glide.Glide;
 
 import com.example.prm391_orchidora.Models.Orchid;
 import com.example.prm391_orchidora.R;
+import com.example.prm391_orchidora.Screens.Cart.CartScreen;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -29,15 +32,25 @@ public class HomeScreen extends AppCompatActivity {
     private RecyclerView recyclerView;
     private OrchidAdapter adapter;
 
+    private ConstraintLayout cartLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.home_layout);
+
 //        ImageView imageView = findViewById(R.id.footballer_image);
 //        Glide.with(this).load("https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/125px-Flag_of_France.svg.png").into(imageView);
 
         ChipGroup chipGroup = findViewById(R.id.chipGroup);
+
+        ConstraintLayout cartLayout = findViewById(R.id.cart);
+        cartLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeScreen.this, CartScreen.class); // Replace with your target activity
+            startActivity(intent);
+        });
+
 
         // Create a list of filters or chips
         List<String> filters = Arrays.asList("Dendrobium", "Cattleya", "Phalaenopsis", "Cymbidium", "Miltonia", "Oncidium");
