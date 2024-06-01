@@ -87,12 +87,14 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/profileIcon"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/home_account_icon" />
+
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
@@ -121,5 +123,5 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    
+
 </LinearLayout>

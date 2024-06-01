@@ -1,28 +1,27 @@
-package com.example.prm391_orchidora.Models;
+package com.example.prm391_orchidora.Models.Orchid;
 
-public class Orchid {
+public class OrderDetailItem {
 
-    private String imageUrl;
+    private String img;
     private String name;
     private String category;
+    private int quantity;
     private double price;
 
-    public Orchid() {
-    }
-
-    public Orchid(String imageUrl, String name, String category, double price) {
-        this.imageUrl = imageUrl;
+    public OrderDetailItem(String img, String name, String category, int quantity, double price) {
+        this.img = img;
         this.name = name;
         this.category = category;
+        this.quantity = quantity;
         this.price = price;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImg() {
+        return img;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getName() {
@@ -39,6 +38,14 @@ public class Orchid {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public double getPrice() {

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.prm391_orchidora.Models.CartItem;
-import com.example.prm391_orchidora.Models.Orchid;
+import com.example.prm391_orchidora.Models.Orchid.Orchid;
 import com.example.prm391_orchidora.R;
 
 import java.util.List;
