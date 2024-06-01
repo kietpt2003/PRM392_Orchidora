@@ -14,10 +14,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prm391_orchidora.Adapter.Cart.CartAdapter;
 import com.example.prm391_orchidora.Models.CartItem;
 import com.example.prm391_orchidora.Models.Orchid;
 import com.example.prm391_orchidora.R;
-import com.example.prm391_orchidora.Screens.Home.OrchidAdapter;
+import com.example.prm391_orchidora.Adapter.Orchid.OrchidAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

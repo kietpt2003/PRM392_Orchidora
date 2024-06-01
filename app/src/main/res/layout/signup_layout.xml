@@ -90,20 +90,6 @@
         android:background="@drawable/auth_input"
         android:padding="10sp" />
 
-    <TextView
-        android:id="@+id/alreadyHaveAcc"
-        android:layout_width="320sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="right"
-        android:paddingLeft="10sp"
-        android:paddingTop="5sp"
-        android:paddingRight="10sp"
-        android:paddingBottom="5sp"
-        android:text="Already have an account? Sign In"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp" />
-
     <Button
         android:id="@+id/button"
         android:layout_width="100sp"
@@ -113,4 +99,19 @@
         android:background="@drawable/auth_button"
         android:text="Sign Up"
         app:backgroundTint="@null" />
+
+    <TextView
+        android:id="@+id/alreadyHaveAcc"
+        android:layout_width="320sp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="10sp"
+        android:paddingTop="5sp"
+        android:paddingRight="10sp"
+        android:paddingBottom="5sp"
+        android:layout_marginTop="30sp"
+        android:text="Already have an account? Sign In"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
 </LinearLayout>

@@ -21,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Home.HomeScreen;
+import com.example.prm391_orchidora.Services.AuthService;
 
 public class LoginScreen extends AppCompatActivity {
     @Override
@@ -30,39 +31,10 @@ public class LoginScreen extends AppCompatActivity {
         setContentView(R.layout.login_layout);
 
         TextView dontHaveAcc = findViewById(R.id.dontHaveAcc);
-        SpannableString spannableString = new SpannableString("Don’t have account? Sign Up");
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                ds.setUnderlineText(false); // Vô hiệu hóa gạch chân
-            }
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginScreen.this, SignUpScreen.class);
-                startActivity(intent);
-            }
-        };
-        // Set the ClickableSpan to the desired portion of the text ("Sign Up")
-        spannableString.setSpan(clickableSpan, 20, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        // Apply a ForegroundColorSpan to change the color of the "Sign Up" text
-        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#BFA4DC")); // Change color as needed
-        spannableString.setSpan(foregroundColorSpan, 20, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        // Set the styled text to your TextView
-        dontHaveAcc.setText(spannableString);
-
-        // Enable the LinkMovementMethod to make the clickable text actually clickable
-        dontHaveAcc.setMovementMethod(LinkMovementMethod.getInstance());
+        AuthService.NavigatorFunction("Don’t have account? Sign Up",20, dontHaveAcc, false, LoginScreen.this);
 
         Button signInBtn = findViewById(R.id.signInBtn);
-        signInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
-                startActivity(intent);
-            }
-        });
+        AuthService.SignIn(signInBtn, LoginScreen.this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
