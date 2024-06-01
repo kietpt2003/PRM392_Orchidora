@@ -18,25 +18,25 @@
         <activity
             android:name=".Screens.Cart.CartScreen"
             android:exported="false">
-
         </activity>
         <activity
             android:name=".Screens.Profile.ProfileScreen"
             android:exported="false" />
         <activity
             android:name=".Screens.Auth.LoginScreen"
-            android:exported="false"/>
-        <activity
-            android:name=".Screens.Auth.SignUpScreen"
-            android:exported="false" />
-        <activity
-            android:name=".Screens.Home.HomeScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Screens.Auth.SignUpScreen"
+            android:exported="false" />
+        <activity
+            android:name=".Screens.Home.HomeScreen"
+            android:exported="true">
         </activity>
     </application>
 

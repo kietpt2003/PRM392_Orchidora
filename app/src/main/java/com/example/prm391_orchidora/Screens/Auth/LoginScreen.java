@@ -10,6 +10,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -19,6 +20,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.prm391_orchidora.R;
+import com.example.prm391_orchidora.Screens.Home.HomeScreen;
 
 public class LoginScreen extends AppCompatActivity {
     @Override
@@ -52,6 +54,15 @@ public class LoginScreen extends AppCompatActivity {
 
         // Enable the LinkMovementMethod to make the clickable text actually clickable
         dontHaveAcc.setMovementMethod(LinkMovementMethod.getInstance());
+
+        Button signInBtn = findViewById(R.id.signInBtn);
+        signInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
+                startActivity(intent);
+            }
+        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
