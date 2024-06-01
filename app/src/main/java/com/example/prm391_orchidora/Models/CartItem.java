@@ -1,5 +1,7 @@
 package com.example.prm391_orchidora.Models;
 
+import com.example.prm391_orchidora.Models.Orchid.Orchid;
+
 public class CartItem {
 
     private Orchid orchid;

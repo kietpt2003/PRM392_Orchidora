@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.prm391_orchidora.Models.Orchid;
+import com.example.prm391_orchidora.Models.Orchid.Orchid;
 import com.example.prm391_orchidora.R;
 
 import java.util.List;
@@ -40,6 +40,8 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
     public int getItemCount() {
         return orchidList.size();
     }
+
+
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageOrchid;

@@ -1,11 +1,14 @@
 package com.example.prm391_orchidora.Screens.Home;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -13,8 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm391_orchidora.Adapter.Orchid.OrchidAdapter;
-import com.example.prm391_orchidora.Models.Orchid;
+import com.example.prm391_orchidora.Models.Orchid.Orchid;
 import com.example.prm391_orchidora.R;
+import com.example.prm391_orchidora.Screens.Cart.CartScreen;
+import com.example.prm391_orchidora.Screens.Profile.ProfileScreen;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -26,17 +31,31 @@ public class HomeScreen extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private OrchidAdapter adapter;
+    private ConstraintLayout cartLayout;
+    private ImageView profileIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.home_layout);
+
 //        ImageView imageView = findViewById(R.id.footballer_image);
 //        Glide.with(this).load("https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/125px-Flag_of_France.svg.png").into(imageView);
 
-        ChipGroup chipGroup = findViewById(R.id.chipGroup);
+        cartLayout = findViewById(R.id.cart);
+        cartLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeScreen.this, CartScreen.class); // Replace with your target activity
+            startActivity(intent);
+        });
 
+        profileIcon = findViewById(R.id.profileIcon);
+        profileIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeScreen.this, ProfileScreen.class); // Replace with your target activity
+            startActivity(intent);
+        });
+
+        ChipGroup chipGroup = findViewById(R.id.chipGroup);
         // Create a list of filters or chips
         List<String> filters = Arrays.asList("Dendrobium", "Cattleya", "Phalaenopsis", "Cymbidium", "Miltonia", "Oncidium");
         List<String> checkedChips = new ArrayList<>();
