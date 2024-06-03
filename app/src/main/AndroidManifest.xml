@@ -42,6 +42,10 @@
         <activity android:name=".Screens.Order.OrderDetail" android:exported="true">
 
         </activity>
+        <activity
+            android:name=".Screens.Transaction.TransactionHistoryScreen"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

@@ -35,7 +35,6 @@
             android:scaleType="centerCrop"
             android:clipToOutline="true"/>
 
-
         <!-- Name and Email -->
         <LinearLayout
             android:layout_width="0dp"
@@ -136,6 +135,7 @@
 
         <!-- Transaction History Section -->
         <LinearLayout
+            android:id="@+id/transactionHistorySection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
