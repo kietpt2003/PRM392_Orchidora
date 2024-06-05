@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.prm391_orchidora.R;
+import com.example.prm391_orchidora.Screens.Home.HomeScreen;
 
 public class OrchidDetailScreen extends AppCompatActivity {
     private int itemNum = 1;
@@ -32,6 +33,7 @@ public class OrchidDetailScreen extends AppCompatActivity {
 
         ImageView upItem = findViewById(R.id.upItem);
         ImageView downItem = findViewById(R.id.downItem);
+        ImageView backBtn = findViewById(R.id.backBtn);
         Button addToCartBtn = findViewById(R.id.addToCartBtn);
 
         upItem.setOnClickListener(view -> {
@@ -40,6 +42,10 @@ public class OrchidDetailScreen extends AppCompatActivity {
 
         downItem.setOnClickListener(view -> {
             decreaseNumberItem();
+        });
+
+        backBtn.setOnClickListener(view -> {
+            this.finish();
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

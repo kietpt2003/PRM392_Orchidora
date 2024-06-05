@@ -104,8 +104,10 @@ public class HomeScreen extends AppCompatActivity {
         orchidList.add(new Orchid("https://hips.hearstapps.com/hmg-prod/images/vanda-orchid-types-1587739024.jpg?crop=1.00xw:0.976xh;0,0.0242xh&resize=980:*", "Dendrobium Orchids", "Dendrobium", 24.99));
         // Add more orchids as needed
 
-        adapter = new OrchidAdapter(orchidList);
+        adapter = new OrchidAdapter(orchidList, this);
         recyclerView.setAdapter(adapter);
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

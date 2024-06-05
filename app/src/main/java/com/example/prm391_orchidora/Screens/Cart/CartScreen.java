@@ -76,7 +76,7 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
         orchidList.add(new Orchid("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 24.99));
         orchidList.add(new Orchid("https://hips.hearstapps.com/hmg-prod/images/vanda-orchid-types-1587739024.jpg?crop=1.00xw:0.976xh;0,0.0242xh&resize=980:*", "Dendrobium Orchids", "Dendrobium", 24.99));
 
-        orchidAdapter = new OrchidAdapter(orchidList);
+        orchidAdapter = new OrchidAdapter(orchidList, this);
         recyclerViewMayLike.setAdapter(orchidAdapter);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
