@@ -25,11 +25,11 @@
         <activity
             android:name=".Screens.Auth.LoginScreen"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".Screens.Auth.SignUpScreen"
@@ -43,8 +43,18 @@
 
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".Screens.Transaction.TransactionHistoryScreen"
             android:exported="true">
+=======
+            android:name=".Screens.Orchid.OrchidDetailScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+>>>>>>> 31d262caa7868e2745a0f01d2edf100a6a0a78ee
         </activity>
     </application>
 
