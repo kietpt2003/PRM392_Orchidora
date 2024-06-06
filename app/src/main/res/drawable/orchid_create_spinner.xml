@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/white"/>
+                    <size android:width="320dp"
+                        android:height="37dp"/>
+                    <padding android:right="4sp"
+                        android:left="4sp"/>
+                    <corners android:radius="12dp"/>
+                </shape>
+            </item>
+
+            <item
+                android:drawable="@drawable/orchid_create_spinner_dropdown"
+                android:gravity="end|center_vertical">
+            </item>
+        </layer-list>
+    </item>
+</selector>
