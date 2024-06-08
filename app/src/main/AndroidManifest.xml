@@ -52,6 +52,14 @@
         </activity>
         <activity
             android:name=".Screens.Orchid.CreateOrchidScreen"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Screens.Category.ManageCategoryScreen"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Screens.Category.AddCategoryScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
