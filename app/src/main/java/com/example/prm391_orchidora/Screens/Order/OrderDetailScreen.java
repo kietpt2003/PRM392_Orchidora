@@ -20,7 +20,7 @@ import com.example.prm391_orchidora.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDetail extends AppCompatActivity {
+public class OrderDetailScreen extends AppCompatActivity {
 
     private TextView tvName, tvPhone, tvAddress, tvTotalPrice, tvOrderCode, tvOrderTime, tvPaymentTime, tvOrderStatus;
 
