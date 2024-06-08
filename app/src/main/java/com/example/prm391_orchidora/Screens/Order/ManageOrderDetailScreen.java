@@ -1,4 +1,4 @@
-package com.example.prm391_orchidora.Screens.ManageOrderDetail;
+package com.example.prm391_orchidora.Screens.Order;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prm391_orchidora.Adapter.ManageOrderDetail.ManageOrderDetailAdapter;
+import com.example.prm391_orchidora.Adapter.Order.ManageOrderDetailAdapter;
 import com.example.prm391_orchidora.Models.ManageOrderDetail.ManageOrderDetail;
 import com.example.prm391_orchidora.R;
 

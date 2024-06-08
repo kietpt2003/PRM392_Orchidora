@@ -71,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="8dp"
-                        app:srcCompat="@drawable/orchid_detail_location_icon" />
+                        app:srcCompat="@drawable/order_detail_location_icon" />
 
                     <TextView
                         android:id="@+id/textView4"

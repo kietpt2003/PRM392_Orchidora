@@ -1,4 +1,4 @@
-package com.example.prm391_orchidora.Adapter.ManageOrder;
+package com.example.prm391_orchidora.Adapter.Order;
 
 import android.content.Context;
 import android.graphics.Color;

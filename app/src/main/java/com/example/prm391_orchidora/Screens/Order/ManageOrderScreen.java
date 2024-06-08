@@ -1,4 +1,4 @@
-package com.example.prm391_orchidora.Screens.ManageOrder;
+package com.example.prm391_orchidora.Screens.Order;
 
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prm391_orchidora.Adapter.ManageOrder.ManageOrderAdapter;
+import com.example.prm391_orchidora.Adapter.Order.ManageOrderAdapter;
 import com.example.prm391_orchidora.Models.ManageOrder.ManageOrder;
 import com.example.prm391_orchidora.R;
 import java.util.ArrayList;
