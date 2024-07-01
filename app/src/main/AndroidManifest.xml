@@ -25,13 +25,18 @@
         <activity
             android:name=".Screens.Auth.LoginScreen"
             android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".Screens.Auth.SignUpScreen"
             android:exported="false" />
         <activity
             android:name=".Screens.Home.HomeScreen"
-            android:exported="true">
+            android:exported="false">
 
         </activity>
         <activity android:name=".Screens.Order.OrderDetailScreen" android:exported="true">
@@ -44,25 +49,46 @@
         <activity
             android:name=".Screens.Orchid.OrchidDetailScreen"
             android:exported="false">
+        </activity>
+        <activity
+            android:name=".Screens.Orchid.CreateOrchidScreen"
+            android:exported="true">
 
         </activity>
+        <activity
+            android:name=".Screens.Category.ManageCategoryScreen"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Screens.Category.AddCategoryScreen"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Screens.Order.ManageOrderScreen"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Screens.Order.ManageOrderDetailScreen"
+            android:exported="false">
+        </activity>
         <activity android:name=".Screens.Home.MngHomeScreen"
-                android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                android:exported="false">
         </activity>
         <activity android:name=".Screens.Orchid.MngOrchidDetailScreen"  android:exported="true">
 
         </activity>
-        <activity android:name=".Screens.Orchid.MngEditOrchidScreen" android:exported="true">
+        <activity android:name=".Screens.Orchid.MngEditOrchidScreen"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Screens.Profile.ManagerProfileScreen"
+            android:exported="false">
         </activity>
     </application>
 
