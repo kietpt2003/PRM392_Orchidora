@@ -2,8 +2,12 @@ package com.example.prm391_orchidora.Screens.Orchid;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
@@ -25,9 +29,10 @@ import java.util.List;
 
 public class MngEditOrchidScreen extends AppCompatActivity {
 
-    ImageView orchidIV, backIV, profileIV;
+    ImageView orchidIV, backIV, profileIV, insertImgIcon;
     Spinner categorySpinner;
     CategoryAdapter categoryAdapter;
+    EditText imgUrlET;
 
      @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +50,32 @@ public class MngEditOrchidScreen extends AppCompatActivity {
         profileIV = findViewById(R.id.profileIV);
         orchidIV = findViewById(R.id.orchidIV);
         categorySpinner = findViewById(R.id.categorySpinner);
+        imgUrlET = findViewById(R.id.imgUrlET);
+         insertImgIcon = findViewById(R.id.insertImgIcon);
+
+         imgUrlET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Do nothing
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String url = s.toString().trim();
+                if (!url.isEmpty()) {
+                    loadImage(url);
+                    insertImgIcon.setVisibility(View.INVISIBLE);
+                } else {
+                    orchidIV.setImageDrawable(null);
+                    insertImgIcon.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(new Category("0123", "Dendrobium","This is test description"));
@@ -60,16 +91,20 @@ public class MngEditOrchidScreen extends AppCompatActivity {
             finish();
         });
 
-         Glide.with(this)
-                    .load("https://hips.hearstapps.com/hmg-prod/images/cattleya-orchid-types-1587738446.jpg?crop=1xw:0.8974540311173974xh;center,top&resize=980:*")
-                    .into(orchidIV);
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void loadImage(String url) {
+        Glide.with(this)
+                .load(url)
+                .placeholder(R.drawable.loading_img) // Replace with your placeholder image resource
+                .error(R.drawable.image_error) // Replace with your error image resource
+                .into(orchidIV);
     }
 
 }
