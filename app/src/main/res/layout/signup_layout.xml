@@ -30,65 +30,92 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp" />
 
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="320sp"
-        android:layout_height="60sp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="40sp"
-        android:ems="10"
+        android:layout_marginTop="40dp"
         android:hint="Name"
-        android:inputType="text"
-        android:background="@drawable/auth_input"
-        android:padding="10sp" />
+        app:hintTextColor="@color/white">
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="320sp"
-        android:layout_height="60sp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="text"
+            android:background="@drawable/auth_input"
+            android:padding="10dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="40sp"
-        android:ems="10"
+        android:layout_marginTop="40dp"
         android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/auth_input"
-        android:padding="10sp" />
+        app:hintTextColor="@color/white">
 
-    <EditText
-        android:id="@+id/phoneNumber"
-        android:layout_width="320sp"
-        android:layout_height="60sp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/auth_input"
+            android:padding="10dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="40sp"
-        android:ems="10"
+        android:layout_marginTop="40dp"
         android:hint="Phone"
-        android:inputType="phone"
-        android:background="@drawable/auth_input"
-        android:padding="10sp" />
+        app:hintTextColor="@color/white">
 
-    <EditText
-        android:id="@+id/address"
-        android:layout_width="320sp"
-        android:layout_height="60sp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="phone"
+            android:background="@drawable/auth_input"
+            android:padding="10dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="40sp"
-        android:ems="10"
+        android:layout_marginTop="40dp"
         android:hint="Address"
-        android:inputType="text"
-        android:background="@drawable/auth_input"
-        android:padding="10sp" />
+        app:hintTextColor="@color/white">
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="320sp"
-        android:layout_height="60sp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="text"
+            android:background="@drawable/auth_input"
+            android:padding="10dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="30sp"
-        android:ems="10"
+        android:layout_marginTop="30dp"
         android:hint="Password"
-        android:inputType="textPassword"
-        android:background="@drawable/auth_input"
-        android:padding="10sp" />
+        app:endIconMode="password_toggle"
+        app:hintTextColor="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPasswordSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:background="@drawable/auth_input"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/signUpBtn"
