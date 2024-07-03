@@ -61,7 +61,7 @@ public class CategoryController {
         });
     }
     public interface CategoryGetCallBack{
-        void onSuccess(List<CategoryResponse> categories);
+        void onCategorySuccessGet(List<CategoryResponse> categories);
 
         void onError(ErrorResponse errorResponse);
     }
