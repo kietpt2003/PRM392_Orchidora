@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm391_orchidora.Adapter.Orchid.OrchidAdapter;
+import com.example.prm391_orchidora.Controller.CategoryController;
 import com.example.prm391_orchidora.Controller.OrchidController;
+import com.example.prm391_orchidora.Models.Category.CategoryResponse;
 import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
@@ -31,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomeScreen extends AppCompatActivity implements OrchidController.OrchidGetCallback {
+public class HomeScreen extends AppCompatActivity implements OrchidController.OrchidGetCallback, CategoryController.CategoryGetCallBack {
 
     private RecyclerView recyclerView;
     private OrchidAdapter adapter;
@@ -52,12 +54,14 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
 //        ImageView imageView = findViewById(R.id.footballer_image);
 //        Glide.with(this).load("https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/125px-Flag_of_France.svg.png").into(imageView);
 
+        //Cart Screen
         cartLayout = findViewById(R.id.cart);
         cartLayout.setOnClickListener(v -> {
             Intent intent = new Intent(HomeScreen.this, CartScreen.class); // Replace with your target activity
             startActivity(intent);
         });
 
+        //Profile Screen
         profileIcon = findViewById(R.id.profileIcon);
         profileIcon.setOnClickListener(v -> {
             Intent intent = new Intent(HomeScreen.this, ProfileScreen.class); // Replace with your target activity
@@ -108,7 +112,7 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
     }
 
     @Override
-    public void onSuccess(List<OrchidResponse> orchids) {
+    public void onOrchidSuccessGet(List<OrchidResponse> orchids) {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new OrchidAdapter(orchids, this);
@@ -116,7 +120,17 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
     }
 
     @Override
-    public void onError(ErrorResponse errorMessage) {
+    public void onOrchidErrorGet(ErrorResponse errorMessage) {
+        Toast.makeText(this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCategorySuccessGet(List<CategoryResponse> categories) {
+
+    }
+
+    @Override
+    public void onCategoryErrorGet(ErrorResponse errorMessage) {
         Toast.makeText(this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

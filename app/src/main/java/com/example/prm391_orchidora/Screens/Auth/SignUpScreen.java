@@ -111,7 +111,7 @@ public class SignUpScreen extends AppCompatActivity implements AuthController.Re
     }
 
     @Override
-    public void onSuccess(AccountResponse accountResponse) {
+    public void onRegisterSuccess(AccountResponse accountResponse) {
         TokenManager.saveToken(SignUpScreen.this, accountResponse.getId());
         Intent intent = new Intent(SignUpScreen.this, HomeScreen.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -121,7 +121,7 @@ public class SignUpScreen extends AppCompatActivity implements AuthController.Re
     }
 
     @Override
-    public void onError(ErrorResponse errorResponse) {
+    public void onRegisterError(ErrorResponse errorResponse) {
         Toast.makeText(this,errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

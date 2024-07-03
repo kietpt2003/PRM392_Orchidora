@@ -33,7 +33,7 @@ public class OrchidController {
             @Override
             public void onResponse(Call<OrchidDataResponse> call, Response<OrchidDataResponse> response) {
                 if (response.isSuccessful()) {
-                    orchidGetCallback.onSuccess(response.body().getData());
+                    orchidGetCallback.onOrchidSuccessGet(response.body().getData());
                 } else {
                     try {
                         // Xử lý phản hồi không thành công
@@ -42,33 +42,66 @@ public class OrchidController {
                             // Chuyển đổi errorBody thành đối tượng ErrorResponse
                             Gson gson = new Gson();
                             ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
-                            orchidGetCallback.onError(errorResponse);
+                            orchidGetCallback.onOrchidErrorGet(errorResponse);
                         } else {
-                            orchidGetCallback.onError(new ErrorResponse("Error","Request failed with no additional information"));
+                            orchidGetCallback.onOrchidErrorGet(new ErrorResponse("Error","Request failed with no additional information"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        orchidGetCallback.onError(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                        orchidGetCallback.onOrchidErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<OrchidDataResponse> call, Throwable throwable) {
-                orchidGetCallback.onError(new ErrorResponse("Error", "Request fail"));
+                orchidGetCallback.onOrchidErrorGet(new ErrorResponse("Error", "Request fail"));
+            }
+        });
+    }
+
+    public void fetchOrchidsByCate() {
+        Call<OrchidDataResponse> call = orchidService.getOrchids();
+        call.enqueue(new Callback<OrchidDataResponse>() {
+            @Override
+            public void onResponse(Call<OrchidDataResponse> call, Response<OrchidDataResponse> response) {
+                if (response.isSuccessful()) {
+                    orchidGetCallback.onOrchidSuccessGet(response.body().getData());
+                } else {
+                    try {
+                        // Xử lý phản hồi không thành công
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            // Chuyển đổi errorBody thành đối tượng ErrorResponse
+                            Gson gson = new Gson();
+                            ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
+                            orchidGetCallback.onOrchidErrorGet(errorResponse);
+                        } else {
+                            orchidGetCallback.onOrchidErrorGet(new ErrorResponse("Error","Request failed with no additional information"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        orchidGetCallback.onOrchidErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrchidDataResponse> call, Throwable throwable) {
+                orchidGetCallback.onOrchidErrorGet(new ErrorResponse("Error", "Request fail"));
             }
         });
     }
 
     public interface OrchidGetCallback {
-        void onSuccess(List<OrchidResponse> orchids);
+        void onOrchidSuccessGet(List<OrchidResponse> orchids);
 
-        void onError(ErrorResponse errorMessage);
+        void onOrchidErrorGet(ErrorResponse errorMessage);
     }
 
     public interface OrchidPostCallback {
-        void onSuccessGet(List<OrchidResponse> orchids);
+        void onOrchidSuccessPost(List<OrchidResponse> orchids);
 
-        void onError(String errorMessage);
+        void onOrchidErrorPost(String errorMessage);
     }
 }

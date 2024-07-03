@@ -11,6 +11,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import com.example.prm391_orchidora.Models.Auth.LoginRequest;
 import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Home.HomeScreen;
+import com.example.prm391_orchidora.Screens.Home.MngHomeScreen;
 import com.example.prm391_orchidora.Utils.TokenManager;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -54,10 +56,6 @@ public class LoginScreen extends AppCompatActivity implements AuthController.Log
             String password = editTextPassword.getText().toString();
             LoginRequest requestBody = new LoginRequest(email, password);
             authController.fetchAuth(requestBody);
-        });
-        signInBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(this, HomeScreen.class);
-            this.startActivity(intent);
         });
 
         TextView dontHaveAcc = findViewById(R.id.dontHaveAcc);
@@ -105,9 +103,14 @@ public class LoginScreen extends AppCompatActivity implements AuthController.Log
     }
 
     @Override
-    public void onSuccess(AccountResponse accountResponse) {
+    public void onLoginSuccess(AccountResponse accountResponse) {
         TokenManager.saveToken(LoginScreen.this, accountResponse.getId());
-        Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
+        Intent intent;
+        if (accountResponse.getRole().equals("USER")) {
+            intent = new Intent(LoginScreen.this, HomeScreen.class);
+        } else {
+            intent = new Intent(LoginScreen.this, MngHomeScreen.class);
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         LoginScreen.this.startActivity(intent);
         // Optionally finish the LoginScreen activity
@@ -115,7 +118,7 @@ public class LoginScreen extends AppCompatActivity implements AuthController.Log
     }
 
     @Override
-    public void onError(ErrorResponse errorResponse) {
+    public void onLoginError(ErrorResponse errorResponse) {
         Toast.makeText(this,errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

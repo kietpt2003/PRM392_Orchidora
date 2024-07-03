@@ -39,7 +39,7 @@ public class AuthController {
             public void onResponse(Call<AccountResponse> call, Response<AccountResponse> response) {
                 if (response.isSuccessful()) {
                     AccountResponse data = response.body();
-                    loginCallBack.onSuccess(data);
+                    loginCallBack.onLoginSuccess(data);
                 } else {
                     try {
                         // Xử lý phản hồi không thành công
@@ -48,20 +48,20 @@ public class AuthController {
                             // Chuyển đổi errorBody thành đối tượng ErrorResponse
                             Gson gson = new Gson();
                             ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
-                            loginCallBack.onError(errorResponse);
+                            loginCallBack.onLoginError(errorResponse);
                         } else {
-                            loginCallBack.onError(new ErrorResponse("Error","Request failed with no additional information"));
+                            loginCallBack.onLoginError(new ErrorResponse("Error","Request failed with no additional information"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        loginCallBack.onError(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                        loginCallBack.onLoginError(new ErrorResponse("Error", "An error occurred while processing the error response"));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<AccountResponse> call, Throwable t) {
-                loginCallBack.onError(new ErrorResponse("Error", "Request fail"));
+                loginCallBack.onLoginError(new ErrorResponse("Error", "Request fail"));
             }
         });
     }
@@ -73,7 +73,7 @@ public class AuthController {
             public void onResponse(Call<AccountResponse> call, Response<AccountResponse> response) {
                 if (response.isSuccessful()) {
                     AccountResponse data = response.body();
-                    registerCallBack.onSuccess(data);
+                    registerCallBack.onRegisterSuccess(data);
                 } else {
                     try {
                         // Xử lý phản hồi không thành công
@@ -82,31 +82,31 @@ public class AuthController {
                             // Chuyển đổi errorBody thành đối tượng ErrorResponse
                             Gson gson = new Gson();
                             ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
-                            registerCallBack.onError(errorResponse);
+                            registerCallBack.onRegisterError(errorResponse);
                         } else {
-                            registerCallBack.onError(new ErrorResponse("Error","Request failed with no additional information"));
+                            registerCallBack.onRegisterError(new ErrorResponse("Error","Request failed with no additional information"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        registerCallBack.onError(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                        registerCallBack.onRegisterError(new ErrorResponse("Error", "An error occurred while processing the error response"));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<AccountResponse> call, Throwable t) {
-                registerCallBack.onError(new ErrorResponse("Error", "Request fail"));
+                registerCallBack.onRegisterError(new ErrorResponse("Error", "Request fail"));
             }
         });
     }
 
     public interface LoginCallBack {
-        void onSuccess(AccountResponse accountResponse);
-        void onError(ErrorResponse errorResponse);
+        void onLoginSuccess(AccountResponse accountResponse);
+        void onLoginError(ErrorResponse errorResponse);
     }
 
     public interface RegisterCallBack {
-        void onSuccess(AccountResponse accountResponse);
-        void onError(ErrorResponse errorResponse);
+        void onRegisterSuccess(AccountResponse accountResponse);
+        void onRegisterError(ErrorResponse errorResponse);
     }
 }

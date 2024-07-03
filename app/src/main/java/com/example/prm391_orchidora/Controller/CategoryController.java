@@ -34,7 +34,7 @@ public class CategoryController {
             @Override
             public void onResponse(Call<CategoryDataResponse> call, Response<CategoryDataResponse> response) {
                 if (response.isSuccessful()) {
-                    categoryGetCallBack.onSuccess(response.body().getData());
+                    categoryGetCallBack.onCategorySuccessGet(response.body().getData());
                 } else {
                     try {
                         // Xử lý phản hồi không thành công
@@ -43,26 +43,26 @@ public class CategoryController {
                             // Chuyển đổi errorBody thành đối tượng ErrorResponse
                             Gson gson = new Gson();
                             ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
-                            categoryGetCallBack.onError(errorResponse);
+                            categoryGetCallBack.onCategoryErrorGet(errorResponse);
                         } else {
-                            categoryGetCallBack.onError(new ErrorResponse("Error","Request failed with no additional information"));
+                            categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error","Request failed with no additional information"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        categoryGetCallBack.onError(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                        categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<CategoryDataResponse> call, Throwable throwable) {
-                categoryGetCallBack.onError(new ErrorResponse("Error", "Request fail"));
+                categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "Request fail"));
             }
         });
     }
     public interface CategoryGetCallBack{
-        void onSuccess(List<CategoryResponse> categories);
+        void onCategorySuccessGet(List<CategoryResponse> categories);
 
-        void onError(ErrorResponse errorResponse);
+        void onCategoryErrorGet(ErrorResponse errorResponse);
     }
 }
