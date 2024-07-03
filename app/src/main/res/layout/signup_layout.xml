@@ -91,7 +91,7 @@
         android:padding="10sp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signUpBtn"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
