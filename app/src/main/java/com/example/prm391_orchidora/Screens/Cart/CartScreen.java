@@ -70,12 +70,13 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
         recyclerViewMayLike.setLayoutManager(new LinearLayoutManager(this));
 
         List<OrchidResponse> orchidList = new ArrayList<>();
-//        orchidList.add(new OrchidOld("https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", "Moth Orchid", "Orchidaceae", 19.99));
-//        orchidList.add(new OrchidOld("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 24.99));
-//        orchidList.add(new OrchidOld("https://hips.hearstapps.com/hmg-prod/images/vanda-orchid-types-1587739024.jpg?crop=1.00xw:0.976xh;0,0.0242xh&resize=980:*", "Dendrobium Orchids", "Dendrobium", 24.99));
-//        orchidList.add(new OrchidOld("https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", "Moth Orchid", "Orchidaceae", 19.99));
-//        orchidList.add(new OrchidOld("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 24.99));
-//        orchidList.add(new OrchidOld("https://hips.hearstapps.com/hmg-prod/images/vanda-orchid-types-1587739024.jpg?crop=1.00xw:0.976xh;0,0.0242xh&resize=980:*", "Dendrobium Orchids", "Dendrobium", 24.99));
+        orchidList.add(new OrchidResponse("1", 19, "Orchidaceae", "Red", "So Beautiful Flower", "https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", 6, "available", "Moth Orchid"));
+        orchidList.add(new OrchidResponse("2", 24, "Cattleya", "Purple", "So Beautiful Flower", "https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", 1, "unavailable", "Cattleya Orchids"));
+        orchidList.add(new OrchidResponse("3", 30, "Dendrobium", "Orange", "So Beautiful Flower", "https://hips.hearstapps.com/hmg-prod/images/vanda-orchid-types-1587739024.jpg?crop=1.00xw:0.976xh;0,0.0242xh&resize=980:*", 2, "available", "Dendrobium Orchids"));
+        orchidList.add(new OrchidResponse("4", 29, "Orchidaceae", "Blue", "So Beautiful Flower", "https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", 8, "available", "Moth Orchid"));
+        orchidList.add(new OrchidResponse("5", 25, "Cattleya", "Gray", "So Beautiful Flower", "https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", 10, "available", "Cattleya Orchids"));
+        orchidList.add(new OrchidResponse("6", 14, "Dendrobium", "Yellow", "So Beautiful Flower", "https://hips.hearstapps.com/hmg-prod/images/vanda-orchid-types-1587739024.jpg?crop=1.00xw:0.976xh;0,0.0242xh&resize=980:*", 5, "unavailable", "Dendrobium Orchids"));
+
 
         orchidAdapter = new OrchidAdapter(orchidList, this);
         recyclerViewMayLike.setAdapter(orchidAdapter);
