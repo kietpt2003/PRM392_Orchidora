@@ -55,11 +55,6 @@
             android:name=".Screens.Orchid.CreateOrchidScreen"
             android:windowSoftInputMode="adjustPan"
             android:exported="false">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".Screens.Category.ManageCategoryScreen"
@@ -83,6 +78,11 @@
         <activity android:name=".Screens.Orchid.MngOrchidDetailScreen"  android:exported="true">
 
         </activity>
+        <activity android:name=".Screens.Orchid.MngEditOrchidScreen"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
+        </activity>
+
         <activity
             android:name=".Screens.Profile.ManagerProfileScreen"
             android:exported="false">

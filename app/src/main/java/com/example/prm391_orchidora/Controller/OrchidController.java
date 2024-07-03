@@ -33,7 +33,7 @@ public class OrchidController {
             @Override
             public void onResponse(Call<OrchidDataResponse> call, Response<OrchidDataResponse> response) {
                 if (response.isSuccessful()) {
-                    orchidGetCallback.onSuccessGet(response.body().getData());
+                    orchidGetCallback.onSuccess(response.body().getData());
                 } else {
                     try {
                         // Xử lý phản hồi không thành công
@@ -55,13 +55,13 @@ public class OrchidController {
 
             @Override
             public void onFailure(Call<OrchidDataResponse> call, Throwable throwable) {
-//                orchidGetCallback.onError(throwable.getMessage());
+                orchidGetCallback.onError(new ErrorResponse("Error", "Request fail"));
             }
         });
     }
 
     public interface OrchidGetCallback {
-        void onSuccessGet(List<OrchidResponse> orchids);
+        void onSuccess(List<OrchidResponse> orchids);
 
         void onError(ErrorResponse errorMessage);
     }

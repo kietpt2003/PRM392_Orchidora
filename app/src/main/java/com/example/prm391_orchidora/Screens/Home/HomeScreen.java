@@ -38,7 +38,6 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
     private ConstraintLayout cartLayout;
     private ImageView profileIcon;
     private OrchidController orchidController;
-    private TextView testAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +108,7 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
     }
 
     @Override
-    public void onSuccessGet(List<OrchidResponse> orchids) {
+    public void onSuccess(List<OrchidResponse> orchids) {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new OrchidAdapter(orchids, this);

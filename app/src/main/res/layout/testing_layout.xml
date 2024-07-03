@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E6E5E5"
@@ -46,7 +45,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scrollbars="none"
         android:layout_weight="1">
 
         <LinearLayout
@@ -54,35 +52,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <FrameLayout
+            <RelativeLayout
+                android:id="@+id/img_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10sp"
-                android:layout_marginTop="20sp"
-                android:layout_marginRight="10sp">
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="12dp">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/orchidIV"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
-                    <ImageView
-                        android:id="@+id/orchidIV"
-                        android:layout_width="380dp"
-                        android:layout_height="320dp"
-                        android:layout_gravity="center"
-                        android:scaleType="centerCrop" />
-                </androidx.cardview.widget.CardView>
-
-                <ImageView
-                    android:id="@+id/insertImgIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/orchid_insert_photo" />
-            </FrameLayout>
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/imgUrlET"
@@ -153,7 +137,7 @@
                 android:hint="Description"
                 android:inputType="textMultiLine"
                 android:minLines="4"
-                android:paddingHorizontal="10sp"
+                android:paddingLeft="10sp"
                 android:paddingTop="4dp"
                 android:textColorHint="#A6A4A4"
                 android:textSize="15sp" />
@@ -165,7 +149,6 @@
                 android:layout_marginLeft="10sp"
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="10sp"
-                android:layout_marginBottom="10dp"
                 android:background="@drawable/orchid_create_input"
                 android:ems="10"
                 android:hint="Price"
