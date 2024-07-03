@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,21 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.prm391_orchidora.Models.Orchid.Orchid;
-import com.example.prm391_orchidora.Models.Orchid.OrchidV2;
+import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
-import com.example.prm391_orchidora.Screens.Auth.SignUpScreen;
-import com.example.prm391_orchidora.Screens.Home.HomeScreen;
 import com.example.prm391_orchidora.Screens.Orchid.OrchidDetailScreen;
 
 import java.util.List;
 
 public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder> {
 
-    private List<Orchid> orchidList;
+    private List<OrchidResponse> orchidList;
     private static Context orchidContext;
 
-    public OrchidAdapter(List<Orchid> orchidList, Context orchidContext) {
+    public OrchidAdapter(List<OrchidResponse> orchidList, Context orchidContext) {
         this.orchidList = orchidList;
         this.orchidContext = orchidContext;
     }
@@ -41,7 +37,7 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Orchid orchid = orchidList.get(position);
+        OrchidResponse orchid = orchidList.get(position);
         holder.bind(orchid);
     }
 
@@ -76,14 +72,14 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
             });
         }
 
-        void bind(Orchid orchid) {
+        void bind(OrchidResponse orchid) {
             Glide.with(itemView.getContext())
-                    .load(orchid.getImageUrl())
+                    .load(orchid.getImg())
                     .into(imageOrchid);
 
             textName.setText(orchid.getName());
             textCategory.setText(orchid.getCategory());
-            textPrice.setText(String.format("$%.2f", orchid.getPrice()));
+            textPrice.setText(orchid.getPrice()+"");
         }
     }
 }

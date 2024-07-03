@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.prm391_orchidora.Models.CartItem;
-import com.example.prm391_orchidora.Models.Orchid.Orchid;
+import com.example.prm391_orchidora.Models.Orchid.OrchidOld;
 import com.example.prm391_orchidora.R;
 
 import java.util.List;
@@ -68,7 +68,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         }
 
         void bind(CartItem cartItem) {
-            Orchid orchid = cartItem.getOrchid();
+            OrchidOld orchid = cartItem.getOrchid();
             Glide.with(itemView.getContext())
                     .load(orchid.getImageUrl())
                     .into(imageOrchid);

@@ -1,27 +1,27 @@
 package com.example.prm391_orchidora.Models;
 
-import com.example.prm391_orchidora.Models.Orchid.Orchid;
+import com.example.prm391_orchidora.Models.Orchid.OrchidOld;
 
 public class CartItem {
 
-    private Orchid orchid;
+    private OrchidOld orchid;
     private boolean isSelected;
     private int quantity;
 
     public CartItem() {
     }
 
-    public CartItem(Orchid orchid, boolean isSelected, int quantity) {
+    public CartItem(OrchidOld orchid, boolean isSelected, int quantity) {
         this.orchid = orchid;
         this.isSelected = isSelected;
         this.quantity = quantity;
     }
 
-    public Orchid getOrchid() {
+    public OrchidOld getOrchid() {
         return orchid;
     }
 
-    public void setOrchid(Orchid orchid) {
+    public void setOrchid(OrchidOld orchid) {
         this.orchid = orchid;
     }
 
