@@ -21,13 +21,13 @@ public class AuthController {
     private RegisterCallBack registerCallBack;
 
     public AuthController(LoginCallBack loginCallBack) {
-        Retrofit retrofit = ApiService.getRetrofitInstance();
+        Retrofit retrofit = new ApiService().getRetrofitInstance();
         authService = retrofit.create(AuthService.class);
         this.loginCallBack = loginCallBack;
     }
 
     public AuthController(RegisterCallBack registerCallBack) {
-        Retrofit retrofit = ApiService.getRetrofitInstance();
+        Retrofit retrofit = new ApiService().getRetrofitInstance();
         authService = retrofit.create(AuthService.class);
         this.registerCallBack = registerCallBack;
     }

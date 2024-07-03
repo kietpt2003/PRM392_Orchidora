@@ -100,12 +100,6 @@
     </FrameLayout>
 
 
-    <TextView
-        android:id="@+id/testAPI"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

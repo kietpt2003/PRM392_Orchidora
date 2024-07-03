@@ -20,12 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm391_orchidora.Adapter.Orchid.OrchidAdapter;
 import com.example.prm391_orchidora.Controller.OrchidController;
 import com.example.prm391_orchidora.Models.ErrorResponse;
-import com.example.prm391_orchidora.Models.Orchid.Orchid;
-import com.example.prm391_orchidora.Models.Orchid.OrchidV2;
+import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Cart.CartScreen;
 import com.example.prm391_orchidora.Screens.Profile.ProfileScreen;
-import com.example.prm391_orchidora.Utils.TokenManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -103,23 +101,6 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
             chipGroup.addView(chip);
         }
 
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Create a list of orchids
-        List<Orchid> orchidList = new ArrayList<>();
-        orchidList.add(new Orchid("https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", "Moth Orchid", "Orchidaceae", 19.99));
-        orchidList.add(new Orchid("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 24.99));
-        orchidList.add(new Orchid("https://hips.hearstapps.com/hmg-prod/images/vanda-orchid-types-1587739024.jpg?crop=1.00xw:0.976xh;0,0.0242xh&resize=980:*", "Dendrobium Orchids", "Dendrobium", 24.99));
-        orchidList.add(new Orchid("https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", "Moth Orchid", "Orchidaceae", 19.99));
-        orchidList.add(new Orchid("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 24.99));
-        orchidList.add(new Orchid("https://hips.hearstapps.com/hmg-prod/images/vanda-orchid-types-1587739024.jpg?crop=1.00xw:0.976xh;0,0.0242xh&resize=980:*", "Dendrobium Orchids", "Dendrobium", 24.99));
-        // Add more orchids as needed
-
-        adapter = new OrchidAdapter(orchidList, this);
-        recyclerView.setAdapter(adapter);
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -128,13 +109,11 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
     }
 
     @Override
-    public void onSuccessGet(List<OrchidV2> orchids) {
-//        recyclerView = findViewById(R.id.recycler_view);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        adapter = new OrchidAdapter(orchids, this);
-//        recyclerView.setAdapter(adapter);
-        testAPI = findViewById(R.id.testAPI);
-        testAPI.setText(orchids.get(0).getName());
+    public void onSuccessGet(List<OrchidResponse> orchids) {
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new OrchidAdapter(orchids, this);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

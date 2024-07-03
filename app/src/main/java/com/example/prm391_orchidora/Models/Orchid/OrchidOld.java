@@ -1,16 +1,16 @@
 package com.example.prm391_orchidora.Models.Orchid;
 
-public class Orchid {
+public class OrchidOld {
 
     private String imageUrl;
     private String name;
     private String category;
     private double price;
 
-    public Orchid() {
+    public OrchidOld() {
     }
 
-    public Orchid(String imageUrl, String name, String category, double price) {
+    public OrchidOld(String imageUrl, String name, String category, double price) {
         this.imageUrl = imageUrl;
         this.name = name;
         this.category = category;
