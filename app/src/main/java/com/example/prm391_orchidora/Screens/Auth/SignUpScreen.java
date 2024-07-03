@@ -28,14 +28,15 @@ import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Home.HomeScreen;
 import com.example.prm391_orchidora.Utils.TokenManager;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class SignUpScreen extends AppCompatActivity implements AuthController.RegisterCallBack {
     private AuthController authController;
-    private EditText name;
-    private EditText email;
-    private EditText phoneNumber;
-    private EditText address;
-    private EditText password;
+    private TextInputEditText name;
+    private TextInputEditText email;
+    private TextInputEditText phoneNumber;
+    private TextInputEditText address;
+    private TextInputEditText password;
     Button signUpBtn;
 
     @Override
@@ -49,11 +50,11 @@ public class SignUpScreen extends AppCompatActivity implements AuthController.Re
         authController = new AuthController(this);
 
         signUpBtn.setOnClickListener(v -> {
-            name = findViewById(R.id.name);
-            email = findViewById(R.id.email);
-            phoneNumber = findViewById(R.id.phoneNumber);
-            address = findViewById(R.id.address);
-            password = findViewById(R.id.password);
+            name = findViewById(R.id.editTextName);
+            email = findViewById(R.id.editTextEmail);
+            phoneNumber = findViewById(R.id.editTextPhoneNumber);
+            address = findViewById(R.id.editTextAddress);
+            password = findViewById(R.id.editTextPasswordSignUp);
             CreateAccountRequest requestBody = new CreateAccountRequest(
                     email.getText().toString(),
                     password.getText().toString(),
