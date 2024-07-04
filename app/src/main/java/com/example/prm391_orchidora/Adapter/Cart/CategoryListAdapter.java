@@ -82,6 +82,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                 @Override
                 public void onCategorySuccessDelete() {
                     // Refresh category list after successful delete
+                    Toast.makeText(context, "Delete Successfully", Toast.LENGTH_SHORT).show();
                     if (context instanceof ManageCategoryScreen) {
                         ((ManageCategoryScreen) context).fetchCategories();
                     }
