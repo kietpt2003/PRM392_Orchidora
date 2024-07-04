@@ -1,6 +1,9 @@
 package com.example.prm391_orchidora.Services;
 
+import androidx.annotation.NonNull;
+
 import com.example.prm391_orchidora.Models.Orchid.OrchidDataResponse;
+import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -11,6 +14,9 @@ public interface OrchidService {
     @GET("orchids")
     Call<OrchidDataResponse> getOrchids(@Query("name") String name, @Query("status") String status);
 
+    @GET("orchids/{id}")
+    Call<OrchidResponse> getOrchidById(@Query("id") String id);
+
     @GET("orchids/categories/{id}")
-    Call<OrchidDataResponse> getOrchidsByCate(@Path("id") String id, @Query("name") String name);
+    Call<OrchidDataResponse> getOrchidsByCate(@Query("id") String id, @Query("name") String name);
 }
