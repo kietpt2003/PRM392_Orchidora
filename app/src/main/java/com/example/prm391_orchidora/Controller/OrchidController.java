@@ -1,5 +1,7 @@
 package com.example.prm391_orchidora.Controller;
 
+import android.util.Log;
+
 import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.Models.Orchid.OrchidDataResponse;
 import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
@@ -17,10 +19,16 @@ import retrofit2.Retrofit;
 
 public class OrchidController {
     private OrchidService orchidService;
+    private OrchidGetByIdCallback orchidGetByIdCallback;
     private OrchidGetCallback orchidGetCallback;
     private OrchidByCateGetCallBack orchidByCateGetCallBack;
 
     private OrchidPostCallback orchidPostCallback;
+    public OrchidController(OrchidGetByIdCallback orchidGetByIdCallback, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        orchidService = retrofit.create(OrchidService.class);
+        this.orchidGetByIdCallback = orchidGetByIdCallback;
+    }
 
     public OrchidController(OrchidGetCallback orchidGetCallback, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
@@ -32,6 +40,39 @@ public class OrchidController {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
         orchidService = retrofit.create(OrchidService.class);
         this.orchidByCateGetCallBack = orchidByCateGetCallBack;
+    }
+
+    public void fetchOrchidById(String id) {
+        Call<OrchidResponse> call = orchidService.getOrchidById(id);
+        call.enqueue(new Callback<OrchidResponse>() {
+            @Override
+            public void onResponse(Call<OrchidResponse> call, Response<OrchidResponse> response) {
+                if (response.isSuccessful()) {
+                    orchidGetByIdCallback.onOrchidByIdSuccessGet(response.body());
+                } else {
+                    try {
+                        // Xử lý phản hồi không thành công
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            // Chuyển đổi errorBody thành đối tượng ErrorResponse
+                            Gson gson = new Gson();
+                            ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
+                            orchidGetByIdCallback.onOrchidByIdErrorGet(errorResponse);
+                        } else {
+                            orchidGetByIdCallback.onOrchidByIdErrorGet(new ErrorResponse("Error","Request failed with no additional information"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        orchidGetByIdCallback.onOrchidByIdErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrchidResponse> call, Throwable throwable) {
+                orchidGetByIdCallback.onOrchidByIdErrorGet(new ErrorResponse("Error", "Request fail"));
+            }
+        });
     }
 
     public void fetchOrchids(String name, String status) {
@@ -98,6 +139,12 @@ public class OrchidController {
                 orchidByCateGetCallBack.onOrchidByCateErrorGet(new ErrorResponse("Error", "Request fail"));
             }
         });
+    }
+
+    public interface OrchidGetByIdCallback {
+        void onOrchidByIdSuccessGet(OrchidResponse orchid);
+
+        void onOrchidByIdErrorGet(ErrorResponse errorMessage);
     }
 
     public interface OrchidGetCallback {

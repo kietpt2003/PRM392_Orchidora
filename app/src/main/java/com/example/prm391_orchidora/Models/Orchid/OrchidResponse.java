@@ -1,6 +1,8 @@
 package com.example.prm391_orchidora.Models.Orchid;
 
-public class OrchidResponse {
+import java.io.Serializable;
+
+public class OrchidResponse implements Serializable {
     private String id;
     private int price;
     private String category;

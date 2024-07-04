@@ -21,6 +21,7 @@ import com.example.prm391_orchidora.Models.Orchid.OrchidOld;
 import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Adapter.Orchid.OrchidAdapter;
+import com.example.prm391_orchidora.Utils.TokenManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +36,15 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
     private OrchidAdapter orchidAdapter;
 
     private ImageView backButton;
+    private String token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.cart_layout);
+
+        token = new TokenManager().getToken(this);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -78,7 +82,7 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
         orchidList.add(new OrchidResponse("6", 14, "Dendrobium", "Yellow", "So Beautiful Flower", "https://hips.hearstapps.com/hmg-prod/images/vanda-orchid-types-1587739024.jpg?crop=1.00xw:0.976xh;0,0.0242xh&resize=980:*", 5, "unavailable", "Dendrobium Orchids"));
 
 
-        orchidAdapter = new OrchidAdapter(orchidList, this);
+        orchidAdapter = new OrchidAdapter(orchidList, this, token);
         recyclerViewMayLike.setAdapter(orchidAdapter);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

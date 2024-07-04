@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
     private String token = "";
     private String searchInput = "";
     private String categorySelectedId = "";
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,22 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
         categoryController = new CategoryController(this, token);
         categoryController.fetchCategories();
 
+        //SearchView
+        searchView = findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                handleSearchInput(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                handleSearchInput(newText);
+                return false;
+            }
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -85,11 +103,22 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
         });
     }
 
+    private void handleSearchInput(String searchText) {
+        searchInput = searchText;
+        if (categorySelectedId.isEmpty()) {
+            orchidController= new OrchidController((OrchidController.OrchidGetCallback) this, token);
+            orchidController.fetchOrchids(searchText, "ACTIVE");
+        } else {
+            orchidController= new OrchidController((OrchidController.OrchidByCateGetCallBack) this, token);
+            orchidController.fetchOrchidsByCate(categorySelectedId, searchInput);
+        }
+    }
+
     @Override
     public void onOrchidSuccessGet(List<OrchidResponse> orchids) {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new OrchidAdapter(orchids, this);
+        adapter = new OrchidAdapter(orchids, this, token);
         recyclerView.setAdapter(adapter);
     }
 
@@ -148,8 +177,13 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
                     categorySelectedId = selectedCategoryId;
                 }
 
-
-                // orchidController.fetchOrchidsByCate(selectedCategoryId);
+                if (categorySelectedId.isEmpty()) {
+                    orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
+                    orchidController.fetchOrchids(searchInput,"ACTIVE");
+                } else {
+                    orchidController = new OrchidController((OrchidController.OrchidByCateGetCallBack) this, token);
+                    orchidController.fetchOrchidsByCate(categorySelectedId,searchInput);
+                }
             });
 
             chipGroup.addView(chip);
@@ -178,7 +212,10 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
 
     @Override
     public void onOrchidByCateSuccessGet(List<OrchidResponse> orchids) {
-
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new OrchidAdapter(orchids, this, token);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
