@@ -3,6 +3,8 @@ package com.example.prm391_orchidora.Screens.Category;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +31,7 @@ public class ManageCategoryScreen extends AppCompatActivity implements CategoryC
 
     private RecyclerView category_list;
     private CategoryListAdapter adapter;
+    private ImageView backBtn;
     private CategoryController categoryController;
     private String token = "";
     private FloatingActionButton floating_action_button;
@@ -37,6 +40,8 @@ public class ManageCategoryScreen extends AppCompatActivity implements CategoryC
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.category_manage_layout);
+
+        backBtn = findViewById(R.id.backBtn);
         token = new TokenManager().getToken(this);
         categoryController = new CategoryController(this, token);
 
@@ -52,6 +57,9 @@ public class ManageCategoryScreen extends AppCompatActivity implements CategoryC
 
         fetchCategories();
 
+        //Handle click cancel or back
+        handleBack(backBtn);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -63,6 +71,11 @@ public class ManageCategoryScreen extends AppCompatActivity implements CategoryC
         categoryController.fetchCategories();
     }
 
+    private void handleBack( ImageView backBtn) {
+        backBtn.setOnClickListener(v->{
+            finish();
+        });
+    }
     @Override
     public void onCategorySuccessGet(List<CategoryResponse> categories) {
         adapter = new CategoryListAdapter(categories, this, category -> {

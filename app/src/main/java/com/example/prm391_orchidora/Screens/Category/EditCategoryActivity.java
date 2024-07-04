@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +24,8 @@ import java.util.List;
 
 public class EditCategoryActivity extends AppCompatActivity implements CategoryController.CategoryGetCallBack {
     private EditText editCategoryName;
+    private Button cancelBtn;
+    private ImageView backBtn;
     private Button btnSaveCategory;
     private CategoryController categoryController;
     private String categoryId;
@@ -34,6 +37,8 @@ public class EditCategoryActivity extends AppCompatActivity implements CategoryC
         EdgeToEdge.enable(this);
         setContentView(R.layout.category_manage_edit_layout);
 
+        backBtn = findViewById(R.id.backBtn);
+        cancelBtn = findViewById(R.id.cancelBtn);
         editCategoryName = findViewById(R.id.edit_category_name);
         btnSaveCategory = findViewById(R.id.btn_save_category);
         token = new TokenManager().getToken(this);
@@ -64,6 +69,9 @@ public class EditCategoryActivity extends AppCompatActivity implements CategoryC
             }
         });
 
+        //Handle click cancel or back
+        handleBack(backBtn, cancelBtn);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -71,6 +79,14 @@ public class EditCategoryActivity extends AppCompatActivity implements CategoryC
         });
     }
 
+    private void handleBack( ImageView backBtn, Button cancelBtn) {
+        backBtn.setOnClickListener(v->{
+            finish();
+        });
+        cancelBtn.setOnClickListener(v->{
+            finish();
+        });
+    }
     @Override
     public void onCategorySuccessGet(List<CategoryResponse> categories) {
         // This method is not used in EditCategoryActivity
