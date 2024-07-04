@@ -51,9 +51,6 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
             if (position != RecyclerView.NO_POSITION) {
                 orchidController = new OrchidController(this, token);
                 orchidController.fetchOrchidById(orchid.getId());
-//                onOrchidClickListener.onOrchidClick(orchid);
-//                Intent intent = new Intent(orchidContext, OrchidDetailScreen.class);
-//                orchidContext.startActivity(intent);
             }
         });
     }

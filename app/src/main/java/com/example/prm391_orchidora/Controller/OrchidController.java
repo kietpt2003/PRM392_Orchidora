@@ -3,6 +3,7 @@ package com.example.prm391_orchidora.Controller;
 import android.util.Log;
 
 import com.example.prm391_orchidora.Models.ErrorResponse;
+import com.example.prm391_orchidora.Models.Orchid.CreateOrchidRequest;
 import com.example.prm391_orchidora.Models.Orchid.OrchidDataResponse;
 import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.Services.ApiService;
@@ -22,7 +23,6 @@ public class OrchidController {
     private OrchidGetByIdCallback orchidGetByIdCallback;
     private OrchidGetCallback orchidGetCallback;
     private OrchidByCateGetCallBack orchidByCateGetCallBack;
-
     private OrchidPostCallback orchidPostCallback;
     public OrchidController(OrchidGetByIdCallback orchidGetByIdCallback, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
@@ -36,6 +36,11 @@ public class OrchidController {
         this.orchidGetCallback = orchidGetCallback;
     }
 
+    public OrchidController(OrchidPostCallback orchidPostCallback, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        orchidService = retrofit.create(OrchidService.class);
+        this.orchidPostCallback = orchidPostCallback;
+    }
     public OrchidController(OrchidByCateGetCallBack orchidByCateGetCallBack, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
         orchidService = retrofit.create(OrchidService.class);
@@ -141,6 +146,38 @@ public class OrchidController {
         });
     }
 
+    public void createOrchid(CreateOrchidRequest createOrchidRequest) {
+        Call<OrchidResponse> call = orchidService.postOrchid(createOrchidRequest);
+        call.enqueue(new Callback<OrchidResponse>() {
+            @Override
+            public void onResponse(Call<OrchidResponse> call, Response<OrchidResponse> response) {
+                if (response.isSuccessful()) {
+                    orchidPostCallback.onOrchidSuccessPost(response.body());
+                } else {
+                    try {
+                        // Xử lý phản hồi không thành công
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            // Chuyển đổi errorBody thành đối tượng ErrorResponse
+                            Gson gson = new Gson();
+                            ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
+                            orchidPostCallback.onOrchidErrorPost(errorResponse);
+                        } else {
+                            orchidPostCallback.onOrchidErrorPost(new ErrorResponse("Error","Request failed with no additional information"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        orchidPostCallback.onOrchidErrorPost(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrchidResponse> call, Throwable throwable) {
+                orchidPostCallback.onOrchidErrorPost(new ErrorResponse("Error", "Request fail"));
+            }
+        });
+    }
     public interface OrchidGetByIdCallback {
         void onOrchidByIdSuccessGet(OrchidResponse orchid);
 
@@ -160,8 +197,8 @@ public class OrchidController {
     }
 
     public interface OrchidPostCallback {
-        void onOrchidSuccessPost(List<OrchidResponse> orchids);
+        void onOrchidSuccessPost(OrchidResponse orchid);
 
-        void onOrchidErrorPost(String errorMessage);
+        void onOrchidErrorPost(ErrorResponse errorResponse);
     }
 }

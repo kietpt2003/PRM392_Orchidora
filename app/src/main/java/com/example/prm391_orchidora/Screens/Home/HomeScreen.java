@@ -56,6 +56,8 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
         setContentView(R.layout.home_layout);
 
         token = new TokenManager().getToken(this);
+
+        //Orchid list
         orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
         orchidController.fetchOrchids("", "ACTIVE");
 

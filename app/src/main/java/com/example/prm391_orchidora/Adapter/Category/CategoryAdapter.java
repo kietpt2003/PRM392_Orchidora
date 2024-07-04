@@ -28,8 +28,8 @@ public class CategoryAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
-        return i;
+    public CategoryResponse getItem(int position) {
+        return categoryList != null ? categoryList.get(position) : null;
     }
 
     @Override

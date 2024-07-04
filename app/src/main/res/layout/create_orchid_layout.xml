@@ -125,7 +125,7 @@
                 android:background="@drawable/orchid_create_input"
                 android:ems="10"
                 android:hint="Price"
-                android:inputType="text"
+                android:inputType="number"
                 android:paddingLeft="10sp"
                 android:textColorHint="#A6A4A4"
                 android:textSize="13sp" />
@@ -183,7 +183,7 @@
                 android:background="@drawable/orchid_create_input"
                 android:ems="10"
                 android:hint="Quantity"
-                android:inputType="text"
+                android:inputType="number"
                 android:paddingLeft="10sp"
                 android:textColorHint="#A6A4A4"
                 android:textSize="13sp" />
