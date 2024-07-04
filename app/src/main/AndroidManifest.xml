@@ -23,15 +23,15 @@
         <activity
             android:name=".Screens.Profile.ProfileScreen"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".Screens.Auth.LoginScreen"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+        <activity
+            android:name=".Screens.Auth.LoginScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Screens.Auth.SignUpScreen"
             android:exported="false" />
@@ -56,18 +56,18 @@
             android:windowSoftInputMode="adjustPan"
             android:exported="false">
         </activity>
-<!--        <activity-->
-<!--            android:name=".Screens.Category.ManageCategoryScreen"-->
-<!--            android:exported="false">-->
-<!--        </activity>-->
         <activity
             android:name=".Screens.Category.ManageCategoryScreen"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
+<!--        <activity-->
+<!--            android:name=".Screens.Category.ManageCategoryScreen"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
             android:name=".Screens.Category.AddCategoryScreen"
             android:exported="false">

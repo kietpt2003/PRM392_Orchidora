@@ -60,9 +60,45 @@ public class CategoryController {
             }
         });
     }
+
+    public void updateCategory(String categoryId, CategoryResponse category) {
+        Call<CategoryResponse> call = categoryService.updateCategory(categoryId, category);
+        call.enqueue(new Callback<CategoryResponse>() {
+            @Override
+            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+                if (response.isSuccessful()) {
+                    // Notify the UI about the successful update
+                    categoryGetCallBack.onCategorySuccessPut(response.body());
+                } else {
+                    try {
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            Gson gson = new Gson();
+                            ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
+                            categoryGetCallBack.onCategoryErrorGet(errorResponse);
+                        } else {
+                            categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "Request failed with no additional information"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResponse> call, Throwable throwable) {
+                categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "Request fail"));
+            }
+        });
+    }
+
+
     public interface CategoryGetCallBack{
         void onCategorySuccessGet(List<CategoryResponse> categories);
 
         void onCategoryErrorGet(ErrorResponse errorResponse);
+
+        void onCategorySuccessPut(CategoryResponse category);
     }
 }

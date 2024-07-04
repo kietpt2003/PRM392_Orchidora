@@ -77,15 +77,15 @@ public class MngEditOrchidScreen extends AppCompatActivity {
             }
         });
 
-        List<Category> categoryList = new ArrayList<>();
-        categoryList.add(new Category("0123", "Dendrobium","This is test description"));
-        categoryList.add(new Category("0124", "Cattleya","This is test description"));
-        categoryList.add(new Category("0125", "Phalaenopsis","This is test description"));
-        categoryList.add(new Category("0126", "Cymbidium","This is test description"));
-        categoryList.add(new Category("0127", "Miltonia","This is test description"));
-        categoryList.add(new Category("0128", "Oncidium","This is test description"));
-        categoryAdapter = new CategoryAdapter(categoryList, this);
-        categorySpinner.setAdapter(categoryAdapter);
+//        List<Category> categoryList = new ArrayList<>();
+//        categoryList.add(new Category("0123", "Dendrobium","This is test description"));
+//        categoryList.add(new Category("0124", "Cattleya","This is test description"));
+//        categoryList.add(new Category("0125", "Phalaenopsis","This is test description"));
+//        categoryList.add(new Category("0126", "Cymbidium","This is test description"));
+//        categoryList.add(new Category("0127", "Miltonia","This is test description"));
+//        categoryList.add(new Category("0128", "Oncidium","This is test description"));
+//        categoryAdapter = new CategoryAdapter(categoryList, this);
+//        categorySpinner.setAdapter(categoryAdapter);
 
         backIV.setOnClickListener(v -> {
             finish();

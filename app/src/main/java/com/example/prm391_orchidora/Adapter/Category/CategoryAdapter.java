@@ -8,15 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.prm391_orchidora.Models.Category.Category;
+import com.example.prm391_orchidora.Models.Category.CategoryResponse;
 import com.example.prm391_orchidora.R;
 
 import java.util.List;
 
 public class CategoryAdapter extends BaseAdapter {
-    private List<Category> categoryList;
+    private List<CategoryResponse> categoryList;
     private Context context;
 
-    public CategoryAdapter(List<Category> categoryList, Context context) {
+    public CategoryAdapter(List<CategoryResponse> categoryList, Context context) {
         this.categoryList = categoryList;
         this.context = context;
     }

@@ -1,5 +1,6 @@
 package com.example.prm391_orchidora.Screens.Home;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,8 +22,12 @@ import com.example.prm391_orchidora.Adapter.Orchid.MngHomeOrchidAdapter;
 import com.example.prm391_orchidora.Adapter.Orchid.OrchidAdapter;
 import com.example.prm391_orchidora.Models.Orchid.MngHomeOrchid;
 import com.example.prm391_orchidora.R;
+import com.example.prm391_orchidora.Screens.Category.ManageCategoryScreen;
+import com.example.prm391_orchidora.Screens.Profile.ManagerProfileScreen;
+import com.example.prm391_orchidora.Screens.Profile.ProfileScreen;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,12 +38,27 @@ public class MngHomeScreen extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MngHomeOrchidAdapter adapter;
     private ImageView profileIcon;
+    private FloatingActionButton floating_action_button;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.mng_home_layout);
+
+        // Manager Profile Screen
+        profileIcon = findViewById(R.id.profileIcon);
+        profileIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(MngHomeScreen.this, ManagerProfileScreen.class); // Replace with your target activity
+            startActivity(intent);
+        });
+
+        // Manager Category Screen
+        floating_action_button = findViewById(R.id.floating_action_button);
+        floating_action_button.setOnClickListener(v -> {
+            Intent intent = new Intent(MngHomeScreen.this, ManageCategoryScreen.class); // Replace with your target activity
+            startActivity(intent);
+        });
 
         ChipGroup chipGroup = findViewById(R.id.chipGroup);
         // Create a list of filters or chips

@@ -3,6 +3,8 @@ package com.example.prm391_orchidora.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.prm391_orchidora.Screens.Category.ManageCategoryScreen;
+
 public class TokenManager {
     private static final String SHARED_PREF_NAME = "my_shared_pref";
     private static final String KEY_ACCESS_TOKEN = "token";
@@ -17,7 +19,7 @@ public class TokenManager {
         editor.apply();
     }
 
-    public static String getToken(Context context) {
+    public static String getToken(ManageCategoryScreen context) {
         return getSharedPreferences(context).getString(KEY_ACCESS_TOKEN, null);
     }
 

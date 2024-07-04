@@ -133,4 +133,9 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
     public void onCategoryErrorGet(ErrorResponse errorMessage) {
         Toast.makeText(this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onCategorySuccessPut(CategoryResponse category) {
+
+    }
 }
