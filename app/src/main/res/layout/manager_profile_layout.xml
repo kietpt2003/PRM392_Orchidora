@@ -20,7 +20,7 @@
     <LinearLayout
         android:id="@+id/userInfoContainer"
         android:layout_width="380dp"
-        android:layout_height="95dp"
+        android:layout_height="125dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:background="@drawable/profile_radius_info"
@@ -58,6 +58,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="manager@gmail.com"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -195,6 +211,7 @@
 
         <!-- Log Out Section -->
         <LinearLayout
+            android:id="@+id/logOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
