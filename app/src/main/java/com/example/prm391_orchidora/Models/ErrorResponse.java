@@ -9,6 +9,10 @@ public class ErrorResponse {
         this.message = message;
     }
 
+    public ErrorResponse() {
+
+    }
+
     public String getTarget() {
         return target;
     }

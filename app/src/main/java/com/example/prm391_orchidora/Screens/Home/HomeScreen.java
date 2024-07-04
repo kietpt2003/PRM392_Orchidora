@@ -201,6 +201,16 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
     }
 
     @Override
+    public void onCategorySuccessDelete() {
+
+    }
+
+    @Override
+    public void onCategorySuccessPost(CategoryResponse category) {
+
+    }
+
+    @Override
     public void onOrchidByCateSuccessGet(List<OrchidResponse> orchids) {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
