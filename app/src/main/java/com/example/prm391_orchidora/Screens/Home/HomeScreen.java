@@ -112,9 +112,20 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
             orchidController.fetchOrchids(searchText, "ACTIVE");
         } else {
             orchidController= new OrchidController((OrchidController.OrchidByCateGetCallBack) this, token);
-            orchidController.fetchOrchidsByCate(categorySelectedId, searchInput);
+            orchidController.fetchOrchidsByCate(categorySelectedId, searchInput,"ACTIVE");
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        searchInput = "";
+        categorySelectedId ="";
+        searchView.setQuery("", false);
+        orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
+        orchidController.fetchOrchids("", "ACTIVE");
+    }
+
 
     @Override
     public void onOrchidSuccessGet(List<OrchidResponse> orchids) {
@@ -184,7 +195,7 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
                     orchidController.fetchOrchids(searchInput,"ACTIVE");
                 } else {
                     orchidController = new OrchidController((OrchidController.OrchidByCateGetCallBack) this, token);
-                    orchidController.fetchOrchidsByCate(categorySelectedId,searchInput);
+                    orchidController.fetchOrchidsByCate(categorySelectedId,searchInput,"ACTIVE");
                 }
             });
 

@@ -24,6 +24,10 @@ public class OrchidController {
     private OrchidGetCallback orchidGetCallback;
     private OrchidByCateGetCallBack orchidByCateGetCallBack;
     private OrchidPostCallback orchidPostCallback;
+    private OrchidActivateCallback orchidActivateCallback;
+    private OrchidDeactivateCallback orchidDeactivateCallback;
+    private OrchidPutCallback orchidPutCallback;
+
     public OrchidController(OrchidGetByIdCallback orchidGetByIdCallback, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
         orchidService = retrofit.create(OrchidService.class);
@@ -41,10 +45,29 @@ public class OrchidController {
         orchidService = retrofit.create(OrchidService.class);
         this.orchidPostCallback = orchidPostCallback;
     }
+
     public OrchidController(OrchidByCateGetCallBack orchidByCateGetCallBack, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
         orchidService = retrofit.create(OrchidService.class);
         this.orchidByCateGetCallBack = orchidByCateGetCallBack;
+    }
+
+    public OrchidController(OrchidActivateCallback orchidActivateCallback, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        orchidService = retrofit.create(OrchidService.class);
+        this.orchidActivateCallback = orchidActivateCallback;
+    }
+
+    public OrchidController(OrchidDeactivateCallback orchidDeactivateCallback, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        orchidService = retrofit.create(OrchidService.class);
+        this.orchidDeactivateCallback = orchidDeactivateCallback;
+    }
+
+    public OrchidController(OrchidPutCallback orchidPutCallback, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        orchidService = retrofit.create(OrchidService.class);
+        this.orchidPutCallback = orchidPutCallback;
     }
 
     public void fetchOrchidById(String id) {
@@ -113,8 +136,8 @@ public class OrchidController {
         });
     }
 
-    public void fetchOrchidsByCate(String id, String name) {
-        Call<OrchidDataResponse> call = orchidService.getOrchidsByCate(id, name);
+    public void fetchOrchidsByCate(String id, String name, String status) {
+        Call<OrchidDataResponse> call = orchidService.getOrchidsByCate(id, name,status);
         call.enqueue(new Callback<OrchidDataResponse>() {
             @Override
             public void onResponse(Call<OrchidDataResponse> call, Response<OrchidDataResponse> response) {
@@ -178,6 +201,106 @@ public class OrchidController {
             }
         });
     }
+
+    public void activationOrchid(String id) {
+        Call<Void> call = orchidService.activateOrchid(id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    orchidActivateCallback.onOrchidSuccessActivate();
+                } else {
+                    try {
+                        // Xử lý phản hồi không thành công
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            // Chuyển đổi errorBody thành đối tượng ErrorResponse
+                            Gson gson = new Gson();
+                            ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
+                            orchidActivateCallback.onOrchidErrorActivate(errorResponse);
+                        } else {
+                            orchidActivateCallback.onOrchidErrorActivate(new ErrorResponse("Error","Request failed with no additional information"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        orchidActivateCallback.onOrchidErrorActivate(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                orchidActivateCallback.onOrchidErrorActivate(new ErrorResponse("Error", "Request fail"));
+            }
+        });
+    }
+
+    public void deactivationOrchid(String id) {
+        Call<Void> call = orchidService.deactivateOrchid(id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    orchidDeactivateCallback.onOrchidSuccessDeactivate();
+                } else {
+                    try {
+                        // Xử lý phản hồi không thành công
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            // Chuyển đổi errorBody thành đối tượng ErrorResponse
+                            Gson gson = new Gson();
+                            ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
+                            orchidDeactivateCallback.onOrchidErrorDeactivate(errorResponse);
+                        } else {
+                            orchidDeactivateCallback.onOrchidErrorDeactivate(new ErrorResponse("Error","Request failed with no additional information"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        orchidDeactivateCallback.onOrchidErrorDeactivate(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                orchidDeactivateCallback.onOrchidErrorDeactivate(new ErrorResponse("Error", "Request fail"));
+            }
+        });
+    }
+
+    public void updateOrchid(String id,CreateOrchidRequest createOrchidRequest) {
+        Call<OrchidResponse> call = orchidService.putOrchid(id,createOrchidRequest);
+        call.enqueue(new Callback<OrchidResponse>() {
+            @Override
+            public void onResponse(Call<OrchidResponse> call, Response<OrchidResponse> response) {
+                if (response.isSuccessful()) {
+                    orchidPutCallback.onOrchidSuccessPut(response.body());
+                } else {
+                    try {
+                        // Xử lý phản hồi không thành công
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            // Chuyển đổi errorBody thành đối tượng ErrorResponse
+                            Gson gson = new Gson();
+                            ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
+                            orchidPutCallback.onOrchidErrorPut(errorResponse);
+                        } else {
+                            orchidPutCallback.onOrchidErrorPut(new ErrorResponse("Error","Request failed with no additional information"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        orchidPutCallback.onOrchidErrorPut(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrchidResponse> call, Throwable throwable) {
+                orchidPutCallback.onOrchidErrorPut(new ErrorResponse("Error", "Request fail"));
+            }
+        });
+    }
+
     public interface OrchidGetByIdCallback {
         void onOrchidByIdSuccessGet(OrchidResponse orchid);
 
@@ -200,5 +323,20 @@ public class OrchidController {
         void onOrchidSuccessPost(OrchidResponse orchid);
 
         void onOrchidErrorPost(ErrorResponse errorResponse);
+    }
+    public interface OrchidActivateCallback {
+        void onOrchidSuccessActivate();
+
+        void onOrchidErrorActivate(ErrorResponse errorResponse);
+    }
+    public interface OrchidDeactivateCallback {
+        void onOrchidSuccessDeactivate();
+
+        void onOrchidErrorDeactivate(ErrorResponse errorResponse);
+    }
+    public interface OrchidPutCallback {
+        void onOrchidSuccessPut(OrchidResponse orchid);
+
+        void onOrchidErrorPut(ErrorResponse errorResponse);
     }
 }

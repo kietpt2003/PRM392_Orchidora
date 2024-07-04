@@ -109,19 +109,12 @@
                 android:textSize="23dp"
                 android:textStyle="bold" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="0dp">
-
-                <View
-                    android:id="@+id/colorV"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="#EC51C5" />
-            </androidx.cardview.widget.CardView>
+            <View
+                android:id="@+id/colorV"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="20sp"
+                android:background="#EC51C5" />
 
             <View
                 android:layout_width="0dp"

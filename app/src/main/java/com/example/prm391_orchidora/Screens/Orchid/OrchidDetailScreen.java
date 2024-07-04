@@ -3,6 +3,8 @@ package com.example.prm391_orchidora.Screens.Orchid;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +30,8 @@ public class OrchidDetailScreen extends AppCompatActivity {
     private TextView orchidName;
     private TextView orchidDescription;
     private TextView orchidPrice;
+    private TextView orchidQuantity;
+    private View orchidColor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,16 @@ public class OrchidDetailScreen extends AppCompatActivity {
 
         orchidName = findViewById(R.id.orchidName);
         orchidName.setText(orchid.getName());
+
+        orchidColor = findViewById(R.id.orchidColor);
+        GradientDrawable border = new GradientDrawable();
+        border.setColor(Color.parseColor(orchid.getColor())); //background color
+        border.setStroke(4, Color.parseColor("#BFA4DC")); // 4px width, #BFA4DC border
+        border.setShape(GradientDrawable.OVAL);
+        orchidColor.setBackground(border);
+
+        orchidQuantity = findViewById(R.id.orchidQuantity);
+        orchidQuantity.setText("(" + orchid.getQuantity() + ")");
 
         orchidDescription = findViewById(R.id.orchidDescription);
         orchidDescription.setText(orchid.getDescription());

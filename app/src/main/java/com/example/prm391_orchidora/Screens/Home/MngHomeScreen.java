@@ -16,7 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.prm391_orchidora.Adapter.Orchid.OrchidAdapter;
+import com.example.prm391_orchidora.Adapter.Orchid.MngOrchidAdapter;
 import com.example.prm391_orchidora.Controller.CategoryController;
 import com.example.prm391_orchidora.Controller.OrchidController;
 import com.example.prm391_orchidora.Models.Category.CategoryResponse;
@@ -38,13 +38,14 @@ public class MngHomeScreen extends AppCompatActivity implements OrchidController
     private ImageView profileIcon;
     private FloatingActionButton floating_action_button;
     private static final int CREATE_ORCHID_REQUEST_CODE = 1;
+    private static final int REQUEST_CODE_ORCHID_DETAIL = 2;
     private OrchidController orchidController;
     private CategoryController categoryController;
     private String token = "";
     private String searchInput = "";
     private String categorySelectedId = "";
     private SearchView searchView;
-    private OrchidAdapter adapter;
+    private MngOrchidAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class MngHomeScreen extends AppCompatActivity implements OrchidController
 
         //Orchid list
         orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
-        orchidController.fetchOrchids("", "ACTIVE");
+        orchidController.fetchOrchids("", "");
 
         //Manager Profile Screen
         profileIcon = findViewById(R.id.profileIcon);
@@ -100,6 +101,16 @@ public class MngHomeScreen extends AppCompatActivity implements OrchidController
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        searchInput = "";
+        categorySelectedId ="";
+        searchView.setQuery("", false);
+        orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
+        orchidController.fetchOrchids("", "");
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -110,7 +121,18 @@ public class MngHomeScreen extends AppCompatActivity implements OrchidController
                 categorySelectedId ="";
                 searchView.setQuery("", false);
                 orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
-                orchidController.fetchOrchids("", "ACTIVE");
+                orchidController.fetchOrchids("", "");
+            } else {
+                // Handle other results
+            }
+        } else if(requestCode == REQUEST_CODE_ORCHID_DETAIL){
+            if (resultCode == RESULT_OK) {
+                // Refresh data or update UI as needed
+                searchInput = "";
+                categorySelectedId ="";
+                searchView.setQuery("", false);
+                orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
+                orchidController.fetchOrchids("", "");
             } else {
                 // Handle other results
             }
@@ -121,10 +143,10 @@ public class MngHomeScreen extends AppCompatActivity implements OrchidController
         searchInput = searchText;
         if (categorySelectedId.isEmpty()) {
             orchidController= new OrchidController((OrchidController.OrchidGetCallback) this, token);
-            orchidController.fetchOrchids(searchText, "ACTIVE");
+            orchidController.fetchOrchids(searchText, "");
         } else {
             orchidController= new OrchidController((OrchidController.OrchidByCateGetCallBack) this, token);
-            orchidController.fetchOrchidsByCate(categorySelectedId, searchInput);
+            orchidController.fetchOrchidsByCate(categorySelectedId, searchInput,"");
         }
     }
     @Override
@@ -179,10 +201,10 @@ public class MngHomeScreen extends AppCompatActivity implements OrchidController
 
                 if (categorySelectedId.isEmpty()) {
                     orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
-                    orchidController.fetchOrchids(searchInput,"ACTIVE");
+                    orchidController.fetchOrchids(searchInput,"");
                 } else {
                     orchidController = new OrchidController((OrchidController.OrchidByCateGetCallBack) this, token);
-                    orchidController.fetchOrchidsByCate(categorySelectedId,searchInput);
+                    orchidController.fetchOrchidsByCate(categorySelectedId,searchInput,"");
                 }
             });
 
@@ -214,7 +236,7 @@ public class MngHomeScreen extends AppCompatActivity implements OrchidController
     public void onOrchidSuccessGet(List<OrchidResponse> orchids) {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new OrchidAdapter(orchids, this, token);
+        adapter = new MngOrchidAdapter(orchids, this, token);
         recyclerView.setAdapter(adapter);
     }
 
@@ -227,7 +249,7 @@ public class MngHomeScreen extends AppCompatActivity implements OrchidController
     public void onOrchidByCateSuccessGet(List<OrchidResponse> orchids) {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new OrchidAdapter(orchids, this, token);
+        adapter = new MngOrchidAdapter(orchids, this, token);
         recyclerView.setAdapter(adapter);
     }
 

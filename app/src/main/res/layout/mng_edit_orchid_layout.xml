@@ -124,10 +124,25 @@
                 android:background="@drawable/orchid_create_input"
                 android:ems="10"
                 android:hint="Price"
-                android:inputType="text"
+                android:inputType="number"
                 android:paddingLeft="10sp"
                 android:textColorHint="#A6A4A4"
                 android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/colorET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="15sp"
+                android:layout_marginRight="10sp"
+                android:background="@drawable/orchid_create_input"
+                android:ems="10"
+                android:hint="Color"
+                android:inputType="text"
+                android:paddingLeft="10sp"
+                android:textColorHint="#A6A4A4"
+                android:textSize="13sp" />
 
             <Spinner
                 android:id="@+id/categorySpinner"
@@ -168,8 +183,8 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/orchid_create_input"
                 android:ems="10"
-                android:hint="Price"
-                android:inputType="text"
+                android:hint="Quantity"
+                android:inputType="number"
                 android:paddingLeft="10sp"
                 android:textColorHint="#A6A4A4"
                 android:textSize="15sp" />

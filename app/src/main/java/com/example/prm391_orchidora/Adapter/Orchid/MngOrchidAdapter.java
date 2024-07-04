@@ -1,8 +1,9 @@
 package com.example.prm391_orchidora.Adapter.Orchid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,19 +19,19 @@ import com.example.prm391_orchidora.Controller.OrchidController;
 import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
-import com.example.prm391_orchidora.Screens.Orchid.OrchidDetailScreen;
-import com.example.prm391_orchidora.Utils.TokenManager;
+import com.example.prm391_orchidora.Screens.Orchid.MngOrchidDetailScreen;
 
 import java.util.List;
 
-public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder> implements OrchidController.OrchidGetByIdCallback {
+public class MngOrchidAdapter extends RecyclerView.Adapter<MngOrchidAdapter.ViewHolder>implements OrchidController.OrchidGetByIdCallback{
 
     private List<OrchidResponse> orchidList;
-    private static Context orchidContext;
+    private Context orchidContext;
     private OrchidController orchidController;
     private String token = "";
+    private static final int REQUEST_CODE_ORCHID_DETAIL = 2;
 
-    public OrchidAdapter(List<OrchidResponse> orchidList, Context orchidContext, String token) {
+    public MngOrchidAdapter(List<OrchidResponse> orchidList, Context orchidContext, String token) {
         this.orchidList = orchidList;
         this.orchidContext = orchidContext;
         this.token = token;
@@ -38,8 +39,8 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_item_orchid, parent, false);
+    public MngOrchidAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.mng_home_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -62,9 +63,10 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
 
     @Override
     public void onOrchidByIdSuccessGet(OrchidResponse orchid) {
-        Intent intent = new Intent(orchidContext, OrchidDetailScreen.class);
+        Intent intent = new Intent(orchidContext, MngOrchidDetailScreen.class);
         intent.putExtra("currentOrchid", orchid);
-        orchidContext.startActivity(intent);
+//        orchidContext.startActivity(intent);
+        ((Activity) orchidContext).startActivityForResult(intent, REQUEST_CODE_ORCHID_DETAIL);
     }
 
     @Override
@@ -72,12 +74,13 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
         Toast.makeText(orchidContext, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-
     static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageOrchid;
         private TextView textName;
         private TextView textCategory;
         private TextView textPrice;
+        private TextView textQuantity;
+        private TextView textStatus;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,6 +88,8 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
             textName = itemView.findViewById(R.id.text_name);
             textCategory = itemView.findViewById(R.id.text_category);
             textPrice = itemView.findViewById(R.id.text_price);
+            textQuantity = itemView.findViewById(R.id.text_quantity);
+            textStatus = itemView.findViewById(R.id.text_status);
         }
 
         void bind(OrchidResponse orchid) {
@@ -92,9 +97,18 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
                     .load(orchid.getImg())
                     .into(imageOrchid);
 
+            textQuantity.setText("("+orchid.getQuantity()+")");
             textName.setText(orchid.getName());
             textCategory.setText(orchid.getCategory());
             textPrice.setText("$"+orchid.getPrice());
+            if (orchid.getStatus().equals("ACTIVE")){
+                textStatus.setText("AVAILABLE");
+                textStatus.setTextColor(Color.parseColor("#4CAF50")); //Green
+            } else {
+                textStatus.setText("UNAVAILABLE");
+                textStatus.setTextColor(Color.parseColor("#F44336")); //Red
+            }
         }
     }
+
 }
