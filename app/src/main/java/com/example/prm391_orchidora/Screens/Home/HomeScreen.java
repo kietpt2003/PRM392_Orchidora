@@ -167,6 +167,16 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
     }
 
     @Override
+    public void onCategorySuccessDelete() {
+
+    }
+
+    @Override
+    public void onCategorySuccessPost(CategoryResponse category) {
+
+    }
+
+    @Override
     public void onOrchidByCateSuccessGet(List<OrchidResponse> orchids) {
 
     }
