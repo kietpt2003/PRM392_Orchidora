@@ -157,6 +157,7 @@ public class MngOrchidDetailScreen extends AppCompatActivity implements OrchidCo
 
     @Override
     public void onOrchidSuccessActivate() {
+        Toast.makeText(this, "Activate Success", Toast.LENGTH_SHORT).show();
         Intent resultIntent = new Intent();
         setResult(RESULT_OK, resultIntent);
         finish();
@@ -169,6 +170,7 @@ public class MngOrchidDetailScreen extends AppCompatActivity implements OrchidCo
 
     @Override
     public void onOrchidSuccessDeactivate() {
+        Toast.makeText(this, "Deactivate Success", Toast.LENGTH_SHORT).show();
         Intent resultIntent = new Intent();
         setResult(RESULT_OK, resultIntent);
         finish();
