@@ -18,6 +18,7 @@ import retrofit2.Retrofit;
 public class OrchidController {
     private OrchidService orchidService;
     private OrchidGetCallback orchidGetCallback;
+    private OrchidByCateGetCallBack orchidByCateGetCallBack;
 
     private OrchidPostCallback orchidPostCallback;
 
@@ -27,8 +28,14 @@ public class OrchidController {
         this.orchidGetCallback = orchidGetCallback;
     }
 
-    public void fetchOrchids() {
-        Call<OrchidDataResponse> call = orchidService.getOrchids();
+    public OrchidController(OrchidByCateGetCallBack orchidByCateGetCallBack, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        orchidService = retrofit.create(OrchidService.class);
+        this.orchidByCateGetCallBack = orchidByCateGetCallBack;
+    }
+
+    public void fetchOrchids(String name, String status) {
+        Call<OrchidDataResponse> call = orchidService.getOrchids(name, status);
         call.enqueue(new Callback<OrchidDataResponse>() {
             @Override
             public void onResponse(Call<OrchidDataResponse> call, Response<OrchidDataResponse> response) {
@@ -60,13 +67,13 @@ public class OrchidController {
         });
     }
 
-    public void fetchOrchidsByCate() {
-        Call<OrchidDataResponse> call = orchidService.getOrchids();
+    public void fetchOrchidsByCate(String id, String name) {
+        Call<OrchidDataResponse> call = orchidService.getOrchidsByCate(id, name);
         call.enqueue(new Callback<OrchidDataResponse>() {
             @Override
             public void onResponse(Call<OrchidDataResponse> call, Response<OrchidDataResponse> response) {
                 if (response.isSuccessful()) {
-                    orchidGetCallback.onOrchidSuccessGet(response.body().getData());
+                    orchidByCateGetCallBack.onOrchidByCateSuccessGet(response.body().getData());
                 } else {
                     try {
                         // Xử lý phản hồi không thành công
@@ -75,20 +82,20 @@ public class OrchidController {
                             // Chuyển đổi errorBody thành đối tượng ErrorResponse
                             Gson gson = new Gson();
                             ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
-                            orchidGetCallback.onOrchidErrorGet(errorResponse);
+                            orchidByCateGetCallBack.onOrchidByCateErrorGet(errorResponse);
                         } else {
-                            orchidGetCallback.onOrchidErrorGet(new ErrorResponse("Error","Request failed with no additional information"));
+                            orchidByCateGetCallBack.onOrchidByCateErrorGet(new ErrorResponse("Error","Request failed with no additional information"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        orchidGetCallback.onOrchidErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                        orchidByCateGetCallBack.onOrchidByCateErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<OrchidDataResponse> call, Throwable throwable) {
-                orchidGetCallback.onOrchidErrorGet(new ErrorResponse("Error", "Request fail"));
+                orchidByCateGetCallBack.onOrchidByCateErrorGet(new ErrorResponse("Error", "Request fail"));
             }
         });
     }
@@ -97,6 +104,12 @@ public class OrchidController {
         void onOrchidSuccessGet(List<OrchidResponse> orchids);
 
         void onOrchidErrorGet(ErrorResponse errorMessage);
+    }
+
+    public interface OrchidByCateGetCallBack {
+        void onOrchidByCateSuccessGet(List<OrchidResponse> orchids);
+
+        void onOrchidByCateErrorGet(ErrorResponse errorMessage);
     }
 
     public interface OrchidPostCallback {

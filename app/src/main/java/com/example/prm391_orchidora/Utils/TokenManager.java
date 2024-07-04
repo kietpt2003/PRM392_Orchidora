@@ -17,7 +17,7 @@ public class TokenManager {
         editor.apply();
     }
 
-    public static String getToken(Context context) {
+    public String getToken(Context context) {
         return getSharedPreferences(context).getString(KEY_ACCESS_TOKEN, null);
     }
 

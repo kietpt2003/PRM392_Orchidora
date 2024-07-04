@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Cart.CartScreen;
 import com.example.prm391_orchidora.Screens.Profile.ProfileScreen;
+import com.example.prm391_orchidora.Utils.TokenManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -33,13 +35,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomeScreen extends AppCompatActivity implements OrchidController.OrchidGetCallback, CategoryController.CategoryGetCallBack {
+public class HomeScreen extends AppCompatActivity implements OrchidController.OrchidGetCallback,OrchidController.OrchidByCateGetCallBack, CategoryController.CategoryGetCallBack {
 
     private RecyclerView recyclerView;
     private OrchidAdapter adapter;
     private ConstraintLayout cartLayout;
     private ImageView profileIcon;
     private OrchidController orchidController;
+    private CategoryController categoryController;
+    private String token = "";
+    private String searchInput = "";
+    private String categorySelectedId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +53,9 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
         EdgeToEdge.enable(this);
         setContentView(R.layout.home_layout);
 
-
-        orchidController = new OrchidController(this, "550e8400-e29b-41d4-a716-446655440000");
-        orchidController.fetchOrchids();
+        token = new TokenManager().getToken(this);
+        orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
+        orchidController.fetchOrchids("", "ACTIVE");
 
 //        ImageView imageView = findViewById(R.id.footballer_image);
 //        Glide.with(this).load("https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/125px-Flag_of_France.svg.png").into(imageView);
@@ -68,41 +74,9 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
             startActivity(intent);
         });
 
-        ChipGroup chipGroup = findViewById(R.id.chipGroup);
-        // Create a list of filters or chips
-        List<String> filters = Arrays.asList("Dendrobium", "Cattleya", "Phalaenopsis", "Cymbidium", "Miltonia", "Oncidium");
-        List<String> checkedChips = new ArrayList<>();
-
-        for (String filter : filters) {
-            Chip chip = new Chip(this);
-            chip.setText(filter);
-            chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
-            chip.setTextColor(ColorStateList.valueOf(Color.parseColor("#BFA4DC")));
-            chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor("#BFA4DC")));
-            chip.setChipStrokeWidth(4.6f);
-            chip.setChipCornerRadius(40f);
-
-            // Set click listener or other properties as needed
-
-            chip.setOnClickListener(v -> {
-                Chip selectedChip = (Chip) v;
-                String selectedFilter = selectedChip.getText().toString();
-                if (checkedChips.contains(selectedFilter)) {
-                    chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
-                    chip.setTextColor(ColorStateList.valueOf(Color.parseColor("#BFA4DC")));
-                    checkedChips.remove(selectedFilter);
-                    selectedChip.setChecked(false);
-                } else {
-                    chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#BFA4DC")));
-                    chip.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
-                    checkedChips.add(selectedFilter);
-                    selectedChip.setChecked(true);
-                }
-
-            });
-
-            chipGroup.addView(chip);
-        }
+        //Cate list
+        categoryController = new CategoryController(this, token);
+        categoryController.fetchCategories();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -126,11 +100,74 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
 
     @Override
     public void onCategorySuccessGet(List<CategoryResponse> categories) {
+        ChipGroup chipGroup = findViewById(R.id.chipGroup);
+        // Create a list of filters or chips
+        List<CategoryResponse> checkedChips = new ArrayList<>();
 
+        for (CategoryResponse category : categories) {
+            Chip chip = new Chip(this);
+            chip.setText(category.getName());
+            chip.setTag(category.getId()); // Set the category id as tag
+            chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+            chip.setTextColor(ColorStateList.valueOf(Color.parseColor("#BFA4DC")));
+            chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor("#BFA4DC")));
+            chip.setChipStrokeWidth(4.6f);
+            chip.setChipCornerRadius(40f);
+
+            // Set click listener or other properties as needed
+            chip.setOnClickListener(v -> {
+                Chip selectedChip = (Chip) v;
+                String selectedCategoryId = selectedChip.getTag().toString(); // Get the category id
+                String selectedCategoryName = selectedChip.getText().toString(); // Get the category name
+
+                CategoryResponse currentSelectedCate = new CategoryResponse(selectedCategoryId, selectedCategoryName);
+
+                if (!checkedChips.isEmpty() && checkedChips.get(0).getId().equals(selectedCategoryId)) {
+                    // If the chip is already selected, unselect it
+                    selectedChip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+                    selectedChip.setTextColor(ColorStateList.valueOf(Color.parseColor("#BFA4DC")));
+                    checkedChips.clear();
+                    selectedChip.setChecked(false);
+                    Log.d("UnSelectedCategory", "ID: " + selectedCategoryId + ", Name: " + selectedCategoryName);
+                    categorySelectedId = "";
+                } else {
+                    // If the chip is not selected, clear all selections and select the clicked chip
+                    for (int i = 0; i < chipGroup.getChildCount(); i++) {
+                        Chip chipInGroup = (Chip) chipGroup.getChildAt(i);
+                        chipInGroup.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+                        chipInGroup.setTextColor(ColorStateList.valueOf(Color.parseColor("#BFA4DC")));
+                        chipInGroup.setChecked(false);
+                    }
+
+                    chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#BFA4DC")));
+                    chip.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+                    checkedChips.clear();
+                    checkedChips.add(currentSelectedCate);
+                    selectedChip.setChecked(true);
+                    Log.d("SelectedCategory", "ID: " + selectedCategoryId + ", Name: " + selectedCategoryName);
+                    categorySelectedId = selectedCategoryId;
+                }
+
+
+                // orchidController.fetchOrchidsByCate(selectedCategoryId);
+            });
+
+            chipGroup.addView(chip);
+        }
     }
 
     @Override
     public void onCategoryErrorGet(ErrorResponse errorMessage) {
+        Toast.makeText(this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onOrchidByCateSuccessGet(List<OrchidResponse> orchids) {
+
+    }
+
+    @Override
+    public void onOrchidByCateErrorGet(ErrorResponse errorMessage) {
         Toast.makeText(this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }
