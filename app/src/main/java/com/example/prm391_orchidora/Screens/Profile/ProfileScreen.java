@@ -44,9 +44,11 @@ public class ProfileScreen extends AppCompatActivity implements ProfileControlle
         tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
         tvAddress = findViewById(R.id.tvAddress);
 
-        // Logout
+        // Logout and clearToken
         logOut = findViewById(R.id.logOut);
         logOut.setOnClickListener(v -> {
+            TokenManager tokenManager = new TokenManager();
+            tokenManager.clearToken(ProfileScreen.this);
             Intent intent = new Intent(ProfileScreen.this, LoginScreen.class); // Replace with your target activity
             startActivity(intent);
         });

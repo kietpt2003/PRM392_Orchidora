@@ -50,9 +50,11 @@ public class ManagerProfileScreen extends AppCompatActivity implements ProfileCo
            Intent intent = new Intent(ManagerProfileScreen.this, ManageCategoryScreen.class); // Replace with your target activity
             startActivity(intent);
         });
-        // Logout
+        // Logout and clearToken
         logOut = findViewById(R.id.logOut);
         logOut.setOnClickListener(v -> {
+            TokenManager tokenManager = new TokenManager();
+            tokenManager.clearToken(ManagerProfileScreen.this);
             Intent intent = new Intent(ManagerProfileScreen.this, LoginScreen.class); // Replace with your target activity
             startActivity(intent);
         });

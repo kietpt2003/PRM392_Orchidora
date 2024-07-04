@@ -2,6 +2,7 @@ package com.example.prm391_orchidora.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.prm391_orchidora.Screens.Category.ManageCategoryScreen;
 
@@ -26,5 +27,11 @@ public class TokenManager {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.remove(KEY_ACCESS_TOKEN);
         editor.apply();
+        String token = getToken(context);
+        if (token == null) {
+            Log.d("TokenManager nè", "Token has been successfully cleared.");
+        } else {
+            Log.d("TokenManager nè", "Failed to clear the token.");
+        }
     }
 }
