@@ -54,11 +54,11 @@ public class MngHomeScreen extends AppCompatActivity {
         });
 
         // Manager Category Screen
-        floating_action_button = findViewById(R.id.floating_action_button);
-        floating_action_button.setOnClickListener(v -> {
-            Intent intent = new Intent(MngHomeScreen.this, ManageCategoryScreen.class); // Replace with your target activity
-            startActivity(intent);
-        });
+//        floating_action_button = findViewById(R.id.floating_action_button);
+//        floating_action_button.setOnClickListener(v -> {
+//            Intent intent = new Intent(MngHomeScreen.this, ManageCategoryScreen.class); // Replace with your target activity
+//            startActivity(intent);
+//        });
 
         ChipGroup chipGroup = findViewById(R.id.chipGroup);
         // Create a list of filters or chips
