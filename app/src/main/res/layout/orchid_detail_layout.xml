@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:text="Orchid Name"
                 android:textColor="#BFA4DC"
-                android:textSize="32sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <View

@@ -25,10 +25,10 @@ import java.util.List;
 
 public class MngOrchidAdapter extends RecyclerView.Adapter<MngOrchidAdapter.ViewHolder>implements OrchidController.OrchidGetByIdCallback{
 
-    private List<OrchidResponse> orchidList;
-    private Context orchidContext;
+    private final List<OrchidResponse> orchidList;
+    private final Context orchidContext;
     private OrchidController orchidController;
-    private String token = "";
+    private final String token;
     private static final int REQUEST_CODE_ORCHID_DETAIL = 2;
 
     public MngOrchidAdapter(List<OrchidResponse> orchidList, Context orchidContext, String token) {
@@ -99,7 +99,7 @@ public class MngOrchidAdapter extends RecyclerView.Adapter<MngOrchidAdapter.View
 
             textQuantity.setText("("+orchid.getQuantity()+")");
             textName.setText(orchid.getName());
-            textCategory.setText(orchid.getCategory());
+            textCategory.setText(orchid.getCategory().getName());
             textPrice.setText("$"+orchid.getPrice());
             if (orchid.getStatus().equals("ACTIVE")){
                 textStatus.setText("AVAILABLE");

@@ -47,7 +47,7 @@ public class MngOrchidDetailScreen extends AppCompatActivity implements OrchidCo
         token = new TokenManager().getToken(this);
 
         Intent intent = getIntent();
-        OrchidResponse orchid = (OrchidResponse) intent.getSerializableExtra("currentOrchid");
+        OrchidResponse orchid = (OrchidResponse) intent.getParcelableExtra("currentOrchid");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -61,7 +61,7 @@ public class MngOrchidDetailScreen extends AppCompatActivity implements OrchidCo
                 .into(orchidIV);
 
         categoryTV = findViewById(R.id.categoryTV);
-        categoryTV.setText(orchid.getCategory());
+        categoryTV.setText(orchid.getCategory().getName());
 
         nameTV = findViewById(R.id.nameTV);
         nameTV.setText(orchid.getName());
@@ -186,7 +186,7 @@ public class MngOrchidDetailScreen extends AppCompatActivity implements OrchidCo
         Glide.with(this)
                 .load(orchid.getImg())
                 .into(orchidIV);
-        categoryTV.setText(orchid.getCategory());
+        categoryTV.setText(orchid.getCategory().getName());
         nameTV.setText(orchid.getName());
         GradientDrawable border = new GradientDrawable();
         border.setColor(Color.parseColor(orchid.getColor())); //background color

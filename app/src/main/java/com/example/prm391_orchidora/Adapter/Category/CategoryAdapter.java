@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.example.prm391_orchidora.Models.Category.Category;
 import com.example.prm391_orchidora.Models.Category.CategoryResponse;
 import com.example.prm391_orchidora.R;
 

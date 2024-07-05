@@ -1,16 +1,13 @@
 package com.example.prm391_orchidora.Screens.Orchid;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -29,7 +26,6 @@ import com.bumptech.glide.Glide;
 import com.example.prm391_orchidora.Adapter.Category.CategoryAdapter;
 import com.example.prm391_orchidora.Controller.CategoryController;
 import com.example.prm391_orchidora.Controller.OrchidController;
-import com.example.prm391_orchidora.Models.Category.Category;
 import com.example.prm391_orchidora.Models.Category.CategoryResponse;
 import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.Models.Orchid.CreateOrchidRequest;
@@ -38,21 +34,18 @@ import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Profile.ManagerProfileScreen;
 import com.example.prm391_orchidora.Utils.TokenManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MngEditOrchidScreen extends AppCompatActivity implements CategoryController.CategoryGetCallBack, OrchidController.OrchidPutCallback {
 
-    private ImageView orchidIV, backIV, profileIV, insertImgIcon;
+    private ImageView orchidIV;
+    private ImageView insertImgIcon;
     private Spinner categorySpinner;
     private CategoryResponse selectedCategory;
-    private CategoryAdapter categoryAdapter;
     private EditText imgUrlET, nameET,priceET,colorET,descriptionET,quantityET;
     private String token = "";
-    private CategoryController categoryController;
     private OrchidController orchidController;
-    private TextView cancelTV,saveTV;
-    private String currentCateName="";
+    private String currentCateId="";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,35 +56,33 @@ public class MngEditOrchidScreen extends AppCompatActivity implements CategoryCo
         token = new TokenManager().getToken(this);
 
         Intent intent = getIntent();
-        OrchidResponse orchid = (OrchidResponse) intent.getSerializableExtra("currentOrchid");
-        currentCateName = orchid.getCategory();
+        OrchidResponse orchid = (OrchidResponse) intent.getParcelableExtra("currentOrchid");
+        currentCateId = orchid != null ? orchid.getCategory().getId() : "";
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.cart_status_bar));
-        }
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.cart_status_bar));
 
         nameET = findViewById(R.id.nameET);
-        nameET.setText(orchid.getName());
+        nameET.setText(orchid != null ? orchid.getName() : "");
 
         priceET = findViewById(R.id.priceET);
-        priceET.setText(orchid.getPrice()+"");
+        priceET.setText((orchid != null ? orchid.getPrice() : "") +"");
 
         colorET = findViewById(R.id.colorET);
-        colorET.setText(orchid.getColor());
+        colorET.setText(orchid != null ? orchid.getColor() : "");
 
         descriptionET = findViewById(R.id.descriptionET);
-        descriptionET.setText(orchid.getDescription());
+        descriptionET.setText(orchid != null ? orchid.getDescription() : "");
 
         quantityET = findViewById(R.id.quantityET);
-        quantityET.setText(orchid.getQuantity()+"");
+        quantityET.setText((orchid != null ? orchid.getQuantity() : "") +"");
 
         orchidController = new OrchidController(this, token);
 
         //Fetch categories list for choose
         categorySpinner = findViewById(R.id.categorySpinner);
-        categoryController = new CategoryController(this, token);
+        CategoryController categoryController = new CategoryController(this, token);
         categoryController.fetchCategories();
 
         //For loading image to screen
@@ -121,18 +112,18 @@ public class MngEditOrchidScreen extends AppCompatActivity implements CategoryCo
                 }
             }
         });
-        imgUrlET.setText(orchid.getImg());
+        imgUrlET.setText(orchid != null ? orchid.getImg() : "");
 
 
         //Handle click cancel or back or profile click
-        backIV = findViewById(R.id.backIV);
-        profileIV = findViewById(R.id.profileIV);
-        cancelTV = findViewById(R.id.cancelTV);
+        ImageView backIV = findViewById(R.id.backIV);
+        ImageView profileIV = findViewById(R.id.profileIV);
+        TextView cancelTV = findViewById(R.id.cancelTV);
         handleCancel(cancelTV, backIV, profileIV);
 
         //Handle update orchid
-        saveTV = findViewById(R.id.saveTV);
-        handleUpdate(saveTV, orchid.getId());
+        TextView saveTV = findViewById(R.id.saveTV);
+        handleUpdate(saveTV, orchid != null ? orchid.getId() : "");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -157,12 +148,8 @@ public class MngEditOrchidScreen extends AppCompatActivity implements CategoryCo
     }
 
     private void handleCancel(TextView cancelBtn, ImageView backBtn,ImageView profileIV) {
-        cancelBtn.setOnClickListener(v ->{
-            finish();
-        });
-        backBtn.setOnClickListener(v->{
-            finish();
-        });
+        cancelBtn.setOnClickListener(l -> finish());
+        backBtn.setOnClickListener(l-> finish());
         profileIV.setOnClickListener(v->{
             Intent intentNav = new Intent(this, ManagerProfileScreen.class);
             this.startActivity(intentNav);
@@ -194,11 +181,11 @@ public class MngEditOrchidScreen extends AppCompatActivity implements CategoryCo
 
     @Override
     public void onCategorySuccessGet(List<CategoryResponse> categories) {
-        categoryAdapter = new CategoryAdapter(categories, MngEditOrchidScreen.this);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(categories, MngEditOrchidScreen.this);
         categorySpinner.setAdapter(categoryAdapter);
 
         for(int i = 0; i<categories.size(); i++) {
-            if(categories.get(i).getName().equals(currentCateName)) {
+            if(categories.get(i).getId().equals(currentCateId)) {
                 categorySpinner.setSelection(i);
             }
         }

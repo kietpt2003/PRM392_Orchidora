@@ -24,7 +24,6 @@ import com.bumptech.glide.Glide;
 import com.example.prm391_orchidora.Adapter.Category.CategoryAdapter;
 import com.example.prm391_orchidora.Controller.CategoryController;
 import com.example.prm391_orchidora.Controller.OrchidController;
-import com.example.prm391_orchidora.Models.Category.Category;
 import com.example.prm391_orchidora.Models.Category.CategoryResponse;
 import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.Models.Orchid.CreateOrchidRequest;

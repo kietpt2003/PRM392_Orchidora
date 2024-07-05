@@ -1,11 +1,18 @@
 package com.example.prm391_orchidora.Models.Orchid;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import com.example.prm391_orchidora.Models.Category.Category;
+
 import java.io.Serializable;
 
-public class OrchidResponse implements Serializable {
+public class OrchidResponse implements Parcelable {
     private String id;
     private int price;
-    private String category;
+    private Category category;
     private String color;
     private String description;
     private String img;
@@ -13,7 +20,7 @@ public class OrchidResponse implements Serializable {
     private String status;
     private String name;
 
-    public OrchidResponse(String id, int price, String category, String color, String description, String img, int quantity, String status, String name) {
+    public OrchidResponse(String id, int price, Category category, String color, String description, String img, int quantity, String status, String name) {
         this.id = id;
         this.price = price;
         this.category = category;
@@ -24,6 +31,30 @@ public class OrchidResponse implements Serializable {
         this.status = status;
         this.name = name;
     }
+
+    protected OrchidResponse(Parcel in) {
+        id = in.readString();
+        price = in.readInt();
+        category = in.readParcelable(Category.class.getClassLoader());
+        color = in.readString();
+        description = in.readString();
+        img = in.readString();
+        quantity = in.readInt();
+        status = in.readString();
+        name = in.readString();
+    }
+
+    public static final Creator<OrchidResponse> CREATOR = new Creator<OrchidResponse>() {
+        @Override
+        public OrchidResponse createFromParcel(Parcel in) {
+            return new OrchidResponse(in);
+        }
+
+        @Override
+        public OrchidResponse[] newArray(int size) {
+            return new OrchidResponse[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -41,11 +72,11 @@ public class OrchidResponse implements Serializable {
         this.price = price;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -95,5 +126,23 @@ public class OrchidResponse implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeInt(price);
+        parcel.writeParcelable(category, i);
+        parcel.writeString(color);
+        parcel.writeString(description);
+        parcel.writeString(img);
+        parcel.writeInt(quantity);
+        parcel.writeString(status);
+        parcel.writeString(name);
     }
 }

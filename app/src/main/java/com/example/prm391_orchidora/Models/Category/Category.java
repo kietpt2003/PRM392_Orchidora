@@ -1,15 +1,35 @@
 package com.example.prm391_orchidora.Models.Category;
 
-public class Category {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Category implements Parcelable {
     private String id;
     private String name;
-    private String description;
 
-    public Category(String id, String name, String description) {
+    public Category(String id, String name) {
         this.id = id;
         this.name = name;
-        this.description = description;
     }
+
+    protected Category(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+    }
+
+    public static final Creator<Category> CREATOR = new Creator<Category>() {
+        @Override
+        public Category createFromParcel(Parcel in) {
+            return new Category(in);
+        }
+
+        @Override
+        public Category[] newArray(int size) {
+            return new Category[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -27,11 +47,14 @@ public class Category {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(name);
     }
 }

@@ -12,16 +12,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.example.prm391_orchidora.Controller.CategoryController;
-import com.example.prm391_orchidora.Models.Category.Category;
 import com.example.prm391_orchidora.Models.Category.CategoryResponse;
 import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Category.ManageCategoryScreen;
 import com.example.prm391_orchidora.Utils.TokenManager;
-
 import java.util.List;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {

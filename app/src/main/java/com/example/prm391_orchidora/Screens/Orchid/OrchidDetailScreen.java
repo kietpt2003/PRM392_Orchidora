@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,13 +40,13 @@ public class OrchidDetailScreen extends AppCompatActivity {
         setContentView(R.layout.orchid_detail_layout);
 
         Intent intent = getIntent();
-        OrchidResponse orchid = (OrchidResponse) intent.getSerializableExtra("currentOrchid");
+        OrchidResponse orchid = intent.getParcelableExtra("currentOrchid");
 
         ImageView orchidImg = findViewById(R.id.orchidImg);
         Glide.with(this).load(orchid.getImg()).into(orchidImg);
 
         orchidCate = findViewById(R.id.orchidCate);
-        orchidCate.setText(orchid.getCategory());
+        orchidCate.setText(orchid.getCategory().getName());
 
         orchidName = findViewById(R.id.orchidName);
         orchidName.setText(orchid.getName());
