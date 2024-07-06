@@ -218,21 +218,6 @@ public class MngHomeScreen extends AppCompatActivity implements OrchidController
     }
 
     @Override
-    public void onCategorySuccessPut(CategoryResponse category) {
-
-    }
-
-    @Override
-    public void onCategorySuccessDelete() {
-
-    }
-
-    @Override
-    public void onCategorySuccessPost(CategoryResponse category) {
-
-    }
-
-    @Override
     public void onOrchidSuccessGet(List<OrchidResponse> orchids) {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

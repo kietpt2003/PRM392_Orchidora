@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Home.HomeScreen;
+import com.example.prm391_orchidora.Screens.Profile.ProfileScreen;
 
 public class OrchidDetailScreen extends AppCompatActivity {
     private int itemNum = 1;
@@ -70,6 +71,7 @@ public class OrchidDetailScreen extends AppCompatActivity {
         ImageView upItem = findViewById(R.id.upItem);
         ImageView downItem = findViewById(R.id.downItem);
         ImageView backBtn = findViewById(R.id.backBtn);
+        ImageView profileIV = findViewById(R.id.profileIV);
         Button addToCartBtn = findViewById(R.id.addToCartBtn);
 
         upItem.setOnClickListener(view -> {
@@ -82,6 +84,11 @@ public class OrchidDetailScreen extends AppCompatActivity {
 
         backBtn.setOnClickListener(view -> {
             this.finish();
+        });
+
+        profileIV.setOnClickListener(l ->{
+            Intent intentNav = new Intent(OrchidDetailScreen.this, ProfileScreen.class);
+            startActivity(intentNav);
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

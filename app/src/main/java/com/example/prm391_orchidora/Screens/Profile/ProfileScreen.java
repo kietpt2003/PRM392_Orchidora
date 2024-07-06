@@ -23,7 +23,7 @@ import com.example.prm391_orchidora.Screens.Auth.LoginScreen;
 import com.example.prm391_orchidora.Screens.Category.ManageCategoryScreen;
 import com.example.prm391_orchidora.Utils.TokenManager;
 
-public class ProfileScreen extends AppCompatActivity implements ProfileController.ProfileCallback {
+public class ProfileScreen extends AppCompatActivity implements ProfileController.ProfileGetCallback {
     private TextView tvName;
     private TextView tvEmail;
     private TextView tvPhoneNumber;
@@ -78,6 +78,6 @@ public class ProfileScreen extends AppCompatActivity implements ProfileControlle
 
     @Override
     public void onProfileError(ErrorResponse errorResponse) {
-        Toast.makeText(this, "Error: " + errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

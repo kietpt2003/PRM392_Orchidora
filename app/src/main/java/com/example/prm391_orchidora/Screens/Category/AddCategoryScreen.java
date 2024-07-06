@@ -21,7 +21,7 @@ import com.example.prm391_orchidora.Utils.TokenManager;
 
 import java.util.List;
 
-public class AddCategoryScreen extends AppCompatActivity implements CategoryController.CategoryGetCallBack {
+public class AddCategoryScreen extends AppCompatActivity implements CategoryController.CategoryPostCallBack {
     private Button cancelBtn;
     private Button addBtn;
     private ImageView backBtn;
@@ -69,25 +69,6 @@ public class AddCategoryScreen extends AppCompatActivity implements CategoryCont
             finish();
         });
     }
-    @Override
-    public void onCategorySuccessGet(List<CategoryResponse> categories) {
-        // Not used here
-    }
-
-    @Override
-    public void onCategoryErrorGet(ErrorResponse errorResponse) {
-        Toast.makeText(this, "Error: " + errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onCategorySuccessPut(CategoryResponse category) {
-        // Not used here
-    }
-
-    @Override
-    public void onCategorySuccessDelete() {
-        // Not used here
-    }
 
     @Override
     public void onCategorySuccessPost(CategoryResponse category) {
@@ -95,5 +76,10 @@ public class AddCategoryScreen extends AppCompatActivity implements CategoryCont
         Intent resultIntent = new Intent();
         setResult(RESULT_OK, resultIntent);
         finish();
+    }
+
+    @Override
+    public void onCategoryErrorPost(ErrorResponse errorResponse) {
+        Toast.makeText(this, errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

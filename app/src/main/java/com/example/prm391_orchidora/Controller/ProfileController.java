@@ -17,12 +17,12 @@ import retrofit2.Retrofit;
 
 public class ProfileController {
     private ProfileService profileService;
-    private ProfileCallback profileCallback;
+    private ProfileGetCallback profileGetCallback;
 
-    public ProfileController(ProfileCallback profileCallback, String authToken) {
+    public ProfileController(ProfileGetCallback profileGetCallback, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
         profileService = retrofit.create(ProfileService.class);
-        this.profileCallback = profileCallback;
+        this.profileGetCallback = profileGetCallback;
     }
 
     public void getProfile() {
@@ -31,32 +31,32 @@ public class ProfileController {
             @Override
             public void onResponse(Call<AccountResponse> call, Response<AccountResponse> response) {
                 if (response.isSuccessful()) {
-                    profileCallback.onProfileSuccess(response.body());
+                    profileGetCallback.onProfileSuccess(response.body());
                 } else {
                     try {
                         if (response.errorBody() != null) {
                             String errorBody = response.errorBody().string();
                             Gson gson = new Gson();
                             ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
-                            profileCallback.onProfileError(errorResponse);
+                            profileGetCallback.onProfileError(errorResponse);
                         } else {
-                            profileCallback.onProfileError(new ErrorResponse("Error", "Request failed with no additional information"));
+                            profileGetCallback.onProfileError(new ErrorResponse("Error", "Request failed with no additional information"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        profileCallback.onProfileError(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                        profileGetCallback.onProfileError(new ErrorResponse("Error", "An error occurred while processing the error response"));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<AccountResponse> call, Throwable t) {
-                profileCallback.onProfileError(new ErrorResponse("Error", "Request failed"));
+                profileGetCallback.onProfileError(new ErrorResponse("Error", "Request failed"));
             }
         });
     }
 
-    public interface ProfileCallback {
+    public interface ProfileGetCallback {
         void onProfileSuccess(AccountResponse accountResponse);
         void onProfileError(ErrorResponse errorResponse);
     }

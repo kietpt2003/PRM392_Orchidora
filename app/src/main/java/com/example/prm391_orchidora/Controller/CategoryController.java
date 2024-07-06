@@ -21,11 +21,29 @@ import retrofit2.Retrofit;
 public class CategoryController {
     private CategoryService categoryService;
     private CategoryGetCallBack categoryGetCallBack;
+    private CategoryPostCallBack categoryPostCallBack;
+    private CategoryPutCallBack categoryPutCallBack;
+    private CategoryDeleteCallBack categoryDeleteCallBack;
 
     public CategoryController(CategoryController.CategoryGetCallBack categoryGetCallBack, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
         categoryService = retrofit.create(CategoryService.class);
         this.categoryGetCallBack = categoryGetCallBack;
+    }
+    public CategoryController(CategoryController.CategoryPostCallBack categoryPostCallBack, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        categoryService = retrofit.create(CategoryService.class);
+        this.categoryPostCallBack = categoryPostCallBack;
+    }
+    public CategoryController(CategoryController.CategoryPutCallBack categoryPutCallBack, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        categoryService = retrofit.create(CategoryService.class);
+        this.categoryPutCallBack = categoryPutCallBack;
+    }
+    public CategoryController(CategoryController.CategoryDeleteCallBack categoryDeleteCallBack, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        categoryService = retrofit.create(CategoryService.class);
+        this.categoryDeleteCallBack = categoryDeleteCallBack;
     }
 
     public void fetchCategories() {
@@ -68,27 +86,27 @@ public class CategoryController {
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
                 if (response.isSuccessful()) {
                     // Notify the UI about the successful update
-                    categoryGetCallBack.onCategorySuccessPut(response.body());
+                    categoryPutCallBack.onCategorySuccessPut(response.body());
                 } else {
                     try {
                         if (response.errorBody() != null) {
                             String errorBody = response.errorBody().string();
                             Gson gson = new Gson();
                             ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
-                            categoryGetCallBack.onCategoryErrorGet(errorResponse);
+                            categoryPutCallBack.onCategoryErrorPut(errorResponse);
                         } else {
-                            categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "Request failed with no additional information"));
+                            categoryPutCallBack.onCategoryErrorPut(new ErrorResponse("Error", "Request failed with no additional information"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                        categoryPutCallBack.onCategoryErrorPut(new ErrorResponse("Error", "An error occurred while processing the error response"));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<CategoryResponse> call, Throwable throwable) {
-                categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "Request fail"));
+                categoryPutCallBack.onCategoryErrorPut(new ErrorResponse("Error", "Request fail"));
             }
         });
     }
@@ -100,27 +118,27 @@ public class CategoryController {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     // Notify the UI about the successful delete
-                    categoryGetCallBack.onCategorySuccessDelete();
+                    categoryDeleteCallBack.onCategorySuccessDelete();
                 } else {
                     try {
                         if (response.errorBody() != null) {
                             String errorBody = response.errorBody().string();
                             Gson gson = new Gson();
                             ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
-                            categoryGetCallBack.onCategoryErrorGet(errorResponse);
+                            categoryDeleteCallBack.onCategoryErrorDelete(errorResponse);
                         } else {
-                            categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "Request failed with no additional information"));
+                            categoryDeleteCallBack.onCategoryErrorDelete(new ErrorResponse("Error", "Request failed with no additional information"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                        categoryDeleteCallBack.onCategoryErrorDelete(new ErrorResponse("Error", "An error occurred while processing the error response"));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable throwable) {
-                categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "Request failed"));
+                categoryDeleteCallBack.onCategoryErrorDelete(new ErrorResponse("Error", "Request failed"));
             }
         });
     }
@@ -131,27 +149,27 @@ public class CategoryController {
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
                 if (response.isSuccessful()) {
                     // Notify the UI about the successful creation
-                    categoryGetCallBack.onCategorySuccessPost(response.body());
+                    categoryPostCallBack.onCategorySuccessPost(response.body());
                 } else {
                     try {
                         if (response.errorBody() != null) {
                             String errorBody = response.errorBody().string();
                             Gson gson = new Gson();
                             ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
-                            categoryGetCallBack.onCategoryErrorGet(errorResponse);
+                            categoryPostCallBack.onCategoryErrorPost(errorResponse);
                         } else {
-                            categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "Request failed with no additional information"));
+                            categoryPostCallBack.onCategoryErrorPost(new ErrorResponse("Error", "Request failed with no additional information"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                        categoryPostCallBack.onCategoryErrorPost(new ErrorResponse("Error", "An error occurred while processing the error response"));
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<CategoryResponse> call, Throwable throwable) {
-                categoryGetCallBack.onCategoryErrorGet(new ErrorResponse("Error", "Request failed"));
+                categoryPostCallBack.onCategoryErrorPost(new ErrorResponse("Error", "Request failed"));
             }
         });
     }
@@ -159,13 +177,19 @@ public class CategoryController {
 
     public interface CategoryGetCallBack{
         void onCategorySuccessGet(List<CategoryResponse> categories);
-
         void onCategoryErrorGet(ErrorResponse errorResponse);
+    }
 
-        void onCategorySuccessPut(CategoryResponse category);
-
-        void onCategorySuccessDelete();
-
+    public interface CategoryPostCallBack{
         void onCategorySuccessPost(CategoryResponse category);
+        void onCategoryErrorPost(ErrorResponse errorResponse);
+    }
+    public interface CategoryPutCallBack{
+        void onCategorySuccessPut(CategoryResponse category);
+        void onCategoryErrorPut(ErrorResponse errorResponse);
+    }
+    public interface CategoryDeleteCallBack{
+        void onCategorySuccessDelete();
+        void onCategoryErrorDelete(ErrorResponse errorResponse);
     }
 }

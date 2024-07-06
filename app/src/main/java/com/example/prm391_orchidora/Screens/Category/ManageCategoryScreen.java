@@ -83,7 +83,7 @@ public class ManageCategoryScreen extends AppCompatActivity implements CategoryC
             intent.putExtra("CATEGORY_ID", category.getId());
             intent.putExtra("CATEGORY_NAME", category.getName());
             startActivityForResult(intent, EDIT_CATEGORY_REQUEST_CODE);
-        });
+        }, token);
         category_list.setAdapter(adapter);
     }
 
@@ -91,22 +91,6 @@ public class ManageCategoryScreen extends AppCompatActivity implements CategoryC
     public void onCategoryErrorGet(ErrorResponse errorResponse) {
         Log.e("ManageCategoryScreen", "Error: " + errorResponse.getMessage());
         // Handle error scenario here
-    }
-
-    @Override
-    public void onCategorySuccessPut(CategoryResponse category) {
-        // Refresh category list after successful update
-        fetchCategories();
-    }
-
-    @Override
-    public void onCategorySuccessDelete() {
-        fetchCategories(); // Refresh categories on successful delete
-    }
-
-    @Override
-    public void onCategorySuccessPost(CategoryResponse category) {
-        fetchCategories();
     }
 
     @Override

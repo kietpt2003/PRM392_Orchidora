@@ -22,7 +22,7 @@ import com.example.prm391_orchidora.Utils.TokenManager;
 
 import java.util.List;
 
-public class EditCategoryActivity extends AppCompatActivity implements CategoryController.CategoryGetCallBack {
+public class EditCategoryActivity extends AppCompatActivity implements CategoryController.CategoryPutCallBack {
     private EditText editCategoryName;
     private Button cancelBtn;
     private ImageView backBtn;
@@ -87,15 +87,6 @@ public class EditCategoryActivity extends AppCompatActivity implements CategoryC
             finish();
         });
     }
-    @Override
-    public void onCategorySuccessGet(List<CategoryResponse> categories) {
-        // This method is not used in EditCategoryActivity
-    }
-
-    @Override
-    public void onCategoryErrorGet(ErrorResponse errorResponse) {
-        Toast.makeText(this, "Error: " + errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onCategorySuccessPut(CategoryResponse category) {
@@ -106,12 +97,7 @@ public class EditCategoryActivity extends AppCompatActivity implements CategoryC
     }
 
     @Override
-    public void onCategorySuccessDelete() {
-
-    }
-
-    @Override
-    public void onCategorySuccessPost(CategoryResponse category) {
-
+    public void onCategoryErrorPut(ErrorResponse errorResponse) {
+        Toast.makeText(this, errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

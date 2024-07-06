@@ -175,21 +175,6 @@ public class CreateOrchidScreen extends AppCompatActivity implements CategoryCon
     }
 
     @Override
-    public void onCategorySuccessPut(CategoryResponse category) {
-
-    }
-
-    @Override
-    public void onCategorySuccessDelete() {
-
-    }
-
-    @Override
-    public void onCategorySuccessPost(CategoryResponse category) {
-
-    }
-
-    @Override
     public void onOrchidSuccessPost(OrchidResponse orchid) {
         Toast.makeText(this, "Create success", Toast.LENGTH_SHORT).show();
         Intent resultIntent = new Intent();
