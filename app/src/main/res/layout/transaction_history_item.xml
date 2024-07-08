@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingStart="10dp"
-            android:text="Store Name"
+            android:text="Orchidora"
             android:textColor="#BFA4DC"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -48,7 +48,7 @@
             android:scaleType="centerCrop" />
 
         <LinearLayout
-            android:layout_width="200dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -73,11 +73,13 @@
             android:id="@+id/productQuantityTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_margin="25dp"
             android:layout_marginEnd="10dp"
             android:gravity="center_vertical"
             android:text="x2"
-            android:textSize="14sp" />
+            android:textStyle="bold"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <!-- Total Layout -->
@@ -89,10 +91,18 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:text="Total: "
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="See more Orchids"
+        android:textColor="#888888"
+        android:padding="5dp"
 
+/>
     <!-- Status Layout -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -106,10 +116,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/transaction_history_local_shipping_icon"
-            app:tint="#FFA500" />
+            app:tint="@color/colorConfirming" />
 
         <TextView
-            android:id="@+id/statusTextTextView"
+            android:id="@+id/statusTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -124,7 +134,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#CBCBC8"
-        android:padding="5dp"
-        android:layout_marginTop="10dp">
+        android:padding="4dp"
+        android:layout_marginTop="4dp">
 </LinearLayout>
 </LinearLayout>

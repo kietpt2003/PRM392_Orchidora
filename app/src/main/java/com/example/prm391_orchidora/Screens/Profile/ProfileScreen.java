@@ -21,6 +21,7 @@ import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Auth.LoginScreen;
 import com.example.prm391_orchidora.Screens.Category.ManageCategoryScreen;
+import com.example.prm391_orchidora.Screens.Transaction.TransactionHistoryScreen;
 import com.example.prm391_orchidora.Utils.TokenManager;
 
 public class ProfileScreen extends AppCompatActivity implements ProfileController.ProfileGetCallback {
@@ -29,6 +30,7 @@ public class ProfileScreen extends AppCompatActivity implements ProfileControlle
     private TextView tvPhoneNumber;
     private TextView tvAddress;
     private ProfileController profileController;
+    private LinearLayout transactionHistorySection;
     private String token;
     private LinearLayout logOut;
 
@@ -43,6 +45,13 @@ public class ProfileScreen extends AppCompatActivity implements ProfileControlle
         tvEmail = findViewById(R.id.tvEmail);
         tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
         tvAddress = findViewById(R.id.tvAddress);
+
+        // Manager Order Screen
+        transactionHistorySection = findViewById(R.id.transactionHistorySection);
+        transactionHistorySection.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileScreen.this, TransactionHistoryScreen.class); // Replace with your target activity
+            startActivity(intent);
+        });
 
         // Logout and clearToken
         logOut = findViewById(R.id.logOut);
