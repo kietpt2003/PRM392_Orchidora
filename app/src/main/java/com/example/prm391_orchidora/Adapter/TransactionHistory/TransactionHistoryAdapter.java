@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,13 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
         holder.totalTextView.setText("Total: $" + transaction.getOrderPayment().getAmount());
         holder.totalTextView.setTextColor(Color.parseColor("#BFA4DC"));
         holder.statusTextView.setText(transaction.getStatus());
+
+        if (position == transactions.size() - 1) {
+            holder.separatorLayout.setVisibility(View.GONE);
+        } else {
+            holder.separatorLayout.setVisibility(View.VISIBLE);
+        }
+
 
         int statusTextColor;
         switch (transaction.getStatus()) {
@@ -99,6 +107,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
         private TextView totalTextView;
         private TextView statusTextView;
         private ImageView statusIconImageView;
+        private LinearLayout separatorLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,6 +119,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
             totalTextView = itemView.findViewById(R.id.totalTextView);
             statusTextView = itemView.findViewById(R.id.statusTextView);
             statusIconImageView = itemView.findViewById(R.id.statusIconImageView);
+            separatorLayout = itemView.findViewById(R.id.separatorLayout);
         }
     }
 }
