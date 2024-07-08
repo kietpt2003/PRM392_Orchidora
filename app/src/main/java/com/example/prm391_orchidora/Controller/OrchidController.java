@@ -1,7 +1,5 @@
 package com.example.prm391_orchidora.Controller;
 
-import android.util.Log;
-
 import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.Models.Orchid.CreateOrchidRequest;
 import com.example.prm391_orchidora.Models.Orchid.OrchidDataResponse;
@@ -27,11 +25,18 @@ public class OrchidController {
     private OrchidActivateCallback orchidActivateCallback;
     private OrchidDeactivateCallback orchidDeactivateCallback;
     private OrchidPutCallback orchidPutCallback;
+    private OrchidGetByIdCartCallback orchidGetByIdCartCallback;
 
     public OrchidController(OrchidGetByIdCallback orchidGetByIdCallback, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
         orchidService = retrofit.create(OrchidService.class);
         this.orchidGetByIdCallback = orchidGetByIdCallback;
+    }
+
+    public OrchidController(OrchidGetByIdCartCallback orchidGetByIdCartCallback, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        orchidService = retrofit.create(OrchidService.class);
+        this.orchidGetByIdCartCallback = orchidGetByIdCartCallback;
     }
 
     public OrchidController(OrchidGetCallback orchidGetCallback, String authToken) {
@@ -99,6 +104,39 @@ public class OrchidController {
             @Override
             public void onFailure(Call<OrchidResponse> call, Throwable throwable) {
                 orchidGetByIdCallback.onOrchidByIdErrorGet(new ErrorResponse("Error", "Request fail"));
+            }
+        });
+    }
+
+    public void fetchOrchidByIdCart(String id, int quantity, boolean isSelected) {
+        Call<OrchidResponse> call = orchidService.getOrchidById(id);
+        call.enqueue(new Callback<OrchidResponse>() {
+            @Override
+            public void onResponse(Call<OrchidResponse> call, Response<OrchidResponse> response) {
+                if (response.isSuccessful()) {
+                    orchidGetByIdCartCallback.onOrchidByIdCartSuccessGet(response.body(), quantity, isSelected);
+                } else {
+                    try {
+                        // Xử lý phản hồi không thành công
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            // Chuyển đổi errorBody thành đối tượng ErrorResponse
+                            Gson gson = new Gson();
+                            ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
+                            orchidGetByIdCartCallback.onOrchidByIdCartErrorGet(errorResponse);
+                        } else {
+                            orchidGetByIdCartCallback.onOrchidByIdCartErrorGet(new ErrorResponse("Error","Request failed with no additional information"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        orchidGetByIdCartCallback.onOrchidByIdCartErrorGet(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrchidResponse> call, Throwable throwable) {
+                orchidGetByIdCartCallback.onOrchidByIdCartErrorGet(new ErrorResponse("Error", "Request fail"));
             }
         });
     }
@@ -305,6 +343,12 @@ public class OrchidController {
         void onOrchidByIdSuccessGet(OrchidResponse orchid);
 
         void onOrchidByIdErrorGet(ErrorResponse errorMessage);
+    }
+
+    public interface OrchidGetByIdCartCallback {
+        void onOrchidByIdCartSuccessGet(OrchidResponse orchid, int quantity, boolean isSelected);
+
+        void onOrchidByIdCartErrorGet(ErrorResponse errorMessage);
     }
 
     public interface OrchidGetCallback {

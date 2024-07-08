@@ -42,23 +42,24 @@
                     android:id="@+id/cart_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cart (3)"
+                    android:layout_centerInParent="true"
+                    android:text="Cart (0)"
                     android:textColor="#767474"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_centerInParent="true" />
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
             <!-- Cart items RecyclerView inside a CardView -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/CardView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="12dp"
+                android:background="@color/white"
                 app:cardCornerRadius="6dp"
-                app:cardElevation="2dp"
-                android:background="@color/white">
+                app:cardElevation="2dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
@@ -67,6 +68,21 @@
                     android:layout_marginVertical="10dp"
                     android:background="@color/white" />
             </androidx.cardview.widget.CardView>
+
+            <!-- Empty cart message -->
+            <TextView
+                android:id="@+id/empty_cart_text"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="12dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Giỏ hàng trống"
+                android:textAlignment="center"
+                android:textColor="#767474"
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <!-- Divider lines and centered text -->
             <LinearLayout

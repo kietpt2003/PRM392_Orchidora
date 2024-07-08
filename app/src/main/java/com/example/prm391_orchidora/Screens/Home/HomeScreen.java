@@ -28,6 +28,8 @@ import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Cart.CartScreen;
 import com.example.prm391_orchidora.Screens.Profile.ProfileScreen;
+import com.example.prm391_orchidora.Services.CartService;
+import com.example.prm391_orchidora.Utils.Database;
 import com.example.prm391_orchidora.Utils.TokenManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -48,6 +50,8 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
     private String searchInput = "";
     private String categorySelectedId = "";
     private SearchView searchView;
+    private TextView itemNumber;
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +60,38 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
         setContentView(R.layout.home_layout);
 
         token = new TokenManager().getToken(this);
+        handleDB();
 
+        getHomeScreen();
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    private void handleGetCartNumber(){
+        CartService cartService = new CartService(db, token);
+        itemNumber = findViewById(R.id.itemNumber);
+        cartService.getCarts(cartItems -> {
+            if (cartItems.isEmpty()) {
+                itemNumber.setText(0 + "");
+            } else {
+                itemNumber.setText(cartItems.size() + "");
+            }
+        });
+    }
+
+    private void handleDB(){
+        db = new Database(this, "OrchidList.sqlite", null, 1);
+        // Tạo bảng OrchidList nếu chưa tồn tại
+        db.queryData("CREATE TABLE IF NOT EXISTS OrchidList(id NVARCHAR(200), quantity INTEGER, isSelected INTERGER)");
+    }
+    private void getHomeScreen(){
         //Orchid list
         orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
         orchidController.fetchOrchids("", "ACTIVE");
-
-//        ImageView imageView = findViewById(R.id.footballer_image);
-//        Glide.with(this).load("https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/125px-Flag_of_France.svg.png").into(imageView);
 
         //Cart Screen
         cartLayout = findViewById(R.id.cart);
@@ -97,12 +126,6 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
                 return false;
             }
         });
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
     }
 
     private void handleSearchInput(String searchText) {
@@ -124,6 +147,7 @@ public class HomeScreen extends AppCompatActivity implements OrchidController.Or
         searchView.setQuery("", false);
         orchidController = new OrchidController((OrchidController.OrchidGetCallback) this, token);
         orchidController.fetchOrchids("", "ACTIVE");
+        handleGetCartNumber();
     }
 
 

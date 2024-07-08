@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-import com.example.prm391_orchidora.Models.ManageOrder.ManageOrder;
+import com.example.prm391_orchidora.Models.Order.ManageOrder;
 import com.example.prm391_orchidora.R;
 import java.util.List;
 public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.ViewHolder> {

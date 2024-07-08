@@ -73,7 +73,7 @@
                         app:srcCompat="@drawable/home_cart_icon_badge" />
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/itemNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="4"

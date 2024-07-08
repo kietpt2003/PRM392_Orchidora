@@ -1,11 +1,15 @@
 package com.example.prm391_orchidora.Adapter.Cart;
 
+import android.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.prm391_orchidora.Models.CartItem;
 import com.example.prm391_orchidora.Models.Orchid.OrchidOld;
+import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
+import com.example.prm391_orchidora.Screens.Orchid.OrchidDetailScreen;
+import com.example.prm391_orchidora.Services.CartService;
+import com.example.prm391_orchidora.Utils.Database;
 
 import java.util.List;
 
@@ -21,10 +29,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private List<CartItem> cartItemList;
     private static OnQuantityChangedListener onQuantityChangedListener;
+    private AlertDialog.Builder alertDialog;
+    private Database db;
+    private String token;
 
-    public CartAdapter(List<CartItem> cartItemList, OnQuantityChangedListener onQuantityChangedListener) {
+    public CartAdapter(List<CartItem> cartItemList, OnQuantityChangedListener onQuantityChangedListener, Database db, String token) {
         this.cartItemList = cartItemList;
         this.onQuantityChangedListener = onQuantityChangedListener;
+        this.db = db;
+        this.token = token;
     }
 
     @NonNull
@@ -37,7 +50,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CartItem cartItem = cartItemList.get(position);
-        holder.bind(cartItem);
+        holder.bind(cartItem, db, token);
     }
 
     @Override
@@ -67,40 +80,56 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             buttonIncreaseQuantity = itemView.findViewById(R.id.button_increase_quantity);
         }
 
-        void bind(CartItem cartItem) {
-            OrchidOld orchid = cartItem.getOrchid();
+        void bind(CartItem cartItem, Database db, String token) {
+            OrchidResponse orchid = cartItem.getOrchid();
             Glide.with(itemView.getContext())
-                    .load(orchid.getImageUrl())
+                    .load(orchid.getImg())
                     .into(imageOrchid);
 
             textName.setText(orchid.getName());
-            textCategory.setText(orchid.getCategory());
-            textPrice.setText(String.format("$%.2f", orchid.getPrice()));
-            textQuantity.setText(String.valueOf(cartItem.getQuantity()));
+            textCategory.setText(orchid.getCategory().getName());
+            textPrice.setText(orchid.getPrice()+" VND");
+            textQuantity.setText(cartItem.getQuantity()+"");
             checkboxSelect.setChecked(cartItem.isSelected());
 
+            CartService cartService = new CartService(db,token);
+
             buttonDecreaseQuantity.setOnClickListener(v -> {
-                int newQuantity = Math.max(cartItem.getQuantity() - 1, 1);
-                cartItem.setQuantity(newQuantity);
-                textQuantity.setText(String.valueOf(newQuantity));
-                onQuantityChangedListener.onQuantityChanged();
+                int newQuantity = cartItem.getQuantity() - 1;
+                if (newQuantity >= 1) {
+                    cartItem.setQuantity(newQuantity);
+                    textQuantity.setText(String.valueOf(newQuantity));
+                    db.queryData("UPDATE OrchidList SET quantity = " + newQuantity + " WHERE id = '" + orchid.getId() + "'");
+                    onQuantityChangedListener.onQuantityChangedSuccess("Decrease Success");
+                } else {
+                    onQuantityChangedListener.onQuantityChangedDelete(orchid.getId());
+                }
             });
 
             buttonIncreaseQuantity.setOnClickListener(v -> {
                 int newQuantity = cartItem.getQuantity() + 1;
-                cartItem.setQuantity(newQuantity);
-                textQuantity.setText(String.valueOf(newQuantity));
-                onQuantityChangedListener.onQuantityChanged();
+                if (newQuantity <= orchid.getQuantity()){
+                    cartItem.setQuantity(newQuantity);
+                    textQuantity.setText(String.valueOf(newQuantity));
+                    db.queryData("UPDATE OrchidList SET quantity = " + newQuantity + " WHERE id = '" + orchid.getId() + "'");
+                    onQuantityChangedListener.onQuantityChangedSuccess("Increase Success");
+                } else {
+                    onQuantityChangedListener.onQuantityChangedFail("Quantity exceeds available stock.");
+                }
             });
 
             checkboxSelect.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 cartItem.setSelected(isChecked);
-                onQuantityChangedListener.onQuantityChanged();
+                db.queryData("UPDATE OrchidList SET isSelected = " + (isChecked ? 1 : 0) + " WHERE id = '" + orchid.getId() + "'");
+                onQuantityChangedListener.onQuantityChangedSuccess(isChecked ?"Select success":"Unselect success");
             });
         }
     }
 
+
     public interface OnQuantityChangedListener {
-        void onQuantityChanged();
+        void onQuantityChangedSuccess(String content);
+        void onQuantityChangedDelete(String id);
+        void onQuantityChangedFail(String content);
     }
 }

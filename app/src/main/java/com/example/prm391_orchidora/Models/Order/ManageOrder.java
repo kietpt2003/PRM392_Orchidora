@@ -1,4 +1,4 @@
-package com.example.prm391_orchidora.Models.ManageOrder;
+package com.example.prm391_orchidora.Models.Order;
 
 public class ManageOrder {
     private int storeIcon;

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm391_orchidora.Adapter.Order.ManageOrderAdapter;
-import com.example.prm391_orchidora.Models.ManageOrder.ManageOrder;
+import com.example.prm391_orchidora.Models.Order.ManageOrder;
 import com.example.prm391_orchidora.R;
 import java.util.ArrayList;
 import java.util.List;
