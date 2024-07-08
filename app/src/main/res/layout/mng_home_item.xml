@@ -33,7 +33,7 @@
                 android:textStyle="bold"
                 tools:text="Moth Orchid" />
             <TextView
-                android:id="@+id/text_quantity"
+                android:id="@+id/txt_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -64,7 +64,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/text_price"
+            android:id="@+id/txt_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
