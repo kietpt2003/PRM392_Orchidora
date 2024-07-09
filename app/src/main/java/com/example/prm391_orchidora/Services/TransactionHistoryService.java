@@ -9,4 +9,7 @@ import retrofit2.http.Query;
 public interface TransactionHistoryService {
     @GET("orders/current")
     Call<TransactionHistoryResponse> getCurrentOrders(@Query("status") String status);
+
+    @GET("orders")
+    Call<TransactionHistoryResponse> getAllOrders(@Query("status") String status);
 }

@@ -21,6 +21,8 @@ import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Auth.LoginScreen;
 import com.example.prm391_orchidora.Screens.Category.ManageCategoryScreen;
+import com.example.prm391_orchidora.Screens.Order.ManageOrderScreen;
+import com.example.prm391_orchidora.Screens.Transaction.TransactionHistoryScreen;
 import com.example.prm391_orchidora.Utils.TokenManager;
 
 public class ManagerProfileScreen extends AppCompatActivity implements ProfileController.ProfileGetCallback {
@@ -31,6 +33,7 @@ public class ManagerProfileScreen extends AppCompatActivity implements ProfileCo
     private ProfileController profileController;
     private String token;
     private LinearLayout manageCategorySection;
+    private LinearLayout manageOrderSection;
     private LinearLayout logOut;
 
     @SuppressLint("MissingInflatedId")
@@ -50,6 +53,13 @@ public class ManagerProfileScreen extends AppCompatActivity implements ProfileCo
            Intent intent = new Intent(ManagerProfileScreen.this, ManageCategoryScreen.class); // Replace with your target activity
             startActivity(intent);
         });
+        // Manager Order Screen
+        manageOrderSection = findViewById(R.id.manageOrderSection);
+        manageOrderSection.setOnClickListener(v -> {
+            Intent intent = new Intent(ManagerProfileScreen.this, ManageOrderScreen.class); // Replace with your target activity
+            startActivity(intent);
+        });
+
         // Logout and clearToken
         logOut = findViewById(R.id.logOut);
         logOut.setOnClickListener(v -> {
