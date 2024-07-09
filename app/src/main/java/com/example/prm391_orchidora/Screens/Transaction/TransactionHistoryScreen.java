@@ -2,6 +2,7 @@ package com.example.prm391_orchidora.Screens.Transaction;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
