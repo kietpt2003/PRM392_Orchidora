@@ -1,6 +1,8 @@
 package com.example.prm391_orchidora.Screens.Cart;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +32,7 @@ import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.Models.Order.CreateOrderRequest;
 import com.example.prm391_orchidora.Models.Order.OrderItemRequest;
+import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.Models.Payment.PaymentResponseData;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Adapter.Orchid.OrchidAdapter;
@@ -40,7 +43,7 @@ import com.example.prm391_orchidora.Utils.TokenManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuantityChangedListener, OrchidController.OrchidGetCallback, PaymentController.PostPaymentCallBack {
+public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuantityChangedListener, OrchidController.OrchidGetCallback, PaymentController.PostPaymentCallBack, PaymentController.GetPaymentByIdCallBack {
 
     private RecyclerView recyclerView;
     private AlertDialog.Builder alertDialog;
@@ -60,6 +63,8 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
     private int total;
     private TextView buyBtn;
     private PaymentController paymentController;
+    private boolean navigatedToBrowser = false;
+    private String orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,30 +76,7 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
 
         text_price = findViewById(R.id.txt_price);
         buyBtn = findViewById(R.id.buyBtn);
-        buyBtn.setOnClickListener(v->{
-            CartService cartService = new CartService(db, token);
-            cartService.getCarts(cartItems -> {
-                if(cartItems.isEmpty()){
-                    showAlert("Empty cart", "Your cart is empty!");
-                } else {
-                    List<OrderItemRequest> listItems = new ArrayList<>();
-                    for (CartItem item: cartItems) {
-                        if (item.isSelected()){
-                            OrderItemRequest orderItemRequest = new OrderItemRequest(item.getOrchid().getId(), item.getQuantity());
-                            listItems.add(orderItemRequest);
-                        }
-                    }
-                    if (listItems.isEmpty()){
-                        showAlert("Empty payment", "Please choose orchid(s) for paying!");
-                    } else {
-                        paymentController = new PaymentController(this, token);
-                        CreateOrderRequest createOrderRequest = new CreateOrderRequest(listItems);
-                        paymentController.createOrder(createOrderRequest);
-                    }
-                }
-            });
-
-        });
+        handlePayment();
 
         handleDB();
         handleGetCart();
@@ -123,6 +105,52 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
         orchidController = new OrchidController( this, token);
         orchidController.fetchOrchids("", "ACTIVE");
         handleGetCheckAll();
+        if (navigatedToBrowser) {
+            navigatedToBrowser = false; // Reset the flag
+
+            // Handle your custom logic here, e.g., showing a message or updating the UI
+            paymentController = new PaymentController((PaymentController.GetPaymentByIdCallBack) this, token);
+            if(orderId != null){
+                paymentController.fetchOrderById(orderId);
+            }
+        }
+    }
+
+    // Method to open a web page
+    private void openWebPage(String url) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            navigatedToBrowser = true; // Set the flag to true when the URL is opened
+            startActivity(intent);
+        }
+    }
+
+    private void handlePayment(){
+        buyBtn.setOnClickListener(v->{
+            CartService cartService = new CartService(db, token);
+            cartService.getCarts(cartItems -> {
+                if(cartItems.isEmpty()){
+                    showAlert("Empty cart", "Your cart is empty!");
+                } else {
+                    List<OrderItemRequest> listItems = new ArrayList<>();
+                    for (CartItem item: cartItems) {
+                        if (item.isSelected()){
+                            OrderItemRequest orderItemRequest = new OrderItemRequest(item.getOrchid().getId(), item.getQuantity());
+                            listItems.add(orderItemRequest);
+                        }
+                    }
+                    if (listItems.isEmpty()){
+                        showAlert("Empty payment", "Please choose orchid(s) for paying!");
+                    } else {
+                        paymentController = new PaymentController((PaymentController.PostPaymentCallBack) this, token);
+                        CreateOrderRequest createOrderRequest = new CreateOrderRequest(listItems);
+                        paymentController.createOrder(createOrderRequest);
+                    }
+                }
+            });
+
+        });
     }
 
     private void showAlert(String title, String content) {
@@ -261,11 +289,22 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
 
     @Override
     public void onPostPaymentSuccess(PaymentResponseData paymentResponseData) {
-        Toast.makeText(this, paymentResponseData.getCheckoutUrl(), Toast.LENGTH_SHORT).show();
+        orderId = paymentResponseData.getId();
+        openWebPage(paymentResponseData.getCheckoutUrl());
     }
 
     @Override
     public void onPostPaymentError(ErrorResponse errorResponse) {
+        Toast.makeText(this, errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetPaymentByIdSuccess(OrderResponse orderResponse) {
+
+    }
+
+    @Override
+    public void onGetPaymentByIdError(ErrorResponse errorResponse) {
         Toast.makeText(this, errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

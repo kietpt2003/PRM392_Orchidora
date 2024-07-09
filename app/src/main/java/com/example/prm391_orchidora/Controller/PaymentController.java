@@ -4,6 +4,7 @@ import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.Models.Orchid.CreateOrchidRequest;
 import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.Models.Order.CreateOrderRequest;
+import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.Models.Payment.PaymentResponseData;
 import com.example.prm391_orchidora.Services.ApiService;
 import com.example.prm391_orchidora.Services.PaymentService;
@@ -19,11 +20,17 @@ import retrofit2.Retrofit;
 public class PaymentController {
     private PaymentService paymentService;
     private PostPaymentCallBack postPaymentCallBack;
+    private GetPaymentByIdCallBack getPaymentByIdCallBack;
 
     public PaymentController(PaymentController.PostPaymentCallBack postPaymentCallBack, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
         paymentService = retrofit.create(PaymentService.class);
         this.postPaymentCallBack = postPaymentCallBack;
+    }
+    public PaymentController(PaymentController.GetPaymentByIdCallBack getPaymentByIdCallBack, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        paymentService = retrofit.create(PaymentService.class);
+        this.getPaymentByIdCallBack = getPaymentByIdCallBack;
     }
 
     public void createOrder(CreateOrderRequest createOrderRequest) {
@@ -43,7 +50,7 @@ public class PaymentController {
                             ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
                             postPaymentCallBack.onPostPaymentError(errorResponse);
                         } else {
-                            postPaymentCallBack.onPostPaymentError(new ErrorResponse("Error","Request failed with no additional information"));
+                            postPaymentCallBack.onPostPaymentError(new ErrorResponse("Error", "Request failed with no additional information"));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -59,8 +66,47 @@ public class PaymentController {
         });
     }
 
-    public interface PostPaymentCallBack{
+    public void fetchOrderById(String id) {
+        Call<OrderResponse> call = paymentService.getOrderById(id);
+        call.enqueue(new Callback<OrderResponse>() {
+            @Override
+            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                if (response.isSuccessful()) {
+                    getPaymentByIdCallBack.onGetPaymentByIdSuccess(response.body());
+                } else {
+                    try {
+                        // Xử lý phản hồi không thành công
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            // Chuyển đổi errorBody thành đối tượng ErrorResponse
+                            Gson gson = new Gson();
+                            ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
+                            getPaymentByIdCallBack.onGetPaymentByIdError(errorResponse);
+                        } else {
+                            getPaymentByIdCallBack.onGetPaymentByIdError(new ErrorResponse("Error", "Request failed with no additional information"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        getPaymentByIdCallBack.onGetPaymentByIdError(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderResponse> call, Throwable throwable) {
+                getPaymentByIdCallBack.onGetPaymentByIdError(new ErrorResponse("Error", "Request fail"));
+            }
+        });
+    }
+
+    public interface GetPaymentByIdCallBack {
+        void onGetPaymentByIdSuccess(OrderResponse orderResponse);
+        void onGetPaymentByIdError(ErrorResponse errorResponse);
+    }
+
+    public interface PostPaymentCallBack {
         void onPostPaymentSuccess(PaymentResponseData paymentResponseData);
+
         void onPostPaymentError(ErrorResponse errorResponse);
     }
 }
