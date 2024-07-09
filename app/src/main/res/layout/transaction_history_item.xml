@@ -70,7 +70,7 @@
             android:layout_margin="25dp"
             android:layout_marginEnd="10dp"
             android:gravity="center_vertical"
-            android:text="x2"
+            android:text="x0"
             android:textStyle="bold"
             android:textSize="18sp" />
     </LinearLayout>
@@ -83,7 +83,7 @@
         android:layout_gravity="end"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
-        android:text="Total: "
+        android:text="Total: 0"
         android:textSize="16sp"
         android:textStyle="bold"
         />
@@ -94,8 +94,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:padding="5dp"
-
         android:text="Detail"
         android:textColor="#888888" />
     <!-- Status Layout -->

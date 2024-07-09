@@ -21,7 +21,7 @@ public class ManageOrderDetailAdapter extends RecyclerView.Adapter<ManageOrderDe
     private List<ManageOrderDetail> orchidList;
     private Context context;
 
-    public ManageOrderDetailAdapter(Context context, List<ManageOrderDetail> orchidList) {
+    public ManageOrderDetailAdapter(List<ManageOrderDetail> orchidList) {
         this.context = context;
         this.orchidList = orchidList;
     }
