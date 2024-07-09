@@ -100,7 +100,7 @@ public class MngOrchidAdapter extends RecyclerView.Adapter<MngOrchidAdapter.View
             textQuantity.setText("("+orchid.getQuantity()+")");
             textName.setText(orchid.getName());
             textCategory.setText(orchid.getCategory().getName());
-            textPrice.setText("$"+orchid.getPrice());
+            textPrice.setText(orchid.getPrice()+" VND");
             if (orchid.getStatus().equals("ACTIVE")){
                 textStatus.setText("AVAILABLE");
                 textStatus.setTextColor(Color.parseColor("#4CAF50")); //Green

@@ -44,7 +44,7 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.OrchidView
         holder.orchidNameTextView.setText(orchid.getName());
         holder.orchidCategoryTextView.setText(orchid.getCategory());
         holder.orchidQuantityTextView.setText("x" + orchid.getQuantity());
-        holder.orchidPriceTextView.setText("$" + (orchid.getQuantity() * orchid.getPrice()));
+        holder.orchidPriceTextView.setText((orchid.getQuantity() * orchid.getPrice())+" VND");
     }
 
     @Override
