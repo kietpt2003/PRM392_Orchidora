@@ -11,9 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.prm391_orchidora.Models.ManageOrderDetail.ManageOrderDetail;
 import com.example.prm391_orchidora.Models.Order.OrderItemResponse;
-import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.R;
 
 import java.util.List;

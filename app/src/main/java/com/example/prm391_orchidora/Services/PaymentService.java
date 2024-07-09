@@ -21,4 +21,7 @@ public interface PaymentService {
 
     @DELETE("orders/{orderId}")
     Call<Void> cancelOrder(@Path("orderId") String id);
+
+    @POST("orders/{orderId}/make-success")
+    Call<Void> acceptOrder(@Path("orderId") String id);
 }
