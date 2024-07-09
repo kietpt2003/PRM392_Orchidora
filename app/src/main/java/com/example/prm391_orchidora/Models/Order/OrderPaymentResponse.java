@@ -1,6 +1,11 @@
 package com.example.prm391_orchidora.Models.Order;
 
-public class OrderPaymentResponse {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class OrderPaymentResponse implements Parcelable {
     private int amount;
     private String paymentMethod;
     private String paidOn;
@@ -12,6 +17,25 @@ public class OrderPaymentResponse {
         this.paidOn = paidOn;
         this.orderCode = orderCode;
     }
+
+    protected OrderPaymentResponse(Parcel in) {
+        amount = in.readInt();
+        paymentMethod = in.readString();
+        paidOn = in.readString();
+        orderCode = in.readInt();
+    }
+
+    public static final Creator<OrderPaymentResponse> CREATOR = new Creator<OrderPaymentResponse>() {
+        @Override
+        public OrderPaymentResponse createFromParcel(Parcel in) {
+            return new OrderPaymentResponse(in);
+        }
+
+        @Override
+        public OrderPaymentResponse[] newArray(int size) {
+            return new OrderPaymentResponse[size];
+        }
+    };
 
     public int getAmount() {
         return amount;
@@ -43,5 +67,18 @@ public class OrderPaymentResponse {
 
     public void setOrderCode(int orderCode) {
         this.orderCode = orderCode;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeInt(amount);
+        parcel.writeString(paymentMethod);
+        parcel.writeString(paidOn);
+        parcel.writeInt(orderCode);
     }
 }

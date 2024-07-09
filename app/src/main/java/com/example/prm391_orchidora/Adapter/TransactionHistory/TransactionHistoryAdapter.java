@@ -13,15 +13,15 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.prm391_orchidora.Models.TransactionHistory.TransactionHistory;
+import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.R;
 
 import java.util.List;
 
 public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionHistoryAdapter.ViewHolder> {
-    private List<TransactionHistory> transactions;
+    private List<OrderResponse> transactions;
 
-    public TransactionHistoryAdapter(List<TransactionHistory> transactions) {
+    public TransactionHistoryAdapter(List<OrderResponse> transactions) {
         this.transactions = transactions;
     }
 
@@ -34,7 +34,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TransactionHistory transaction = transactions.get(position);
+        OrderResponse transaction = transactions.get(position);
 
         holder.productNameTextView.setText(transaction.getItems().get(0).getName());
         String description = transaction.getItems().get(0).getOrchid().getDescription();

@@ -1,10 +1,15 @@
 package com.example.prm391_orchidora.Models.Account;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.example.prm391_orchidora.Models.Payment.PaymentResponse;
 
 import java.util.List;
 
-public class AccountResponse {
+public class AccountResponse implements Parcelable {
     private String id;
     private String name;
     private String email;
@@ -25,6 +30,29 @@ public class AccountResponse {
         this.status = status;
         this.payments = payments;
     }
+
+    protected AccountResponse(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        email = in.readString();
+        role = in.readString();
+        phoneNumber = in.readString();
+        address = in.readString();
+        status = in.readString();
+        payments = in.createTypedArrayList(PaymentResponse.CREATOR);
+    }
+
+    public static final Creator<AccountResponse> CREATOR = new Creator<AccountResponse>() {
+        @Override
+        public AccountResponse createFromParcel(Parcel in) {
+            return new AccountResponse(in);
+        }
+
+        @Override
+        public AccountResponse[] newArray(int size) {
+            return new AccountResponse[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -88,5 +116,22 @@ public class AccountResponse {
 
     public void setPayments(List<PaymentResponse> payments) {
         this.payments = payments;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(name);
+        parcel.writeString(email);
+        parcel.writeString(role);
+        parcel.writeString(phoneNumber);
+        parcel.writeString(address);
+        parcel.writeString(status);
+        parcel.writeTypedList(payments);
     }
 }

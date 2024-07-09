@@ -1,10 +1,15 @@
 package com.example.prm391_orchidora.Models.Order;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.example.prm391_orchidora.Models.Account.AccountResponse;
 
 import java.util.List;
 
-public class OrderResponse {
+public class OrderResponse implements Parcelable {
     private String id;
     private AccountResponse account;
     private String accountName;
@@ -26,6 +31,30 @@ public class OrderResponse {
         this.items = items;
         this.orderPayment = orderPayment;
     }
+
+    protected OrderResponse(Parcel in) {
+        id = in.readString();
+        account = in.readParcelable(AccountResponse.class.getClassLoader());
+        accountName = in.readString();
+        phoneNumber = in.readString();
+        address = in.readString();
+        status = in.readString();
+        createAt = in.readString();
+        items = in.createTypedArrayList(OrderItemResponse.CREATOR);
+        orderPayment = in.readParcelable(OrderPaymentResponse.class.getClassLoader());
+    }
+
+    public static final Creator<OrderResponse> CREATOR = new Creator<OrderResponse>() {
+        @Override
+        public OrderResponse createFromParcel(Parcel in) {
+            return new OrderResponse(in);
+        }
+
+        @Override
+        public OrderResponse[] newArray(int size) {
+            return new OrderResponse[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -97,5 +126,23 @@ public class OrderResponse {
 
     public void setOrderPayment(OrderPaymentResponse orderPayment) {
         this.orderPayment = orderPayment;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeParcelable(account, i);
+        parcel.writeString(accountName);
+        parcel.writeString(phoneNumber);
+        parcel.writeString(address);
+        parcel.writeString(status);
+        parcel.writeString(createAt);
+        parcel.writeTypedList(items);
+        parcel.writeParcelable(orderPayment, i);
     }
 }
