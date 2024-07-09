@@ -2,7 +2,6 @@ package com.example.prm391_orchidora.Adapter.Orchid;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Orchid.OrchidDetailScreen;
-import com.example.prm391_orchidora.Utils.TokenManager;
 
 import java.util.List;
 
@@ -84,7 +82,7 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
             imageOrchid = itemView.findViewById(R.id.image_orchid);
             textName = itemView.findViewById(R.id.text_name);
             textCategory = itemView.findViewById(R.id.text_category);
-            textPrice = itemView.findViewById(R.id.text_price);
+            textPrice = itemView.findViewById(R.id.txt_price);
         }
 
         void bind(OrchidResponse orchid) {

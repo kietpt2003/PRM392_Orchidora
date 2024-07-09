@@ -87,8 +87,8 @@ public class MngOrchidAdapter extends RecyclerView.Adapter<MngOrchidAdapter.View
             imageOrchid = itemView.findViewById(R.id.image_orchid);
             textName = itemView.findViewById(R.id.text_name);
             textCategory = itemView.findViewById(R.id.text_category);
-            textPrice = itemView.findViewById(R.id.text_price);
-            textQuantity = itemView.findViewById(R.id.text_quantity);
+            textPrice = itemView.findViewById(R.id.txt_price);
+            textQuantity = itemView.findViewById(R.id.txt_quantity);
             textStatus = itemView.findViewById(R.id.text_status);
         }
 

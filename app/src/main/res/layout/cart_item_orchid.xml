@@ -10,7 +10,7 @@
     android:orientation="horizontal">
 
     <CheckBox
-        android:id="@+id/checkbox_select"
+        android:id="@+id/checkboxSelect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -34,7 +34,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_name"
+            android:id="@+id/txt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -43,7 +43,7 @@
             tools:text="Moth Orchid" />
 
         <TextView
-            android:id="@+id/text_category"
+            android:id="@+id/txt_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -62,7 +62,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_price"
+                android:id="@+id/txt_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#BFA4DC"
@@ -98,7 +98,7 @@
                     android:background="#F3EEF8" />
 
                 <TextView
-                    android:id="@+id/text_quantity"
+                    android:id="@+id/txt_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

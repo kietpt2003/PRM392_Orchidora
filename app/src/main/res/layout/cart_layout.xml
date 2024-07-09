@@ -194,15 +194,15 @@
                     android:text="Total:" />
 
                 <TextView
-                    android:id="@+id/text_price"
+                    android:id="@+id/txt_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="0 VND"
                     android:textColor="#BFA4DC"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:text="$10.00"
                     tools:text="$10.00" />
 
             </LinearLayout>
@@ -210,16 +210,17 @@
         </LinearLayout>
 
         <TextView
-            android:background="#BFA4DC"
+            android:id="@+id/buyBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:paddingHorizontal="20dp"
+            android:background="#BFA4DC"
             android:gravity="center"
+            android:paddingHorizontal="20dp"
+            android:text="Buy"
             android:textColor="#EDEDED"
-            android:textStyle="bold"
             android:textSize="16sp"
-            android:text="Buy" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
