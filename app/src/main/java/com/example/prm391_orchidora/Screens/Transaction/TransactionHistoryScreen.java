@@ -2,7 +2,6 @@ package com.example.prm391_orchidora.Screens.Transaction;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,11 +26,14 @@ public class TransactionHistoryScreen extends AppCompatActivity implements Trans
 
     private TextView confirmBtn, cancelBtn, successBtn;
     private String currentStatus = "";
+    private String token;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transaction_history_layout);
+
+        token = new TokenManager().getToken(this);
 
         ImageView backBtn = findViewById(R.id.backBtn);
         backBtn.setOnClickListener(view -> this.finish());
@@ -94,7 +96,7 @@ public class TransactionHistoryScreen extends AppCompatActivity implements Trans
 
     @Override
     public void onTransactionHistorySuccess(TransactionHistoryResponse transactionHistoryResponse) {
-        adapter = new TransactionHistoryAdapter(transactionHistoryResponse.getData());
+        adapter = new TransactionHistoryAdapter(transactionHistoryResponse.getData(), this, token);
         recyclerView.setAdapter(adapter);
     }
 

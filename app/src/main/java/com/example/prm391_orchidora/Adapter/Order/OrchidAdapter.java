@@ -42,7 +42,6 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.OrchidView
                 .into(holder.orchidImageView);
 
         holder.orchidNameTextView.setText(orchid.getName());
-//        holder.orchidCategoryTextView.setText(orchid.getCategory().getName());
         holder.orchidQuantityTextView.setText("x" + orchid.getQuantity());
         holder.orchidPriceTextView.setText((orchid.getQuantity() * orchid.getPrice())+" VND");
     }
@@ -64,7 +63,6 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.OrchidView
     static class OrchidViewHolder extends RecyclerView.ViewHolder {
         ImageView orchidImageView;
         TextView orchidNameTextView;
-//        TextView orchidCategoryTextView;
         TextView orchidQuantityTextView;
         TextView orchidPriceTextView;
 
@@ -72,7 +70,6 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.OrchidView
             super(itemView);
             orchidImageView = itemView.findViewById(R.id.orchidImageView);
             orchidNameTextView = itemView.findViewById(R.id.orchidNameTextView);
-//            orchidCategoryTextView = itemView.findViewById(R.id.orchidCategoryTextView);
             orchidQuantityTextView = itemView.findViewById(R.id.orchidQuantityTextView);
             orchidPriceTextView = itemView.findViewById(R.id.orchidPriceTextView);
         }

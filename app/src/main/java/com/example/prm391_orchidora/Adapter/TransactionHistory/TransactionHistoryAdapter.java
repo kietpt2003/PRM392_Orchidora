@@ -1,28 +1,41 @@
 package com.example.prm391_orchidora.Adapter.TransactionHistory;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.TextAppearanceInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.prm391_orchidora.Controller.PaymentController;
+import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.R;
+import com.example.prm391_orchidora.Screens.Orchid.OrchidDetailScreen;
+import com.example.prm391_orchidora.Screens.Order.OrderDetailScreen;
 
 import java.util.List;
 
-public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionHistoryAdapter.ViewHolder> {
+public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionHistoryAdapter.ViewHolder> implements PaymentController.GetPaymentByIdCallBack {
     private List<OrderResponse> transactions;
+    private static Context transactionHistoryContext;
+    private PaymentController paymentController;
+    private String token;
 
-    public TransactionHistoryAdapter(List<OrderResponse> transactions) {
+    public TransactionHistoryAdapter(List<OrderResponse> transactions, Context transactionHistoryContext, String token) {
         this.transactions = transactions;
+        this.transactionHistoryContext = transactionHistoryContext;
+        this.token = token;
     }
 
     @NonNull
@@ -37,15 +50,14 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
         OrderResponse transaction = transactions.get(position);
 
         holder.productNameTextView.setText(transaction.getItems().get(0).getName());
-        String description = transaction.getItems().get(0).getOrchid().getDescription();
-        if (description.length() > 50) {
-            description = description.substring(0, 70) + "...";
-        }
-        holder.productDescriptionTextView.setText(description);
         holder.productQuantityTextView.setText("x" + transaction.getItems().get(0).getQuantity());
         holder.totalTextView.setText("Total: " + transaction.getOrderPayment().getAmount()+ "VND");
         holder.totalTextView.setTextColor(Color.parseColor("#BFA4DC"));
         holder.statusTextView.setText(transaction.getStatus());
+        holder.detailBtn.setOnClickListener(v->{
+            paymentController = new PaymentController(this, token);
+            paymentController.fetchOrderById(transaction.getId());
+        });
 
         if (position == transactions.size() - 1) {
             holder.separatorLayout.setVisibility(View.GONE);
@@ -98,11 +110,23 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
         return transactions.size();
     }
 
+    @Override
+    public void onGetPaymentByIdSuccess(OrderResponse orderResponse) {
+        Intent intent = new Intent(transactionHistoryContext, OrderDetailScreen.class);
+        intent.putExtra("orderResponse", orderResponse);
+        transactionHistoryContext.startActivity(intent);
+    }
+
+    @Override
+    public void onGetPaymentByIdError(ErrorResponse errorResponse) {
+        Toast.makeText(transactionHistoryContext, errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        public TextView detailBtn;
         private ImageView productImageView;
         private TextView productNameTextView;
-        private TextView productDescriptionTextView;
         private TextView productQuantityTextView;
         private TextView totalTextView;
         private TextView statusTextView;
@@ -114,12 +138,12 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
 
             productImageView = itemView.findViewById(R.id.productImageView);
             productNameTextView = itemView.findViewById(R.id.productNameTextView);
-            productDescriptionTextView = itemView.findViewById(R.id.productDescriptionTextView);
             productQuantityTextView = itemView.findViewById(R.id.productQuantityTextView);
             totalTextView = itemView.findViewById(R.id.totalTextView);
             statusTextView = itemView.findViewById(R.id.statusTextView);
             statusIconImageView = itemView.findViewById(R.id.statusIconImageView);
             separatorLayout = itemView.findViewById(R.id.separatorLayout);
+            detailBtn = itemView.findViewById(R.id.detailBtn);
         }
     }
 }

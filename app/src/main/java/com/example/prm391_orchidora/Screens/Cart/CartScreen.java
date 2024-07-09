@@ -45,7 +45,7 @@ import com.example.prm391_orchidora.Utils.TokenManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuantityChangedListener, OrchidController.OrchidGetCallback, PaymentController.PostPaymentCallBack, PaymentController.GetPaymentByIdCallBack {
+public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuantityChangedListener, OrchidController.OrchidGetCallback, PaymentController.PostPaymentCallBack, PaymentController.GetPaymentByIdCallBack, PaymentController.CancelPaymentCallBack {
 
     private RecyclerView recyclerView;
     private AlertDialog.Builder alertDialog;
@@ -78,10 +78,17 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
 
         text_price = findViewById(R.id.txt_price);
         buyBtn = findViewById(R.id.buyBtn);
+        recyclerView = findViewById(R.id.recycler_view);
+        emptyCartText = findViewById(R.id.empty_cart_text);
+        cardView = findViewById(R.id.CardView);
+        checkbox_all = findViewById(R.id.checkbox_all);
+        cart_text = findViewById(R.id.cart_text);
+        backButton = findViewById(R.id.back_button);
+        recyclerViewMayLike = findViewById(R.id.recycler_view_you_may_like);
+
         handlePayment();
 
         handleDB();
-        handleGetCart();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -103,6 +110,7 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
     protected void onResume() {
         super.onResume();
         handleGetCartNumber();
+        handleGetCart();
         //You may like
         orchidController = new OrchidController( this, token);
         orchidController.fetchOrchids("", "ACTIVE");
@@ -169,7 +177,6 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
 
     private void handleGetCartNumber() {
         CartService cartService = new CartService(db, token);
-        cart_text = findViewById(R.id.cart_text);
         cartService.getCarts(cartItems -> {
             if (cartItems.isEmpty()) {
                 cart_text.setText("Cart(" + 0 + ")");
@@ -181,7 +188,6 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
 
     private void handleGetCheckAll() {
         CartService cartService = new CartService(db, token);
-        checkbox_all = findViewById(R.id.checkbox_all);
         cartService.getCarts(cartItems -> {
             if (!cartItems.isEmpty()) {
                 boolean isCheckAll = true;
@@ -210,14 +216,12 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
     }
 
     private void handleBack() {
-        backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> {
             finish();
         });
     }
 
     private void handleClickCheckAll() {
-        checkbox_all = findViewById(R.id.checkbox_all);
         checkbox_all.setOnClickListener(v -> {
             boolean isChecked = checkbox_all.isChecked();
             checkbox_all.setChecked(isChecked);
@@ -229,9 +233,6 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
 
     private void handleGetCart() {
         CartService cartService = new CartService(db, token);
-        recyclerView = findViewById(R.id.recycler_view);
-        emptyCartText = findViewById(R.id.empty_cart_text);
-        cardView = findViewById(R.id.CardView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartService.getCarts(cartItems -> {
             cartItemList = cartItems;
@@ -278,7 +279,6 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
 
     @Override
     public void onOrchidSuccessGet(List<OrchidResponse> orchids) {
-        recyclerViewMayLike = findViewById(R.id.recycler_view_you_may_like);
         recyclerViewMayLike.setLayoutManager(new LinearLayoutManager(this));
         orchidAdapter = new OrchidAdapter(orchids, this, token);
         recyclerViewMayLike.setAdapter(orchidAdapter);
@@ -302,13 +302,32 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
 
     @Override
     public void onGetPaymentByIdSuccess(OrderResponse orderResponse) {
-        Intent intent = new Intent(this, OrderDetailScreen.class);
-        intent.putExtra("orderResponse", orderResponse);
-        this.startActivity(intent);
+        db.queryData("DELETE FROM OrchidList");
+        if(orderResponse.getStatus().equals("PENDING_PAYMENT")) {
+            paymentController = new PaymentController((PaymentController.CancelPaymentCallBack) this, token);
+            paymentController.fetchCancelOrder(orderResponse.getId());
+        } else {
+            Intent intent = new Intent(this, OrderDetailScreen.class);
+            intent.putExtra("orderResponse", orderResponse);
+            this.startActivity(intent);
+        }
     }
 
     @Override
     public void onGetPaymentByIdError(ErrorResponse errorResponse) {
         Toast.makeText(this, errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancelPaymentSuccess() {
+        paymentController = new PaymentController((PaymentController.GetPaymentByIdCallBack) this, token);
+        if(orderId != null){
+            paymentController.fetchOrderById(orderId);
+        }
+    }
+
+    @Override
+    public void onCancelPaymentError(ErrorResponse errorResponse) {
+        Log.d("CancelPaymentError", errorResponse.getMessage());
     }
 }

@@ -19,6 +19,7 @@ public class PaymentController {
     private PaymentService paymentService;
     private PostPaymentCallBack postPaymentCallBack;
     private GetPaymentByIdCallBack getPaymentByIdCallBack;
+    private CancelPaymentCallBack cancelPaymentCallBack;
 
     public PaymentController(PaymentController.PostPaymentCallBack postPaymentCallBack, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
@@ -30,6 +31,12 @@ public class PaymentController {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
         paymentService = retrofit.create(PaymentService.class);
         this.getPaymentByIdCallBack = getPaymentByIdCallBack;
+    }
+
+    public PaymentController(PaymentController.CancelPaymentCallBack cancelPaymentCallBack, String authToken) {
+        Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
+        paymentService = retrofit.create(PaymentService.class);
+        this.cancelPaymentCallBack = cancelPaymentCallBack;
     }
 
     public void createOrder(CreateOrderRequest createOrderRequest) {
@@ -98,6 +105,39 @@ public class PaymentController {
         });
     }
 
+    public void fetchCancelOrder(String id) {
+        Call<Void> call = paymentService.cancelOrder(id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    cancelPaymentCallBack.onCancelPaymentSuccess();
+                } else {
+                    try {
+                        // Xử lý phản hồi không thành công
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            // Chuyển đổi errorBody thành đối tượng ErrorResponse
+                            Gson gson = new Gson();
+                            ErrorResponse errorResponse = gson.fromJson(errorBody, ErrorResponse.class);
+                            cancelPaymentCallBack.onCancelPaymentError(errorResponse);
+                        } else {
+                            cancelPaymentCallBack.onCancelPaymentError(new ErrorResponse("Error", "Request failed with no additional information"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        cancelPaymentCallBack.onCancelPaymentError(new ErrorResponse("Error", "An error occurred while processing the error response"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                cancelPaymentCallBack.onCancelPaymentError(new ErrorResponse("Error", "Request fail"));
+            }
+        });
+    }
+
     public interface GetPaymentByIdCallBack {
         void onGetPaymentByIdSuccess(OrderResponse orderResponse);
 
@@ -108,5 +148,11 @@ public class PaymentController {
         void onPostPaymentSuccess(PaymentResponseData paymentResponseData);
 
         void onPostPaymentError(ErrorResponse errorResponse);
+    }
+
+    public interface CancelPaymentCallBack {
+        void onCancelPaymentSuccess();
+
+        void onCancelPaymentError(ErrorResponse errorResponse);
     }
 }
