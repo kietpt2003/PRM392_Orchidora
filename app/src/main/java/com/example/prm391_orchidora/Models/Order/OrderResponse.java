@@ -16,18 +16,18 @@ public class OrderResponse implements Parcelable {
     private String phoneNumber;
     private String address;
     private String status;
-    private String createAt;
+    private String createdAt;
     private List<OrderItemResponse> items;
     private OrderPaymentResponse orderPayment;
 
-    public OrderResponse(String id, AccountResponse account, String accountName, String phoneNumber, String address, String status, String createAt, List<OrderItemResponse> items, OrderPaymentResponse orderPayment) {
+    public OrderResponse(String id, AccountResponse account, String accountName, String phoneNumber, String address, String status, String createdAt, List<OrderItemResponse> items, OrderPaymentResponse orderPayment) {
         this.id = id;
         this.account = account;
         this.accountName = accountName;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.status = status;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
         this.items = items;
         this.orderPayment = orderPayment;
     }
@@ -39,7 +39,7 @@ public class OrderResponse implements Parcelable {
         phoneNumber = in.readString();
         address = in.readString();
         status = in.readString();
-        createAt = in.readString();
+        createdAt = in.readString();
         items = in.createTypedArrayList(OrderItemResponse.CREATOR);
         orderPayment = in.readParcelable(OrderPaymentResponse.class.getClassLoader());
     }
@@ -104,12 +104,12 @@ public class OrderResponse implements Parcelable {
         this.status = status;
     }
 
-    public String getCreateAt() {
-        return createAt;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
     public void setCreateAt(String createAt) {
-        this.createAt = createAt;
+        this.createdAt = createdAt;
     }
 
     public List<OrderItemResponse> getItems() {
@@ -141,7 +141,7 @@ public class OrderResponse implements Parcelable {
         parcel.writeString(phoneNumber);
         parcel.writeString(address);
         parcel.writeString(status);
-        parcel.writeString(createAt);
+        parcel.writeString(createdAt);
         parcel.writeTypedList(items);
         parcel.writeParcelable(orderPayment, i);
     }

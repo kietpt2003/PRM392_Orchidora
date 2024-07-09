@@ -1,4 +1,4 @@
-package com.example.prm391_orchidora.Adapter.OrderDetail;
+package com.example.prm391_orchidora.Adapter.Order;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,17 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.prm391_orchidora.Models.Orchid.OrderDetailItem;
+import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
 
 import java.util.List;
 
 public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.OrchidViewHolder> {
 
-    private List<OrderDetailItem> orchidList;
+    private List<OrchidResponse> orchidList;
     private Context context;
 
-    public OrchidAdapter(Context context, List<OrderDetailItem> orchidList) {
+    public OrchidAdapter(Context context, List<OrchidResponse> orchidList) {
         this.context = context;
         this.orchidList = orchidList;
     }
@@ -35,14 +35,14 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.OrchidView
 
     @Override
     public void onBindViewHolder(@NonNull OrchidViewHolder holder, int position) {
-        OrderDetailItem orchid = orchidList.get(position);
+        OrchidResponse orchid = orchidList.get(position);
 
         Glide.with(context)
                 .load(orchid.getImg())
                 .into(holder.orchidImageView);
 
         holder.orchidNameTextView.setText(orchid.getName());
-        holder.orchidCategoryTextView.setText(orchid.getCategory());
+//        holder.orchidCategoryTextView.setText(orchid.getCategory().getName());
         holder.orchidQuantityTextView.setText("x" + orchid.getQuantity());
         holder.orchidPriceTextView.setText((orchid.getQuantity() * orchid.getPrice())+" VND");
     }
@@ -54,7 +54,7 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.OrchidView
 
     public double getTotalPrice() {
         double totalPrice = 0;
-        for (OrderDetailItem orchid : orchidList) {
+        for (OrchidResponse orchid : orchidList) {
             totalPrice += orchid.getQuantity() * orchid.getPrice();
         }
         return totalPrice;
@@ -64,7 +64,7 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.OrchidView
     static class OrchidViewHolder extends RecyclerView.ViewHolder {
         ImageView orchidImageView;
         TextView orchidNameTextView;
-        TextView orchidCategoryTextView;
+//        TextView orchidCategoryTextView;
         TextView orchidQuantityTextView;
         TextView orchidPriceTextView;
 
@@ -72,7 +72,7 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.OrchidView
             super(itemView);
             orchidImageView = itemView.findViewById(R.id.orchidImageView);
             orchidNameTextView = itemView.findViewById(R.id.orchidNameTextView);
-            orchidCategoryTextView = itemView.findViewById(R.id.orchidCategoryTextView);
+//            orchidCategoryTextView = itemView.findViewById(R.id.orchidCategoryTextView);
             orchidQuantityTextView = itemView.findViewById(R.id.orchidQuantityTextView);
             orchidPriceTextView = itemView.findViewById(R.id.orchidPriceTextView);
         }
