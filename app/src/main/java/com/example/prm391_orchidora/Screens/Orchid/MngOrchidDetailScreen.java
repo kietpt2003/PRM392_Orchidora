@@ -80,7 +80,7 @@ public class MngOrchidDetailScreen extends AppCompatActivity implements OrchidCo
         descriptionTV.setText(orchid.getDescription());
 
         priceTV = findViewById(R.id.priceTV);
-        priceTV.setText("$" + orchid.getPrice());
+        priceTV.setText(orchid.getPrice()+" VND");
 
         //Back button and Navigate to Manager Profile Screen
         backIV = findViewById(R.id.backIV);

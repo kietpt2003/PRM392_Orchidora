@@ -68,7 +68,7 @@ public class OrderDetailScreen extends AppCompatActivity {
         orchidRecyclerView.setAdapter(orchidAdapter);
 
         tvTotalPrice = findViewById(R.id.totalPrice);
-        tvTotalPrice.setText("$" + orchidAdapter.getTotalPrice());
+        tvTotalPrice.setText(orchidAdapter.getTotalPrice()+ " VND");
 
         tvOrderCode = findViewById(R.id.orderCode);
         tvOrderTime = findViewById(R.id.orderTime);

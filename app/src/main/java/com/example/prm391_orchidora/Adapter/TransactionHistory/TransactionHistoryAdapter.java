@@ -43,7 +43,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<TransactionH
         }
         holder.productDescriptionTextView.setText(description);
         holder.productQuantityTextView.setText("x" + transaction.getItems().get(0).getQuantity());
-        holder.totalTextView.setText("Total: $" + transaction.getOrderPayment().getAmount());
+        holder.totalTextView.setText("Total: " + transaction.getOrderPayment().getAmount()+ "VND");
         holder.totalTextView.setTextColor(Color.parseColor("#BFA4DC"));
         holder.statusTextView.setText(transaction.getStatus());
 

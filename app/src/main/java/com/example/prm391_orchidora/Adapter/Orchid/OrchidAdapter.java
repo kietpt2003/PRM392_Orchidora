@@ -92,7 +92,7 @@ public class OrchidAdapter extends RecyclerView.Adapter<OrchidAdapter.ViewHolder
 
             textName.setText(orchid.getName());
             textCategory.setText(orchid.getCategory().getName());
-            textPrice.setText("$"+orchid.getPrice());
+            textPrice.setText(orchid.getPrice() +" VND");
         }
     }
 }

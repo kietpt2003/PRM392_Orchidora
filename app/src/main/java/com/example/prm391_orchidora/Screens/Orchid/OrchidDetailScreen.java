@@ -154,7 +154,7 @@ public class OrchidDetailScreen extends AppCompatActivity {
         orchidDescription.setText(orchid.getDescription());
 
         orchidPrice = findViewById(R.id.orchidPrice);
-        orchidPrice.setText("$"+orchid.getPrice());
+        orchidPrice.setText(orchid.getPrice()+" d ");
     }
 
     private void handleClickUp(OrchidResponse orchidResponse){

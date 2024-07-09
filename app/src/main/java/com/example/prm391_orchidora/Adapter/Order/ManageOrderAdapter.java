@@ -44,7 +44,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
         holder.productNameTextView.setText(manageOrder.getOrchidName());
         holder.productDescriptionTextView.setText(manageOrder.getOrchidCategory());
         holder.productQuantityTextView.setText("x" + String.valueOf(manageOrder.getOrchidQuantity()));
-        String totalText = "Total: $" + manageOrder.getTotal();
+        String totalText = "Total: " + manageOrder.getTotal() + "VND";
         holder.totalTextView.setText(totalText);
         SpannableString spannableTotal = new SpannableString(totalText);
         spannableTotal.setSpan(new ForegroundColorSpan(Color.parseColor("#8E8E8E")), 0, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
