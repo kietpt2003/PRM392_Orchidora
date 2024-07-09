@@ -3,10 +3,12 @@ package com.example.prm391_orchidora.Screens.Order;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import androidx.activity.EdgeToEdge;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm391_orchidora.Adapter.Order.ManageOrderDetailAdapter;
 import com.example.prm391_orchidora.Models.ManageOrderDetail.ManageOrderDetail;
+import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.R;
 
 import java.util.ArrayList;
@@ -21,64 +24,79 @@ import java.util.List;
 
 public class ManageOrderDetailScreen extends AppCompatActivity {
 
-    private TextView tvName, tvPhone, tvAddress, tvTotalPrice, tvOrderCode, tvOrderTime, tvPaymentTime, tvOrderStatus;
+    private static final String TAG = "ManageOrderDetailScreen";
+
+    private TextView textViewName, textViewPhoneNumber, textViewAddress, totalPrice, orderCode, orderTime, paymentTime, orderStatus;
 
     private RecyclerView orchidRecyclerView;
     private ManageOrderDetailAdapter manageOrderDetailAdapter;
     private List<ManageOrderDetail> orchidList;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.manage_order_detail_layout);
 
+        // Set status bar color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.cart_status_bar ));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.cart_status_bar));
         }
 
-        tvName = findViewById(R.id.textViewName);
-        tvPhone = findViewById(R.id.textViewPhoneNumber);
-        tvAddress = findViewById(R.id.textViewAddress);
-
-        tvName.setText("Phạm Tuấn Kiệt");
-        tvPhone.setText("(+84) 388 415 317");
-        tvAddress.setText("Park View Residence, Số 152, Đường Điện Biên Phủ, Căn Hộ 100, TP. Hồ Chí Minh");
-
+        // Initialize views
+        textViewName = findViewById(R.id.textViewName);
+        textViewPhoneNumber = findViewById(R.id.textViewPhoneNumber);
+        textViewAddress = findViewById(R.id.textViewAddress);
         orchidRecyclerView = findViewById(R.id.orchidRecyclerView);
-        orchidRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        totalPrice = findViewById(R.id.totalPrice);
+        orderCode = findViewById(R.id.orderCode);
+        orderTime = findViewById(R.id.orderTime);
+        paymentTime = findViewById(R.id.paymentTime);
+        orderStatus = findViewById(R.id.orderStatus);
 
-        orchidList = new ArrayList<>();
-        // Add sample data
-        orchidList.add(new ManageOrderDetail("https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", "Moth Orchid", "Orchidaceae", 2, 19.99));
-        orchidList.add(new ManageOrderDetail("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 1, 24.99));
-        orchidList.add(new ManageOrderDetail("https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", "Moth Orchid", "Orchidaceae", 2, 19.99));
+        // Retrieve order details from intent
+        OrderResponse order = getIntent().getParcelableExtra("orderResponse");
+        if (order != null) {
+            try {
+                // Set order details to views
+                textViewName.setText(order.getAccountName());
+                textViewPhoneNumber.setText(order.getPhoneNumber());
+                textViewAddress.setText(order.getAddress());
+                totalPrice.setText(order.getOrderPayment().getAmount() + " VND");
+                orderCode.setText(order.getOrderPayment().getOrderCode()+"");
+                orderTime.setText(order.getCreatedAt());
+                paymentTime.setText(order.getOrderPayment().getPaidOn());
+                orderStatus.setText(order.getStatus());
 
+                // Set status text color based on status
+                int statusTextColor;
+                switch (order.getStatus()) {
+                    case "CONFIRMING":
+                        statusTextColor = ContextCompat.getColor(this, R.color.colorConfirming);
+                        break;
+                    case "CANCELLED":
+                        statusTextColor = ContextCompat.getColor(this, R.color.colorCancelled);
+                        break;
+                    case "SUCCESSFUL":
+                        statusTextColor = ContextCompat.getColor(this, R.color.colorSuccessful);
+                        break;
+                    default:
+                        statusTextColor = Color.parseColor("#000000");
+                        break;
+                }
+                orderStatus.setTextColor(statusTextColor);
 
-        orchidList.add(new ManageOrderDetail("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 1, 24.99));
-        orchidList.add(new ManageOrderDetail("https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", "Moth Orchid", "Orchidaceae", 2, 19.99));
-
-        orchidList.add(new ManageOrderDetail("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 1, 24.99));
-
-
-        manageOrderDetailAdapter = new ManageOrderDetailAdapter(this, orchidList);
-        orchidRecyclerView.setAdapter(manageOrderDetailAdapter);
-
-        tvTotalPrice = findViewById(R.id.totalPrice);
-        tvTotalPrice.setText(manageOrderDetailAdapter.getTotalPrice() +" VND");
-
-        tvOrderCode = findViewById(R.id.orderCode);
-        tvOrderTime = findViewById(R.id.orderTime);
-        tvOrderStatus = findViewById(R.id.orderStatus);
-        tvPaymentTime = findViewById(R.id.paymentTime);
-
-        tvOrderCode.setText("240508RMCVN");
-        tvOrderTime.setText("08-05-2024 12:49");
-        tvPaymentTime.setText("08-05-2024 12:55");
-        tvOrderStatus.setText("PENDING");
-        tvOrderStatus.setTextColor(Color.parseColor("#DCD173"));
-
+                // Populate orchid list if applicable
+                // orchidList.addAll(order.getItems());
+                // manageOrderDetailAdapter.notifyDataSetChanged();
+            } catch (NullPointerException e) {
+                Log.e(TAG, "Error accessing order details: " + e.getMessage());
+                Toast.makeText(this, "Error accessing order details", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Log.e(TAG, "OrderResponse object is null");
+            Toast.makeText(this, "Order details not found", Toast.LENGTH_SHORT).show();
+        }
     }
 }

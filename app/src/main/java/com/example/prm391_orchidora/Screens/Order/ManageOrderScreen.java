@@ -1,8 +1,10 @@
 package com.example.prm391_orchidora.Screens.Order;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,17 +14,20 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prm391_orchidora.Adapter.TransactionHistory.TransactionHistoryAdapter;
+import com.example.prm391_orchidora.Adapter.Order.ManageOrderAdapter;
 import com.example.prm391_orchidora.Controller.ManageOrderController;
 import com.example.prm391_orchidora.Models.ErrorResponse;
+import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.Models.TransactionHistory.TransactionHistoryResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Utils.TokenManager;
 
-public class ManageOrderScreen extends AppCompatActivity implements ManageOrderController.ManageOrderCallback {
+public class ManageOrderScreen extends AppCompatActivity implements ManageOrderController.ManageOrderCallback,
+        ManageOrderAdapter.OnOrderClickListener {
+
     private ManageOrderController manageOrderController;
     private RecyclerView recyclerView;
-    private TransactionHistoryAdapter adapter;
+    private ManageOrderAdapter adapter;
 
     private TextView confirmBtn, cancelBtn, successBtn;
     private String currentStatus = "";
@@ -32,9 +37,7 @@ public class ManageOrderScreen extends AppCompatActivity implements ManageOrderC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_order_layout);
 
-        ImageView backBtn = findViewById(R.id.backBtn);
-        backBtn.setOnClickListener(view -> this.finish());
-
+        // Initialize views
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -42,6 +45,7 @@ public class ManageOrderScreen extends AppCompatActivity implements ManageOrderC
         cancelBtn = findViewById(R.id.cancelBtn);
         successBtn = findViewById(R.id.successBtn);
 
+        // Set up controller and initial data retrieval
         String token = new TokenManager().getToken(this);
         manageOrderController = new ManageOrderController(this, token);
 
@@ -92,8 +96,16 @@ public class ManageOrderScreen extends AppCompatActivity implements ManageOrderC
     }
 
     @Override
+    public void onOrderClick(OrderResponse order) {
+        Intent intent = new Intent(this, ManageOrderDetailScreen.class);
+        intent.putExtra("orderResponse", order);
+        startActivity(intent);
+    }
+
+    @Override
     public void onManageOrderSuccess(TransactionHistoryResponse transactionHistoryResponse) {
-        adapter = new TransactionHistoryAdapter(transactionHistoryResponse.getData());
+        // Initialize adapter with retrieved data
+        adapter = new ManageOrderAdapter(transactionHistoryResponse.getData(), this);
         recyclerView.setAdapter(adapter);
     }
 
