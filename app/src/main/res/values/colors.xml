@@ -3,4 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="cart_status_bar">#E6DBF1</color>
+    <color name="colorConfirming">#FF8A00</color>
+    <color name="colorCancelled">#CD2121</color>
+    <color name="colorSuccessful">#599832</color>
+    <color name="colorDefault">#000000</color>
+
 </resources>

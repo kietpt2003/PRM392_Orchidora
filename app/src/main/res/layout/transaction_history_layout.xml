@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
+        android:gravity="start"
         android:paddingVertical="10dp"
         android:background="#FFFFFF">
 
@@ -47,37 +47,37 @@
             android:id="@+id/confirmBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:clickable="true"
             android:padding="10dp"
-            android:text="Chờ xác nhận"
+            android:text="Confirming"
             android:textSize="14sp"
-            android:clickable="true" />
-
-        <TextView
-            android:id="@+id/paymentBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Chờ thanh toán"
-            android:textSize="14sp"
-            android:clickable="true" />
+            android:background="@drawable/transaction_history_select_status_background"
+            android:textColor="#BFA4DC" />
 
         <TextView
             android:id="@+id/cancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Đã Huỷ"
+            android:text="Cancelled"
+            android:layout_marginLeft="20dp"
             android:textSize="14sp"
-            android:clickable="true" />
+            android:clickable="true"
+            android:background="@drawable/transaction_history_select_status_background"
+            android:textColor="#BFA4DC" />
 
         <TextView
             android:id="@+id/successBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Thành Công"
+            android:text="Successful"
+            android:layout_marginLeft="20dp"
             android:textSize="14sp"
-            android:clickable="true" />
+            android:clickable="true"
+            android:background="@drawable/transaction_history_select_status_background"
+            android:textColor="#BFA4DC" />
     </LinearLayout>
 
     <LinearLayout
