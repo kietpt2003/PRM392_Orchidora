@@ -1,8 +1,6 @@
 package com.example.prm391_orchidora.Controller;
 
 import com.example.prm391_orchidora.Models.ErrorResponse;
-import com.example.prm391_orchidora.Models.Orchid.CreateOrchidRequest;
-import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.Models.Order.CreateOrderRequest;
 import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.Models.Payment.PaymentResponseData;
@@ -27,6 +25,7 @@ public class PaymentController {
         paymentService = retrofit.create(PaymentService.class);
         this.postPaymentCallBack = postPaymentCallBack;
     }
+
     public PaymentController(PaymentController.GetPaymentByIdCallBack getPaymentByIdCallBack, String authToken) {
         Retrofit retrofit = new ApiService().getRetrofitInstanceAuth(authToken);
         paymentService = retrofit.create(PaymentService.class);
@@ -101,6 +100,7 @@ public class PaymentController {
 
     public interface GetPaymentByIdCallBack {
         void onGetPaymentByIdSuccess(OrderResponse orderResponse);
+
         void onGetPaymentByIdError(ErrorResponse errorResponse);
     }
 

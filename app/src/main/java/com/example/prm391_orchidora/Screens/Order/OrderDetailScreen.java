@@ -1,8 +1,10 @@
 package com.example.prm391_orchidora.Screens.Order;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -13,8 +15,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prm391_orchidora.Adapter.OrderDetail.OrchidAdapter;
+import com.example.prm391_orchidora.Adapter.Order.OrchidAdapter;
+import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.Models.Orchid.OrderDetailItem;
+import com.example.prm391_orchidora.Models.Order.OrderItemResponse;
+import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.R;
 
 import java.util.ArrayList;
@@ -26,7 +31,7 @@ public class OrderDetailScreen extends AppCompatActivity {
 
     private RecyclerView orchidRecyclerView;
     private OrchidAdapter orchidAdapter;
-    private List<OrderDetailItem> orchidList;
+    private List<OrchidResponse> orchidList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,48 +42,53 @@ public class OrderDetailScreen extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.cart_status_bar ));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.cart_status_bar));
         }
+        Intent intent = getIntent();
+        OrderResponse orderResponse = intent.getParcelableExtra("orderResponse");
 
         tvName = findViewById(R.id.textViewName);
         tvPhone = findViewById(R.id.textViewPhoneNumber);
         tvAddress = findViewById(R.id.textViewAddress);
 
-        tvName.setText("Phạm Tuấn Kiệt");
-        tvPhone.setText("(+84) 388 415 317");
-        tvAddress.setText("Park View Residence, Số 152, Đường Điện Biên Phủ, Căn Hộ 100, TP. Hồ Chí Minh");
+        tvName.setText(orderResponse.getAccountName());
+        tvPhone.setText(orderResponse.getPhoneNumber());
+        tvAddress.setText(orderResponse.getAddress());
 
         orchidRecyclerView = findViewById(R.id.orchidRecyclerView);
         orchidRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         orchidList = new ArrayList<>();
-        // Add sample data
-        orchidList.add(new OrderDetailItem("https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", "Moth Orchid", "Orchidaceae", 2, 19.99));
-        orchidList.add(new OrderDetailItem("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 1, 24.99));
-        orchidList.add(new OrderDetailItem("https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", "Moth Orchid", "Orchidaceae", 2, 19.99));
-
-
-        orchidList.add(new OrderDetailItem("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 1, 24.99));
-        orchidList.add(new OrderDetailItem("https://www.thespruce.com/thmb/gA9XUhd0xBF-tLvADZLwYFCg9CU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/flower-orchid-brassavola-535480623-454a77fbd13d41509771c17de4c7bb10.jpg", "Moth Orchid", "Orchidaceae", 2, 19.99));
-
-        orchidList.add(new OrderDetailItem("https://www.thespruce.com/thmb/-_pfiR6xFXDv7A8kB3-bsHiE8Zk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/CatasetumOrchid-c15ebf0079814aa193f806cf75f84c22.jpg", "Cattleya Orchids", "Cattleya", 1, 24.99));
+        for (int i = 0; i < orderResponse.getItems().size(); i++) {
+            orchidList.add(new OrchidResponse(
+                    orderResponse.getItems().get(i).getOrchid().getId(),
+                    orderResponse.getItems().get(i).getPrice(),
+                    orderResponse.getItems().get(i).getOrchid().getCategory(),
+                    orderResponse.getItems().get(i).getOrchid().getColor(),
+                    orderResponse.getItems().get(i).getOrchid().getDescription(),
+                    orderResponse.getItems().get(i).getOrchid().getImg(),
+                    orderResponse.getItems().get(i).getQuantity(),
+                    orderResponse.getItems().get(i).getOrchid().getStatus(),
+                    orderResponse.getItems().get(i).getName()
+            ));
+        }
 
 
         orchidAdapter = new OrchidAdapter(this, orchidList);
         orchidRecyclerView.setAdapter(orchidAdapter);
 
         tvTotalPrice = findViewById(R.id.totalPrice);
-        tvTotalPrice.setText(orchidAdapter.getTotalPrice()+ " VND");
+        tvTotalPrice.setText(orchidAdapter.getTotalPrice() + " VND");
 
         tvOrderCode = findViewById(R.id.orderCode);
         tvOrderTime = findViewById(R.id.orderTime);
         tvOrderStatus = findViewById(R.id.orderStatus);
-        tvPaymentTime = findViewById(R.id.paymentTime);
+        tvPaymentTime = findViewById(R.id.paymentTime);giit
 
-        tvOrderCode.setText("240508RMCVN");
-        tvOrderTime.setText("08-05-2024 12:49");
-        tvPaymentTime.setText("08-05-2024 12:55");
-        tvOrderStatus.setText("PENDING");
+        tvOrderCode.setText(orderResponse.getOrderPayment().getOrderCode()+"");
+        tvOrderTime.setText(orderResponse.getCreatedAt());
+        tvPaymentTime.setText(orderResponse.getOrderPayment().getPaidOn() == null? "Not paid yet":orderResponse.getOrderPayment().getPaidOn());
+        tvOrderStatus.setText(orderResponse.getStatus());
         tvOrderStatus.setTextColor(Color.parseColor("#DCD173"));
 
     }

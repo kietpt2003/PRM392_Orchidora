@@ -14,6 +14,6 @@ public interface PaymentService {
     @POST("orders")
     Call<PaymentResponseData> postOrder(@Body CreateOrderRequest createOrderRequest);
 
-    @GET("orders/{id}")
-    Call<OrderResponse> getOrderById(@Query("id") String id);
+    @GET("orders/{orderId}")
+    Call<OrderResponse> getOrderById(@Query("orderId") String orderId);
 }

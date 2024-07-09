@@ -36,6 +36,8 @@ import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.Models.Payment.PaymentResponseData;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Adapter.Orchid.OrchidAdapter;
+import com.example.prm391_orchidora.Screens.Orchid.OrchidDetailScreen;
+import com.example.prm391_orchidora.Screens.Order.OrderDetailScreen;
 import com.example.prm391_orchidora.Services.CartService;
 import com.example.prm391_orchidora.Utils.Database;
 import com.example.prm391_orchidora.Utils.TokenManager;
@@ -300,7 +302,9 @@ public class CartScreen extends AppCompatActivity implements CartAdapter.OnQuant
 
     @Override
     public void onGetPaymentByIdSuccess(OrderResponse orderResponse) {
-
+        Intent intent = new Intent(this, OrderDetailScreen.class);
+        intent.putExtra("orderResponse", orderResponse);
+        this.startActivity(intent);
     }
 
     @Override
