@@ -22,7 +22,9 @@ import com.example.prm391_orchidora.Models.Account.AccountResponse;
 import com.example.prm391_orchidora.Models.ErrorResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Screens.Auth.LoginScreen;
+import com.example.prm391_orchidora.Screens.Cart.CartScreen;
 import com.example.prm391_orchidora.Screens.Category.ManageCategoryScreen;
+import com.example.prm391_orchidora.Screens.Home.HomeScreen;
 import com.example.prm391_orchidora.Screens.Transaction.TransactionHistoryScreen;
 import com.example.prm391_orchidora.Services.CartService;
 import com.example.prm391_orchidora.Utils.Database;
@@ -57,6 +59,13 @@ public class ProfileScreen extends AppCompatActivity implements ProfileControlle
         tvAddress = findViewById(R.id.tvAddress);
         cartBtn = findViewById(R.id.cartBtn);
         tvCartCount = findViewById(R.id.tvCartCount);
+
+        //Cart Screen
+        cartBtn = findViewById(R.id.cartBtn);
+        cartBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileScreen.this, CartScreen.class); // Replace with your target activity
+            startActivity(intent);
+        });
 
         // Manager Order Screen
         transactionHistorySection = findViewById(R.id.transactionHistorySection);

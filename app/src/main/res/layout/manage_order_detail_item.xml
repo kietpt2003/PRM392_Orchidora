@@ -10,68 +10,64 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        >
+        android:padding="10dp">
 
-        <!-- Image of the orchid -->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/orchidImageView"
-            android:layout_width="120dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="8dp"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
+        <ImageView
+            android:id="@+id/productImageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/transaction_history_radius_image"
+            android:layout_marginEnd="10dp"
+            android:scaleType="centerCrop" />
 
-        <!-- Container for text information -->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <!-- Name and category of the orchid -->
             <TextView
-                android:id="@+id/orchidNameTextView"
+                android:id="@+id/productNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Orchid Name"
+                android:text="Product Name"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="#777474" />
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginVertical="14dp"
+            android:layout_weight="1"
+            android:background="#E7E7E7" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/orchidCategoryTextView"
+                android:id="@+id/productQuantityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Orchid Category"
-                android:textSize="14sp"
-                android:textColor="#A3A1A1" />
+                android:gravity="center_vertical"
+                android:text="x0"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <!-- Quantity and price -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/productPriceTextView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/orchidQuantityTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="x1"
-                    android:textColor="#827E7E"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/orchidPriceTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$10.00"
-                    android:textColor="#BFA4DC"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:layout_marginTop="25sp"
+                android:gravity="center_vertical"
+                android:text="0 VND"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
+
     </LinearLayout>
 
     <!-- Divider below the item -->
@@ -81,4 +77,5 @@
         android:layout_marginVertical="14dp"
         android:background="#E7E7E7"
         />
+
 </LinearLayout>

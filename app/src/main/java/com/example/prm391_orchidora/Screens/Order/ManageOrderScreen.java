@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class ManageOrderScreen extends AppCompatActivity implements ManageOrderC
     private ManageOrderController manageOrderController;
     private RecyclerView recyclerView;
     private ManageOrderAdapter adapter;
+    private ImageView backBtn;
 
     private TextView confirmBtn, cancelBtn, successBtn;
     private String currentStatus = "";
@@ -37,6 +39,7 @@ public class ManageOrderScreen extends AppCompatActivity implements ManageOrderC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_order_layout);
 
+        backBtn = findViewById(R.id.backBtn);
         // Initialize views
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -54,8 +57,14 @@ public class ManageOrderScreen extends AppCompatActivity implements ManageOrderC
         successBtn.setOnClickListener(v -> handleStatusFilter("SUCCESSFUL"));
 
         manageOrderController.getAllOrders("");
-    }
+        handleBack(backBtn);
 
+    }
+    private void handleBack( ImageView backBtn) {
+        backBtn.setOnClickListener(v->{
+            finish();
+        });
+    }
     private void handleStatusFilter(String status) {
         if (status.equals(currentStatus)) {
             currentStatus = "";

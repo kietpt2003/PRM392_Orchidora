@@ -1,11 +1,13 @@
 package com.example.prm391_orchidora.Screens.Order;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +21,6 @@ import com.example.prm391_orchidora.Models.ManageOrderDetail.ManageOrderDetail;
 import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ManageOrderDetailScreen extends AppCompatActivity {
@@ -27,15 +28,17 @@ public class ManageOrderDetailScreen extends AppCompatActivity {
     private static final String TAG = "ManageOrderDetailScreen";
 
     private TextView textViewName, textViewPhoneNumber, textViewAddress, totalPrice, orderCode, orderTime, paymentTime, orderStatus;
-
     private RecyclerView orchidRecyclerView;
     private ManageOrderDetailAdapter manageOrderDetailAdapter;
-    private List<ManageOrderDetail> orchidList;
+    private ImageView back_button;
+    private List<ManageOrderDetail> orderItems;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_order_detail_layout);
+        back_button = findViewById(R.id.back_button);
 
         // Set status bar color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -45,6 +48,7 @@ public class ManageOrderDetailScreen extends AppCompatActivity {
         }
 
         // Initialize views
+
         textViewName = findViewById(R.id.textViewName);
         textViewPhoneNumber = findViewById(R.id.textViewPhoneNumber);
         textViewAddress = findViewById(R.id.textViewAddress);
@@ -64,10 +68,15 @@ public class ManageOrderDetailScreen extends AppCompatActivity {
                 textViewPhoneNumber.setText(order.getPhoneNumber());
                 textViewAddress.setText(order.getAddress());
                 totalPrice.setText(order.getOrderPayment().getAmount() + " VND");
-                orderCode.setText(order.getOrderPayment().getOrderCode()+"");
+                orderCode.setText(order.getOrderPayment().getOrderCode() + "");
                 orderTime.setText(order.getCreatedAt());
                 paymentTime.setText(order.getOrderPayment().getPaidOn());
                 orderStatus.setText(order.getStatus());
+
+                // Set up RecyclerView
+                orchidRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                manageOrderDetailAdapter = new ManageOrderDetailAdapter(this, order.getItems());
+                orchidRecyclerView.setAdapter(manageOrderDetailAdapter);
 
                 // Set status text color based on status
                 int statusTextColor;
@@ -86,10 +95,7 @@ public class ManageOrderDetailScreen extends AppCompatActivity {
                         break;
                 }
                 orderStatus.setTextColor(statusTextColor);
-
-                // Populate orchid list if applicable
-                // orchidList.addAll(order.getItems());
-                // manageOrderDetailAdapter.notifyDataSetChanged();
+                handleBack(back_button);
             } catch (NullPointerException e) {
                 Log.e(TAG, "Error accessing order details: " + e.getMessage());
                 Toast.makeText(this, "Error accessing order details", Toast.LENGTH_SHORT).show();
@@ -98,5 +104,11 @@ public class ManageOrderDetailScreen extends AppCompatActivity {
             Log.e(TAG, "OrderResponse object is null");
             Toast.makeText(this, "Order details not found", Toast.LENGTH_SHORT).show();
         }
+
+    }
+    private void handleBack( ImageView back_button) {
+        back_button.setOnClickListener(v->{
+            finish();
+        });
     }
 }
