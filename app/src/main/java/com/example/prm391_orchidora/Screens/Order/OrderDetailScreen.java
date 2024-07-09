@@ -83,7 +83,7 @@ public class OrderDetailScreen extends AppCompatActivity {
         tvOrderCode = findViewById(R.id.orderCode);
         tvOrderTime = findViewById(R.id.orderTime);
         tvOrderStatus = findViewById(R.id.orderStatus);
-        tvPaymentTime = findViewById(R.id.paymentTime);giit
+        tvPaymentTime = findViewById(R.id.paymentTime);
 
         tvOrderCode.setText(orderResponse.getOrderPayment().getOrderCode()+"");
         tvOrderTime.setText(orderResponse.getCreatedAt());
