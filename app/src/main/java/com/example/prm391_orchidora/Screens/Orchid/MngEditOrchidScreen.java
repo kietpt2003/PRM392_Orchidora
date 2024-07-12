@@ -1,6 +1,7 @@
 package com.example.prm391_orchidora.Screens.Orchid;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -54,6 +55,13 @@ public class MngEditOrchidScreen extends AppCompatActivity implements CategoryCo
         setContentView(R.layout.mng_edit_orchid_layout);
 
         token = new TokenManager().getToken(this);
+
+        // Set status bar color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.cart_status_bar));
+        }
 
         Intent intent = getIntent();
         OrchidResponse orchid = (OrchidResponse) intent.getParcelableExtra("currentOrchid");

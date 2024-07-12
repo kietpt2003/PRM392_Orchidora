@@ -2,6 +2,7 @@ package com.example.prm391_orchidora.Screens.Order;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -39,6 +40,16 @@ public class ManageOrderScreen extends AppCompatActivity implements ManageOrderC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_order_layout);
 
+        String token = new TokenManager().getToken(this);
+        manageOrderController = new ManageOrderController(this, token);
+
+        // Set status bar color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.cart_status_bar));
+        }
+
         backBtn = findViewById(R.id.backBtn);
         // Initialize views
         recyclerView = findViewById(R.id.recyclerView);
@@ -49,16 +60,19 @@ public class ManageOrderScreen extends AppCompatActivity implements ManageOrderC
         successBtn = findViewById(R.id.successBtn);
 
         // Set up controller and initial data retrieval
-        String token = new TokenManager().getToken(this);
-        manageOrderController = new ManageOrderController(this, token);
 
         confirmBtn.setOnClickListener(v -> handleStatusFilter("CONFIRMING"));
         cancelBtn.setOnClickListener(v -> handleStatusFilter("CANCELLED"));
         successBtn.setOnClickListener(v -> handleStatusFilter("SUCCESSFUL"));
 
-        manageOrderController.getAllOrders("");
         handleBack(backBtn);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        manageOrderController.getAllOrders("");
     }
     private void handleBack( ImageView backBtn) {
         backBtn.setOnClickListener(v->{

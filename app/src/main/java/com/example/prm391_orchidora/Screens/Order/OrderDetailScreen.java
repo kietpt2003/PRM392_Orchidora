@@ -97,7 +97,7 @@ public class OrderDetailScreen extends AppCompatActivity {
 
         tvOrderCode.setText(orderResponse.getOrderPayment().getOrderCode() + "");
         tvOrderTime.setText(convertTimestampToDate(orderResponse.getCreatedAt()));
-        tvPaymentTime.setText(orderResponse.getOrderPayment().getPaidOn() == null ? "Not paid yet" : orderResponse.getOrderPayment().getPaidOn());
+        tvPaymentTime.setText(orderResponse.getOrderPayment().getPaidOn() == null ? "Not paid yet" : convertTimestampToDate(orderResponse.getOrderPayment().getPaidOn()));
         tvOrderStatus.setText(orderResponse.getStatus());
         tvOrderStatus.setTextColor(Color.parseColor("#DCD173"));
     }

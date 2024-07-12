@@ -1,13 +1,14 @@
 package com.example.prm391_orchidora.Screens.Orchid;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,22 +16,19 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.prm391_orchidora.Adapter.Cart.CartAdapter;
 import com.example.prm391_orchidora.Models.CartItem;
 import com.example.prm391_orchidora.Models.Orchid.OrchidResponse;
 import com.example.prm391_orchidora.R;
-import com.example.prm391_orchidora.Screens.Home.HomeScreen;
 import com.example.prm391_orchidora.Screens.Profile.ProfileScreen;
 import com.example.prm391_orchidora.Services.CartService;
 import com.example.prm391_orchidora.Utils.Database;
 import com.example.prm391_orchidora.Utils.TokenManager;
-
-import java.util.List;
 
 public class OrchidDetailScreen extends AppCompatActivity {
     private Database db;
@@ -51,6 +49,13 @@ public class OrchidDetailScreen extends AppCompatActivity {
         setContentView(R.layout.orchid_detail_layout);
 
         token = new TokenManager().getToken(this);
+
+        // Set status bar color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.cart_status_bar));
+        }
 
         Intent intent = getIntent();
 

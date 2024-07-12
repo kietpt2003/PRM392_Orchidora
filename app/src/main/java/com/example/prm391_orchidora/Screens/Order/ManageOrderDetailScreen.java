@@ -25,6 +25,9 @@ import com.example.prm391_orchidora.Models.Order.OrderResponse;
 import com.example.prm391_orchidora.R;
 import com.example.prm391_orchidora.Utils.TokenManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ManageOrderDetailScreen extends AppCompatActivity implements PaymentController.CancelPaymentCallBack, PaymentController.GetPaymentByIdCallBack, PaymentController.AcceptPaymentCallBack {
 
     private static final String TAG = "ManageOrderDetailScreen";
@@ -101,6 +104,25 @@ public class ManageOrderDetailScreen extends AppCompatActivity implements Paymen
         }
     }
 
+    public static String convertTimestampToDate(String timestampStr) {
+        try {
+            // Parse the string to a long
+            long timestamp = Long.parseLong(timestampStr);
+
+            // Create a Date object from the timestamp
+            Date date = new Date(timestamp);
+
+            // Create a SimpleDateFormat to format the date
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            // Format the date into a readable string
+            return dateFormat.format(date);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return "Cannot format";
+        }
+    }
+
     public void setUI() {
         if (order != null) {
             try {
@@ -110,8 +132,8 @@ public class ManageOrderDetailScreen extends AppCompatActivity implements Paymen
                 textViewAddress.setText(order.getAddress());
                 totalPrice.setText(order.getOrderPayment().getAmount() + " VND");
                 orderCode.setText(order.getOrderPayment().getOrderCode() + "");
-                orderTime.setText(order.getCreatedAt());
-                paymentTime.setText(order.getOrderPayment().getPaidOn());
+                orderTime.setText(convertTimestampToDate(order.getCreatedAt()));
+                paymentTime.setText(order.getOrderPayment().getPaidOn() == null ? "Not paid yet" : convertTimestampToDate(order.getOrderPayment().getPaidOn()));
                 orderStatus.setText(order.getStatus());
 
                 // Set up RecyclerView

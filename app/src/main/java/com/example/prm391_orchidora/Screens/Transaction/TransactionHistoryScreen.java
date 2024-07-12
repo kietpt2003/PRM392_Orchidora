@@ -1,7 +1,10 @@
 package com.example.prm391_orchidora.Screens.Transaction;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +38,13 @@ public class TransactionHistoryScreen extends AppCompatActivity implements Trans
 
         token = new TokenManager().getToken(this);
 
+        // Set status bar color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.cart_status_bar));
+        }
+
         ImageView backBtn = findViewById(R.id.backBtn);
         backBtn.setOnClickListener(view -> this.finish());
 
@@ -51,7 +61,11 @@ public class TransactionHistoryScreen extends AppCompatActivity implements Trans
         confirmBtn.setOnClickListener(v -> handleStatusFilter("CONFIRMING"));
         cancelBtn.setOnClickListener(v -> handleStatusFilter("CANCELLED"));
         successBtn.setOnClickListener(v -> handleStatusFilter("SUCCESSFUL"));
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         transactionHistoryController.getTransactionHistory("");
     }
 
